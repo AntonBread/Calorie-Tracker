@@ -35,4 +35,14 @@
         <item name="android:indeterminateProgressStyle">@android:drawable/progress_indeterminate_horizontal</item>
     </style>
 
+    <style name="DatePickerDialog" parent="Theme.Material3.Light.Dialog">
+        <item name="colorAccent">@color/orange_bright</item>
+        <item name="android:buttonBarPositiveButtonStyle">@style/DatePickerDialogButton</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/DatePickerDialogButton</item>
+    </style>
+
+    <style name="DatePickerDialogButton" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/orange_bright</item>
+    </style>
+
 </resources>

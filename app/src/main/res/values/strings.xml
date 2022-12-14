@@ -3,6 +3,9 @@
     <string name="sample">Sample Text</string>
 
     <!-- MAIN PAGE STRINGS -->
+    <string name="main_date_today">Today</string>
+    <string name="main_date_yesterday">Yesterday</string>
+
     <string name="main_cal_remaining">Calories remaining: %d</string>
     <string name="main_cal_consumed">Calories consumed: %d</string>
     <string name="main_cal_percentage">%d%% of baseline</string>

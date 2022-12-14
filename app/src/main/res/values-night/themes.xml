@@ -12,11 +12,13 @@
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/gray</item>
         <item name="colorSecondaryVariant">@color/gray</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorOnSecondary">@color/gray</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">@color/status_bar</item>
         <!-- Customize your theme here. -->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+
+        <item name="android:datePickerDialogTheme">@style/DatePickerDialog</item>
     </style>
 </resources>

@@ -4,42 +4,41 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.AppCompatImageButton;
 
+import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.MenuItem;
+import android.util.Log;
+import android.widget.DatePicker;
 import android.widget.ProgressBar;
-import android.widget.Toast;
+import android.widget.TextView;
 
+import com.app.calorietracker.utils.DateUtils;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
+    
+    private LocalDate selectedDate;
+    private Locale locale;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);     // Force day theme
         setContentView(R.layout.activity_main);
-    
-        AppCompatImageButton btnPrev = findViewById(R.id.main_btn_date_prev);
-        AppCompatImageButton btnNext = findViewById(R.id.main_btn_date_next);
-    
-        ProgressBar progressBar = findViewById(R.id.main_cal_progress);
+        locale = new Locale("en");
         
-        btnPrev.setOnClickListener(v -> {
-            progressBar.incrementProgressBy(-25);
-        });
-        
-        btnNext.setOnClickListener(v -> {
-            progressBar.incrementProgressBy(25);
-        });
+        initDateSelector();
         
         ProgressBar waterProgress = findViewById(R.id.main_water_progress);
         
@@ -66,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         piechart.setHoleRadius(50f);
         piechart.setTransparentCircleRadius(0f);
         piechart.setDrawEntryLabels(false);
-    
+        
         ArrayList<PieEntry> pieEntries = new ArrayList<>();
         pieEntries.add(new PieEntry(92, "#1"));
         pieEntries.add(new PieEntry(66, "#2"));
@@ -83,8 +82,52 @@ public class MainActivity extends AppCompatActivity {
         pieData.setDrawValues(false);
         piechart.setData(pieData);
         piechart.invalidate();
-    
+        
         BottomNavigationView bottomNav = findViewById(R.id.main_navbar);
         bottomNav.setSelectedItemId(R.id.navigation_main);
+    }
+    
+    private void initDateSelector() {
+        selectedDate = LocalDate.now();
+        DateUtils.init(getString(R.string.main_date_today), getString(R.string.main_date_yesterday), locale);
+        updateSelectedDateText();
+        initDateButtons();
+    }
+    
+    private void initDateButtons() {
+        AppCompatImageButton btnPrev = findViewById(R.id.main_btn_date_prev);
+        AppCompatImageButton btnNext = findViewById(R.id.main_btn_date_next);
+        TextView dateView = findViewById(R.id.main_text_date);
+        
+        btnPrev.setOnClickListener(v -> {
+            selectedDate = selectedDate.minusDays(1);
+            updateSelectedDateText();
+        });
+        
+        btnNext.setOnClickListener(v -> {
+            selectedDate = selectedDate.plusDays(1);
+            updateSelectedDateText();
+        });
+        
+        // Manual date picking via dialog window on text click
+        // LocalDate and DatePickerDialog have difference of 1 between months
+        dateView.setOnClickListener(v -> new DatePickerDialog(this, datePickerDialogListener,
+                                                              selectedDate.getYear(),
+                                                              selectedDate.getMonthValue() - 1,
+                                                              selectedDate.getDayOfMonth()).show());
+    }
+    
+    DatePickerDialog.OnDateSetListener datePickerDialogListener = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+            selectedDate = LocalDate.of(year, (month + 1),
+                                        dayOfMonth);
+            updateSelectedDateText();
+        }
+    };
+    
+    private void updateSelectedDateText() {
+        TextView dateView = findViewById(R.id.main_text_date);
+        dateView.setText(DateUtils.getDateText(selectedDate));
     }
 }
