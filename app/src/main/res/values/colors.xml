@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="activity_background">#FFDDDDDD</color>
+    <color name="status_bar">#FF777777</color>
+    <color name="orange_bright">#FFFF6E00</color>
+    <color name="gray">#FF999999</color>
+    <color name="gray_light">#FFD9D9D9</color>
+    <color name="nutrient_carbs">#FF26E25B</color>
+    <color name="nutrient_fat">#FF673AB7</color>
+    <color name="nutrient_protein">#FFEF5350</color>
+    <color name="water_back">#FFE7FEFF</color>
+    <color name="water_progress">#FF6CBFF8</color>
+    <color name="water_dark">#FF75CFF9</color>
+    <color name="navbar_back">#FF292929</color>
 </resources>

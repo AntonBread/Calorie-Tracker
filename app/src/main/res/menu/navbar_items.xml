@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_settings"
+        android:icon="@drawable/ic_nav_settings"
+        android:title="@string/nav_settings" />
+    <item
+        android:id="@+id/navigation_main"
+        android:icon="@drawable/ic_nav_main"
+        android:title="@string/nav_main" />
+    <item
+        android:id="@+id/navigation_progress"
+        android:icon="@drawable/ic_nav_progress"
+        android:title="@string/nav_progress" />
+
+</menu>

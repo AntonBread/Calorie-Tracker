@@ -4,15 +4,460 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:fillViewport="true"
+    tools:context=".MainActivity"
+    tools:ignore="RtlHardcoded">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="88dp">
+
+            <TextView
+                android:id="@+id/main_app_title"
+                style="@style/textView_appTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="21dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- DATE SELECTOR -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/main_section_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="54dp"
+                android:background="@drawable/back_date_selector"
+                android:padding="12dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_default="percent"
+                app:layout_constraintWidth_percent="0.7">
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/main_btn_date_prev"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:background="@drawable/btn_arrow_back_24"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/main_text_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/inter_medium"
+                    android:lines="1"
+                    android:text="@string/sample"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/main_btn_date_next"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:background="@drawable/btn_arrow_forward_24"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- CALORIE INFO -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/main_section_cal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/back_section_general"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/main_section_date"
+                app:layout_constraintWidth_default="percent"
+                app:layout_constraintWidth_percent="0.9">
+
+                <ProgressBar
+                    android:id="@+id/main_cal_progress"
+                    style="@style/ProgressBarVertical"
+                    android:layout_width="0dp"
+                    android:layout_height="150dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginRight="24dp"
+                    android:layout_marginBottom="16dp"
+                    android:max="100"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_default="percent"
+                    app:layout_constraintWidth_percent="0.2" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/main_cal_text_remaining"
+                        style="@style/Text_Main_Section"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/main_cal_remaining"
+                        android:textSize="18sp"
+                        app:drawableLeftCompat="@drawable/ic_kcal_24" />
+
+                    <TextView
+                        android:id="@+id/main_cal_text_consumed"
+                        style="@style/Text_Main_Section"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/main_cal_consumed" />
+
+                    <TextView
+                        android:id="@+id/main_cal_text_percentage"
+                        style="@style/Text_Main_Section"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:text="@string/main_cal_percentage" />
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- NUTRIENTS INFO -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/main_section_nutrients"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/back_section_general"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/main_section_cal"
+                app:layout_constraintWidth_default="percent"
+                app:layout_constraintWidth_percent="0.9">
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/main_nutrients_chart"
+                    android:layout_width="128dp"
+                    android:layout_height="128dp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/main_nutrients_text_carbs"
+                        style="@style/Text_Main_Section"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="6dp"
+                        android:text="@string/main_nutrients_carbs"
+                        app:drawableLeftCompat="@drawable/text_nutrient_hint"
+                        app:drawableTint="@color/nutrient_carbs" />
+
+                    <TextView
+                        android:id="@+id/main_nutrients_text_fat"
+                        style="@style/Text_Main_Section"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:drawablePadding="6dp"
+                        android:text="@string/main_nutrients_fat"
+                        app:drawableLeftCompat="@drawable/text_nutrient_hint"
+                        app:drawableTint="@color/nutrient_fat" />
+
+                    <TextView
+                        android:id="@+id/main_nutrients_text_protein"
+                        style="@style/Text_Main_Section"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:drawablePadding="6dp"
+                        android:text="@string/main_nutrients_protein"
+                        app:drawableLeftCompat="@drawable/text_nutrient_hint"
+                        app:drawableTint="@color/nutrient_protein" />
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- BREAKFAST MENU -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/main_section_breakfast"
+                android:layout_width="0dp"
+                android:layout_height="64dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/back_section_general"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/main_section_nutrients"
+                app:layout_constraintWidth_default="percent"
+                app:layout_constraintWidth_percent="0.9">
+
+                <TextView
+                    style="@style/Text_Main_Section"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_marginLeft="24dp"
+                    android:drawablePadding="20dp"
+                    android:gravity="center"
+                    android:text="@string/main_breakfast"
+                    app:drawableLeftCompat="@drawable/ic_breakfast"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/main_btn_breakfast_add"
+                    style="@style/Button_Main_Add_Food"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- LUNCH MENU -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/main_section_lunch"
+                android:layout_width="0dp"
+                android:layout_height="64dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/back_section_general"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/main_section_breakfast"
+                app:layout_constraintWidth_default="percent"
+                app:layout_constraintWidth_percent="0.9">
+
+                <TextView
+                    style="@style/Text_Main_Section"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_marginLeft="24dp"
+                    android:drawablePadding="20dp"
+                    android:gravity="center"
+                    android:text="@string/main_lunch"
+                    app:drawableLeftCompat="@drawable/ic_lunch"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/main_btn_lunch_add"
+                    style="@style/Button_Main_Add_Food"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- DINNER MENU -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/main_section_dinner"
+                android:layout_width="0dp"
+                android:layout_height="64dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/back_section_general"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/main_section_lunch"
+                app:layout_constraintWidth_default="percent"
+                app:layout_constraintWidth_percent="0.9">
+
+                <TextView
+                    style="@style/Text_Main_Section"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_marginLeft="24dp"
+                    android:drawablePadding="20dp"
+                    android:gravity="center"
+                    android:text="@string/main_dinner"
+                    app:drawableLeftCompat="@drawable/ic_dinner"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/main_btn_dinner_add"
+                    style="@style/Button_Main_Add_Food"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- SNACKS/OTHER MENU -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/main_section_snacks"
+                android:layout_width="0dp"
+                android:layout_height="64dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/back_section_general"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/main_section_dinner"
+                app:layout_constraintWidth_default="percent"
+                app:layout_constraintWidth_percent="0.9">
+
+                <TextView
+                    style="@style/Text_Main_Section"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_marginLeft="24dp"
+                    android:drawablePadding="20dp"
+                    android:gravity="center"
+                    android:text="@string/main_snacks"
+                    app:drawableLeftCompat="@drawable/ic_snacks"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/main_btn_snacks_add"
+                    style="@style/Button_Main_Add_Food"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- WATER MENU -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/main_section_water"
+                android:layout_width="0dp"
+                android:layout_height="72dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/back_section_general"
+                android:backgroundTint="@color/water_back"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/main_section_snacks"
+                app:layout_constraintWidth_default="percent"
+                app:layout_constraintWidth_percent="0.9">
+
+                <ImageView
+                    android:id="@+id/main_water_icon"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginLeft="28dp"
+                    android:src="@drawable/ic_water"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/main_water_text_title"
+                    style="@style/Text_Main_Section"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginTop="4dp"
+                    android:padding="0dp"
+                    android:text="@string/main_water"
+                    app:layout_constraintLeft_toRightOf="@id/main_water_icon"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ProgressBar
+                    android:id="@+id/main_water_progress"
+                    style="@style/ProgressBarWater"
+                    android:layout_width="0dp"
+                    android:layout_height="16dp"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginTop="4dp"
+                    android:max="100"
+                    app:layout_constraintLeft_toRightOf="@id/main_water_icon"
+                    app:layout_constraintTop_toBottomOf="@id/main_water_text_title"
+                    app:layout_constraintWidth_default="percent"
+                    app:layout_constraintWidth_percent="0.35" />
+
+                <TextView
+                    android:id="@+id/main_water_text_progress"
+                    style="@style/Text_Main_Section"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginTop="4dp"
+                    android:padding="0dp"
+                    android:text="@string/main_water_consumption"
+                    android:textSize="14sp"
+                    app:layout_constraintLeft_toRightOf="@id/main_water_icon"
+                    app:layout_constraintTop_toBottomOf="@id/main_water_progress" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="24dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/main_btn_water_sub"
+                        style="@style/Button_Main_Add_Food"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginRight="0dp"
+                        android:backgroundTint="@color/water_dark"
+                        android:foreground="@drawable/btn_remove_fore" />
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/main_btn_water_add"
+                        style="@style/Button_Main_Add_Food"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="0dp"
+                        android:backgroundTint="@color/water_dark" />
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/main_navbar"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        app:itemIconSize="32dp"
+        android:background="@color/navbar_back"
+        app:itemIconTint="@color/nav_item_tint"
+        app:itemTextColor="@color/nav_item_tint"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:menu="@menu/navbar_items" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="textView_appTitle" parent="TextAppearance.Material3.TitleMedium">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:text">@string/app_name</item>
+        <item name="fontFamily">@font/inter_medium</item>
+    </style>
+
+    <style name="ProgressBarVertical">
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:progressDrawable">@drawable/progress_vertical</item>
+        <item name="android:indeterminateProgressStyle">@android:drawable/progress_indeterminate_horizontal</item>
+        <item name="android:minWidth">6dp</item>
+    </style>
+    
+    <style name="Text_Main_Section">
+        <item name="fontFamily">@font/inter_medium</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:padding">5dp</item>
+    </style>
+
+    <style name="Button_Main_Add_Food">
+        <item name="android:layout_marginRight">24dp</item>
+        <item name="android:stateListAnimator">@animator/btn_add_animator</item>
+        <item name="android:background">@drawable/btn_add_back</item>
+        <item name="android:foreground">@drawable/btn_add_fore</item>
+    </style>
+
+    <style name="ProgressBarWater">
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:progressDrawable">@drawable/progress_water</item>
+        <item name="android:indeterminateProgressStyle">@android:drawable/progress_indeterminate_horizontal</item>
+    </style>
+
+</resources>
