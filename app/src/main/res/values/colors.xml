@@ -2,11 +2,15 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="white_darker">#FFEEEEEE</color>
+    <color name="red">#FFFF221E</color>
     <color name="activity_background">#FFDDDDDD</color>
     <color name="status_bar">#FF777777</color>
     <color name="orange_bright">#FFFF6E00</color>
     <color name="gray">#FF999999</color>
     <color name="gray_light">#FFD9D9D9</color>
+    <color name="gray_dark">#FF555555</color>
+    <color name="gray_extra_dark">#FF333333</color>
     <color name="nutrient_carbs">#FF26E25B</color>
     <color name="nutrient_fat">#FF673AB7</color>
     <color name="nutrient_protein">#FFEF5350</color>
@@ -14,4 +18,5 @@
     <color name="water_progress">#FF6CBFF8</color>
     <color name="water_dark">#FF75CFF9</color>
     <color name="navbar_back">#FF292929</color>
+    <color name="text_secondary">#FF444444</color>
 </resources>

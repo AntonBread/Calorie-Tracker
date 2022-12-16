@@ -9,7 +9,7 @@
     <string name="main_cal_remaining">Calories remaining: %d</string>
     <string name="main_cal_consumed">Calories consumed: %d</string>
     <string name="main_cal_percentage">%d%% of baseline</string>
-    
+
     <string name="main_nutrients_carbs">Carbs: %d/%d g</string>
     <string name="main_nutrients_fat">Fat: %d/%d g</string>
     <string name="main_nutrients_protein">Protein: %d/%d g</string>
@@ -21,8 +21,27 @@
     <string name="main_water">Water</string>
     <string name="main_water_consumption">%d.%d / %d.%d L</string>
 
+
     <!-- NAVIGATION BAR -->
     <string name="nav_main">Main</string>
     <string name="nav_settings">Settings</string>
     <string name="nav_progress">Progress</string>
+
+
+    <!-- ADD FOOD PAGE -->
+    <string name="food_mode_search">Search</string>
+    <string name="food_mode_history">History</string>
+    <string name="food_mode_favorite">Favorite</string>
+    <string name="food_mode_add">Add</string>
+
+    <string name="food_list_item_cals">%d kcal</string>
+    <string name="food_list_item_100g">100g</string>
+    <string name="food_list_item_nutrient_pct">%d%%</string>
+    <string name="food_list_item_carbs">%d g\u000acarbs</string>
+    <string name="food_list_item_fat">%d g\u000afat</string>
+    <string name="food_list_item_protein">%d g\u000aprotein</string>
+    <string name="food_list_item_portion_size_input_hint">Portion size…</string>
+    <string name="food_list_item_portion_unit_g">g</string>
+
+    <string name="food_search_query_hint">Search…</string>
 </resources>

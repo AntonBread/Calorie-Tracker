@@ -3,24 +3,47 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable-v24/ic_kcal_12.xml" value="0.3828125" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/back_date_selector.xml" value="0.3828125" />
+        <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/back_food_item_portion_input.xml" value="0.3828125" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/back_section_general.xml" value="0.3828125" />
+        <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/back_section_reduced_radius.xml" value="0.3828125" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/breakfast.xml" value="0.3769230769230769" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/btn_add.xml" value="0.3769230769230769" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/btn_add_back.xml" value="0.3769230769230769" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/btn_add_fore.xml" value="0.3769230769230769" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/btn_arrow_back_24.xml" value="0.3828125" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/btn_arrow_forward_24.xml" value="0.3828125" />
+        <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/btn_close.xml" value="0.3828125" />
+        <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/btn_close_24.xml" value="0.3828125" />
+        <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/btn_favorite_filled.xml" value="0.3828125" />
+        <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/btn_favorite_unchecked.xml" value="0.3828125" />
+        <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/btn_favorite_unfilled.xml" value="0.3828125" />
+        <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/btn_food_item_select.xml" value="0.3828125" />
+        <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/btn_food_list_check.xml" value="0.3828125" />
+        <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/btn_food_list_favorite.xml" value="0.3828125" />
+        <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/btn_food_mode.xml" value="0.3828125" />
+        <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/btn_food_mode_last.xml" value="0.3828125" />
+        <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/btn_food_mode_middle.xml" value="0.3828125" />
+        <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/btn_ok.xml" value="0.3828125" />
+        <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/btn_ok_32.xml" value="0.3828125" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/btn_remove_fore.xml" value="0.3769230769230769" />
+        <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/ic_kcal_12.xml" value="0.3828125" />
+        <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/ic_kcal_24.xml" value="0.3828125" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/ic_nav_main.xml" value="0.3769230769230769" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/ic_nav_progress.xml" value="0.3769230769230769" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/ic_nav_settings.xml" value="0.3769230769230769" />
+        <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/ic_search.xml" value="0.3828125" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/progress_vertical.xml" value="0.3828125" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/progress_water.xml" value="0.3769230769230769" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/text_nutr_hint.xml" value="0.3769230769230769" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/text_nutrient_hint.xml" value="0.3769230769230769" />
-        <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/layout/activity_add_food.xml" value="0.5" />
+        <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/layout/fragment_search_food.xml" value="0.75" />
+        <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/layout/list_food_item.xml" value="0.8640576725025747" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/menu/navbar_items.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/DNS/.gradle/caches/transforms-3/d8bc8d99c60bb79ce67b1f4bb789f552/transformed/appcompat-1.4.2/res/drawable/abc_btn_default_mtrl_shape.xml" value="0.3828125" />
         <entry key="..\:/Users/DNS/AppData/Local/Android/Sdk/platforms/android-31/data/res/drawable/progress_horizontal.xml" value="0.3828125" />
         <entry key="..\:/Users/DNS/AppData/Local/Android/Sdk/platforms/android-31/data/res/drawable/progress_horizontal_material.xml" value="0.3828125" />
       </map>

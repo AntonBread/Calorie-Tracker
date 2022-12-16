@@ -5,13 +5,14 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.AppCompatImageButton;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.DatePicker;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.app.calorietracker.food.AddFoodActivity;
 import com.app.calorietracker.utils.DateUtils;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
@@ -21,9 +22,7 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
@@ -39,6 +38,10 @@ public class MainActivity extends AppCompatActivity {
         locale = new Locale("en");
         
         initDateSelector();
+        
+        findViewById(R.id.main_btn_breakfast_add).setOnClickListener(v -> {
+            startActivity(new Intent(this, AddFoodActivity.class));
+        });
         
         ProgressBar waterProgress = findViewById(R.id.main_water_progress);
         

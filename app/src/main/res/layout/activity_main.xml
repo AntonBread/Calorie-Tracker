@@ -57,7 +57,6 @@
                     android:id="@+id/main_text_date"
                     android:layout_width="wrap_content"
                     android:layout_height="24dp"
-                    android:fontFamily="@font/inter_medium"
                     android:gravity="center"
                     android:lines="1"
                     android:text="@string/sample"
