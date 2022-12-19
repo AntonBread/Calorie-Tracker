@@ -14,6 +14,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
         android:backgroundTint="@color/activity_background"
+        android:onClick="cancelButtonListener"
         android:src="@drawable/btn_close_48"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -35,7 +36,7 @@
         android:layout_height="48dp"
         android:layout_marginRight="8dp"
         android:gravity="center"
-        android:text="2"
+        android:text="@string/placeholder_number"
         android:textColor="@color/orange_bright"
         android:textSize="24sp"
         app:layout_constraintRight_toLeftOf="@id/food_btn_done"
@@ -53,7 +54,7 @@
         app:layout_constraintRight_toLeftOf="@id/food_text_selected_count"
         app:layout_constraintTop_toTopOf="@id/food_btn_cancel" />
 
-    <LinearLayout
+    <RadioGroup
         android:id="@+id/food_mode_selector"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -65,43 +66,49 @@
         app:layout_constraintWidth_default="percent"
         app:layout_constraintWidth_percent="0.9">
 
-        <androidx.appcompat.widget.AppCompatButton
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/food_mode_select_search"
+            style="@style/FoodModeButton"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
             android:background="@drawable/btn_food_mode_first"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.25"
-            style="@style/FoodModeButtonSelected"
-            android:text="@string/food_mode_search"
-            android:textSize="14sp" />
+            android:button="@android:color/transparent"
+            android:text="@string/food_mode_search" />
 
-        <androidx.appcompat.widget.AppCompatButton
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/food_mode_select_history"
+            style="@style/FoodModeButton"
             android:layout_width="0dp"
-            android:background="@drawable/btn_food_mode_middle"
             android:layout_height="wrap_content"
-            style="@style/FoodModeButtonUnselected"
             android:layout_weight="0.25"
+            android:background="@drawable/btn_food_mode_middle"
+            android:button="@android:color/transparent"
             android:text="@string/food_mode_history" />
 
-        <androidx.appcompat.widget.AppCompatButton
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/food_mode_select_favorite"
+            style="@style/FoodModeButton"
             android:layout_width="0dp"
-            android:background="@drawable/btn_food_mode_middle"
             android:layout_height="wrap_content"
-            style="@style/FoodModeButtonUnselected"
             android:layout_weight="0.25"
+            android:background="@drawable/btn_food_mode_middle"
+            android:button="@android:color/transparent"
             android:text="@string/food_mode_favorite" />
 
-        <androidx.appcompat.widget.AppCompatButton
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/food_mode_select_add"
+            style="@style/FoodModeButton"
             android:layout_width="0dp"
-            android:background="@drawable/btn_food_mode_last"
             android:layout_height="wrap_content"
-            style="@style/FoodModeButtonUnselected"
             android:layout_weight="0.25"
+            android:background="@drawable/btn_food_mode_last"
+            android:button="@android:color/transparent"
             android:text="@string/food_mode_add" />
-    </LinearLayout>
+    </RadioGroup>
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/food_mode_fragment_container"
-        android:name="com.app.calorietracker.food.SearchFoodFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"

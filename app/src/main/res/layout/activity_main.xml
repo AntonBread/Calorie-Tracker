@@ -434,7 +434,8 @@
                         android:layout_height="32dp"
                         android:layout_marginRight="0dp"
                         android:backgroundTint="@color/water_dark"
-                        android:foreground="@drawable/btn_remove_fore" />
+                        android:foreground="@drawable/btn_remove_fore"
+                        android:onClick="decrementWaterProgress" />
 
                     <androidx.appcompat.widget.AppCompatImageButton
                         android:id="@+id/main_btn_water_add"
@@ -443,7 +444,8 @@
                         android:layout_height="32dp"
                         android:layout_marginLeft="16dp"
                         android:layout_marginRight="0dp"
-                        android:backgroundTint="@color/water_dark" />
+                        android:backgroundTint="@color/water_dark"
+                        android:onClick="incrementWaterProgress" />
                 </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>

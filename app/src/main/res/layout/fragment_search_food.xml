@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginTop="16dp"
     tools:context=".food.SearchFoodFragment"
     tools:ignore="RtlHardcoded">
@@ -30,14 +30,24 @@
         app:layout_constraintWidth_default="percent"
         app:layout_constraintWidth_percent="0.9"
         app:queryBackground="@android:color/transparent" />
-    
+
+    <!-- RecyclerView with height set to wrap_content doesn't properly
+         scroll all the way down. Bottom padding of 300 dp was added to compensate
+         for that restriction. 200dp is the exact height of all previous views,
+         100dp is the padding proper to visualize the bottom of list -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/food_search_list"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:clipToPadding="false"
+        android:paddingBottom="300dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintTop_toBottomOf="@id/food_search_query"
+        app:layout_constrainedHeight="true"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/food_search_query"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="0.94" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
