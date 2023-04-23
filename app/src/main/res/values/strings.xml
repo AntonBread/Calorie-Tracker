@@ -49,7 +49,7 @@
 
     <string name="food_new_name_hint">Name…</string>
     <string name="food_new_cals_hint">Kcal per 100g</string>
-    <string name="food_new_nutrient_description">Nutrients per 100g</string>
+    <string name="food_new_nutrient_description">Nutrients per 100g, mg</string>
     <string name="food_new_carbs_hint">Carbs</string>
     <string name="food_new_fat_hint">Fat</string>
     <string name="food_new_protein_hint">Protein</string>

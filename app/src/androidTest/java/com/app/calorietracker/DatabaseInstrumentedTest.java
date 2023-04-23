@@ -147,12 +147,12 @@ public class DatabaseInstrumentedTest {
         FoodItem item3 = new FoodItem("oat milk", 1, 2, 3, 4, false);
         FoodItem item4 = new FoodItem("Pineapple pizza", 1, 2, 3, 4, false);
         
-        db.foodItemDao().insert(item1.toEntity());
-        db.foodItemDao().insert(item2.toEntity());
-        db.foodItemDao().insert(item3.toEntity());
-        db.foodItemDao().insert(item4.toEntity());
+        db.foodItemDao().insertNonAsync(item1.toEntity());
+        db.foodItemDao().insertNonAsync(item2.toEntity());
+        db.foodItemDao().insertNonAsync(item3.toEntity());
+        db.foodItemDao().insertNonAsync(item4.toEntity());
         
-        FoodItemEntity[] foodEntitiesResult = db.foodItemDao().getFoodsByName("oat");
+        FoodItemEntity[] foodEntitiesResult = db.foodItemDao().getFoodsByNameNonAsync("oat");
         
         for (FoodItemEntity entity: foodEntitiesResult) {
             Log.d("TEST", entity.getName());

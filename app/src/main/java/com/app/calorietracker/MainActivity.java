@@ -53,7 +53,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         locale = new Locale("en");
     
-        db = Room.inMemoryDatabaseBuilder(getApplicationContext(), AppDatabase.class).build();
+        try {
+            db = AppDatabase.getInstance();
+        }
+        catch (NullPointerException e) {
+            AppDatabase.instanceInit(getApplicationContext(), AppDatabase.MODE_IN_MEMORY);
+        }
+        finally {
+            db = AppDatabase.getInstance();
+        }
         
         initDateSelector();
         
@@ -115,7 +123,6 @@ public class MainActivity extends AppCompatActivity {
         entity.setProtein_mg(rnd.nextInt(150));
         try {
             long id = db.userDiaryDao().insert(entity).get();
-            Log.d("DEBUG", Long.toString(id));
         }
         catch (ExecutionException e) {
             e.printStackTrace();
