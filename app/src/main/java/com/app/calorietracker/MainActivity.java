@@ -4,42 +4,29 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.room.Room;
-import androidx.room.migration.Migration;
-import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.ScaleAnimation;
 import android.widget.DatePicker;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.app.calorietracker.database.user.DiaryEntry;
-import com.app.calorietracker.database.user.UserDiaryDao;
-import com.app.calorietracker.database.user.UserDiaryDatabase;
+import com.app.calorietracker.database.AppDatabase;
+import com.app.calorietracker.database.user.UserDiaryEntity;
 import com.app.calorietracker.food.AddFoodActivity;
 import com.app.calorietracker.utils.ChartUtils;
 import com.app.calorietracker.utils.DateUtils;
-import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Random;
+import java.util.concurrent.ExecutionException;
 
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.annotations.NonNull;
-import io.reactivex.rxjava3.observers.DisposableCompletableObserver;
-import io.reactivex.rxjava3.observers.DisposableSingleObserver;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
     
@@ -48,9 +35,9 @@ public class MainActivity extends AppCompatActivity {
     private LocalDate selectedDate;
     private Locale locale;
     
-    UserDiaryDatabase userDb;
-    UserDiaryDao userDao;
-    private DiaryEntry currentEntry;
+    private UserDiaryEntity currentEntry;
+    
+    private AppDatabase db;
     
     private final int CALORIE_BASELINE = 2500;
     private final int CARBS_BASELINE = 200;
@@ -65,11 +52,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         locale = new Locale("en");
-        
-        userDb = Room.databaseBuilder(this, UserDiaryDatabase.class, "User_diary")
-                     .addMigrations(UserDiaryDatabase.MIGRATION_1_2)
-                     .build();
-        userDao = userDb.userDiaryDao();
+    
+        db = Room.inMemoryDatabaseBuilder(getApplicationContext(), AppDatabase.class).build();
         
         initDateSelector();
         
@@ -122,6 +106,23 @@ public class MainActivity extends AppCompatActivity {
     
     private void updateDate() {
         updateSelectedDateText();
+        UserDiaryEntity entity = new UserDiaryEntity();
+        entity.set_date(selectedDate);
+        Random rnd = new Random();
+        entity.setCalories(rnd.nextInt(2500));
+        entity.setCarbs_mg(rnd.nextInt(200));
+        entity.setFat_mg(rnd.nextInt(80));
+        entity.setProtein_mg(rnd.nextInt(150));
+        try {
+            long id = db.userDiaryDao().insert(entity).get();
+            Log.d("DEBUG", Long.toString(id));
+        }
+        catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         updateDiaryData();
     }
     
@@ -131,56 +132,29 @@ public class MainActivity extends AppCompatActivity {
     }
     
     private void updateDiaryData() {
-        /*
-         * Get entry from db with currently selected date
-         * and update layout with data (onSuccess() method)
-         *
-         * if returns null (onError() method), create new entry in db with selected date
-         * call updateDiaryData() again
-         */
-        userDao.getEntry(selectedDate.toString())
-               .subscribeOn(Schedulers.io())
-               .observeOn(AndroidSchedulers.mainThread())
-               .subscribe(new DisposableSingleObserver<DiaryEntry>() {
-                   @Override
-                   public void onSuccess(@NonNull DiaryEntry entry) {
-                       currentEntry = entry;
-                       updateCalorieData();
-                       updateNutrientData();
-                       updateWaterData();
-                   }
-            
-                   @Override
-                   public void onError(@NonNull Throwable e) {
-                       DiaryEntry newEntry = new DiaryEntry();
-                       newEntry._date = selectedDate.toString();
-                       userDao.insertEntry(newEntry)
-                              .subscribeOn(Schedulers.io())
-                              .observeOn(AndroidSchedulers.mainThread())
-                              .subscribe(new DisposableCompletableObserver() {
-                                  @Override
-                                  public void onComplete() {
-                                      updateDiaryData();
-                                  }
-                    
-                                  @Override
-                                  public void onError(@NonNull Throwable e) {
-                                      updateDiaryData();
-                                  }
-                              });
-                   }
-               });
+        try {
+            currentEntry = db.userDiaryDao().getDiaryEntry(selectedDate).get();
+        }
+        catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        updateCalorieData();
+        updateNutrientData();
+        updateWaterData();
     }
     
     private void updateCalorieData() {
         TextView remaining = findViewById(R.id.main_cal_text_remaining);
         remaining.setText(
-                String.format(getString(R.string.main_cal_remaining), (CALORIE_BASELINE - currentEntry.calories)));
+                String.format(getString(R.string.main_cal_remaining), (CALORIE_BASELINE - currentEntry.getCalories())));
         
         TextView consumed = findViewById(R.id.main_cal_text_consumed);
-        consumed.setText(String.format(getString(R.string.main_cal_consumed), currentEntry.calories));
+        consumed.setText(String.format(getString(R.string.main_cal_consumed), currentEntry.getCalories()));
         
-        int pct = Math.round((float) currentEntry.calories / CALORIE_BASELINE * 100);
+        int pct = Math.round((float) currentEntry.getCalories() / CALORIE_BASELINE * 100);
         TextView percent = findViewById(R.id.main_cal_text_percentage);
         percent.setText(String.format(getString(R.string.main_cal_percentage), pct));
         
@@ -190,62 +164,50 @@ public class MainActivity extends AppCompatActivity {
     
     private void updateNutrientData() {
         TextView carbs = findViewById(R.id.main_nutrients_text_carbs);
-        carbs.setText(String.format(getString(R.string.main_nutrients_carbs), currentEntry.carbs_g, CARBS_BASELINE));
+        carbs.setText(String.format(getString(R.string.main_nutrients_carbs), currentEntry.getCarbs_mg(), CARBS_BASELINE));
         
         TextView fat = findViewById(R.id.main_nutrients_text_fat);
-        fat.setText(String.format(getString(R.string.main_nutrients_fat), currentEntry.fat_g, FAT_BASELINE));
+        fat.setText(String.format(getString(R.string.main_nutrients_fat), currentEntry.getFat_mg(), FAT_BASELINE));
         
         TextView protein = findViewById(R.id.main_nutrients_text_protein);
         protein.setText(
-                String.format(getString(R.string.main_nutrients_protein), currentEntry.protein_g, PROTEIN_BASELINE));
+                String.format(getString(R.string.main_nutrients_protein), currentEntry.getProtein_mg(), PROTEIN_BASELINE));
         
         PieChart chart = findViewById(R.id.main_nutrients_chart);
-        ChartUtils.initNutrientPieChart(chart, currentEntry.carbs_g, currentEntry.fat_g, currentEntry.protein_g, this);
+        ChartUtils.initNutrientPieChart(chart, currentEntry.getCarbs_mg(), currentEntry.getFat_mg(), currentEntry.getProtein_mg(), this);
     }
     
     private void updateWaterData() {
         TextView progressText = findViewById(R.id.main_water_text_progress);
         ProgressBar progressBar = findViewById(R.id.main_water_progress);
         
-        int waterInteger = currentEntry.water_mL / 1000;
-        int waterFraction = currentEntry.water_mL % 1000 / 100;
+        int waterInteger = currentEntry.getWater_ml() / 1000;
+        int waterFraction = currentEntry.getWater_ml() % 1000 / 100;
         int baseInteger = WATER_BASELINE / 1000;
         int baseFraction = WATER_BASELINE % 1000 / 100;
         progressText.setText(
                 String.format(getString(R.string.main_water_consumption), waterInteger, waterFraction, baseInteger,
                               baseFraction));
         
-        int pct = Math.round((float) currentEntry.water_mL / WATER_BASELINE * 100);
+        int pct = Math.round((float) currentEntry.getWater_ml() / WATER_BASELINE * 100);
         progressBar.setProgress(Math.min(pct, progressBar.getMax()));
     }
     
     public void incrementWaterProgress(View v) {
-        currentEntry.water_mL += WATER_STEP;
+        currentEntry.setWater_ml(currentEntry.getWater_ml() + WATER_STEP);
         updateDatabaseEntry();
     }
     
     public void decrementWaterProgress(View v) {
-        if (currentEntry.water_mL == 0) {
+        if (currentEntry.getWater_ml() == 0) {
             return;
         }
-        currentEntry.water_mL -= WATER_STEP;
+        currentEntry.setWater_ml(currentEntry.getWater_ml() - WATER_STEP);
         updateDatabaseEntry();
     }
     
     private void updateDatabaseEntry() {
-        userDao.updateEntry(currentEntry)
-               .subscribeOn(Schedulers.io())
-               .observeOn(AndroidSchedulers.mainThread())
-               .subscribe(new DisposableCompletableObserver() {
-                   @Override
-                   public void onComplete() {
-                       updateDiaryData();
-                   }
-            
-                   @Override
-                   public void onError(@NonNull Throwable e) {
-                       updateDatabaseEntry();
-                   }
-               });
+        db.userDiaryDao().update(currentEntry);
+        updateDiaryData();
     }
 }

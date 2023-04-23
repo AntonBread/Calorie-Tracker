@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -24,6 +25,8 @@ public class AddFoodActivity extends AppCompatActivity {
         RadioGroup modeSelector = findViewById(R.id.food_mode_selector);
         modeSelector.setOnCheckedChangeListener(switchModeListener);
         ((AppCompatRadioButton) findViewById(R.id.food_mode_select_search)).setChecked(true);  // Search mode by default
+        
+        ((TextView) findViewById(R.id.food_text_selected_count)).setText(String.valueOf(2));
     }
     
     public void cancelButtonListener(View v) {

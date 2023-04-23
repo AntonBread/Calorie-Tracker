@@ -32,10 +32,9 @@ public class FavoriteFoodFragment extends Fragment {
     public void onStart() {
         super.onStart();
     
-        foodItems.add(new FoodItem("Oatmeal", 100, 35, 5, 3, true));
-        foodItems.add(new FoodItem("Food", 999, 11, 22, 33, true));
-        foodItems.add(new FoodItem("Banan", 111, 10, 10, 10, true));
-        foodItems.add(new FoodItem("Pizza", 500, 50, 5, 0, true));
+        foodItems.add(new FoodItem("Apple Juice", 46, 11, 0, 0, true));
+        foodItems.add(new FoodItem("Macaroni", 157, 30, 1, 6, true));
+        foodItems.add(new FoodItem("Overnight oats with PB&J", 184, 24, 7, 7, true));
         RecyclerView recyclerView = getView().findViewById(R.id.food_favorite_list);
         FoodItemAdapter adapter = new FoodItemAdapter(getContext(), foodItems);
         recyclerView.setAdapter(adapter);

@@ -1,11 +1,9 @@
 package com.app.calorietracker.food.list;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.transition.AutoTransition;
 import android.transition.ChangeBounds;
 import android.transition.TransitionManager;
 import android.view.LayoutInflater;
@@ -53,9 +51,9 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
         holder.nameView.setText(foodItem.getName());
         holder.calsView.setText(String.format(res.getString(R.string.food_list_item_cals), foodItem.getKcal()));
         holder.portionSizeView.setText(String.format(res.getString(R.string.food_list_item_portion_size), 100));
-        holder.carbsMassView.setText(String.format(res.getString(R.string.food_list_item_carbs), foodItem.getCarbs_g()));
-        holder.fatMassView.setText(String.format(res.getString(R.string.food_list_item_fat), foodItem.getFat_g()));
-        holder.proteinMassView.setText(String.format(res.getString(R.string.food_list_item_protein), foodItem.getProtein_g()));
+        holder.carbsMassView.setText(String.format(res.getString(R.string.food_list_item_carbs), foodItem.getCarbs()));
+        holder.fatMassView.setText(String.format(res.getString(R.string.food_list_item_fat), foodItem.getFat()));
+        holder.proteinMassView.setText(String.format(res.getString(R.string.food_list_item_protein), foodItem.getProtein()));
         holder.carbsPctView.setText(String.format(res.getString(R.string.food_list_item_nutrient_pct), foodItem.getCarbsFraction()));
         holder.fatPctView.setText(String.format(res.getString(R.string.food_list_item_nutrient_pct), foodItem.getFatFraction()));
         holder.proteinPctView.setText(String.format(res.getString(R.string.food_list_item_nutrient_pct), foodItem.getProteinFraction()));
@@ -63,7 +61,7 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
         holder.favoriteCheckView.setOnCheckedChangeListener(favoriteCheckListener);
         holder.selectionCheckView.setOnCheckedChangeListener(selectionCheckListener);
         holder.portionInputView.addTextChangedListener(portionSizeInputWatcher);
-        ChartUtils.initNutrientPieChart(holder.nutrientChartView, foodItem.getCarbs_g(), foodItem.getFat_g(), foodItem.getProtein_g(), context);
+        ChartUtils.initNutrientPieChart(holder.nutrientChartView, foodItem.getCarbs(), foodItem.getFat(), foodItem.getProtein(), context);
     }
     
     @Override

@@ -33,8 +33,11 @@ public class SearchFoodFragment extends Fragment {
     public void onStart() {
         super.onStart();
         
-        foodItems.add(new FoodItem("Oatmeal", 100, 35, 5, 3, false));
-        foodItems.add(new FoodItem("Food", 999, 11, 22, 33, false));
+        foodItems.add(new FoodItem("Instant oatmeal", 91, 18, 1, 2, false));
+        foodItems.add(new FoodItem("Multigrain oatmeal", 63, 14, 1, 1, false));
+        foodItems.add(new FoodItem("Oatmeal muesli", 377, 67, 6, 11, false));
+        foodItems.add(new FoodItem("Overnight oats with PB&J", 184, 24, 7, 7, true));
+        foodItems.add(new FoodItem("Oat milk", 45, 6, 2, 1, false));
         RecyclerView recyclerView = getView().findViewById(R.id.food_search_list);
         FoodItemAdapter adapter = new FoodItemAdapter(getContext(), foodItems);
         recyclerView.setAdapter(adapter);

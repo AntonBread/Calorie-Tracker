@@ -33,11 +33,11 @@ public class HistoryFoodFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-    
-        foodItems.add(new FoodItem("Oatmeal", 100, 35, 5, 3, false));
-        foodItems.add(new FoodItem("Food", 999, 11, 22, 33, false));
-        foodItems.add(new FoodItem("Banan", 111, 10, 10, 10, false));
-        foodItems.add(new FoodItem("Pizza", 500, 50, 5, 0, false));
+        
+        foodItems.add(new FoodItem("Banana", 90, 23, 1, 1, false));
+        foodItems.add(new FoodItem("Apple Juice", 46, 11, 0, 0, true));
+        foodItems.add(new FoodItem("Macaroni", 157, 30, 1, 6, true));
+        foodItems.add(new FoodItem("Roasted Chicken", 195, 1, 14, 16, false));
         RecyclerView recyclerView = getView().findViewById(R.id.food_history_list);
         FoodItemAdapter adapter = new FoodItemAdapter(getContext(), foodItems);
         recyclerView.setAdapter(adapter);
