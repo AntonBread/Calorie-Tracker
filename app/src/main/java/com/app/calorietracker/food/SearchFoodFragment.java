@@ -5,65 +5,49 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 
 import com.app.calorietracker.R;
+import com.app.calorietracker.database.AppDatabase;
+import com.app.calorietracker.database.foods.FoodItemDatabaseManager;
+import com.app.calorietracker.database.foods.FoodItemEntity;
+import com.app.calorietracker.food.list.FoodItem;
+import com.app.calorietracker.food.list.FoodItemAdapter;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SearchFoodFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
 public class SearchFoodFragment extends Fragment {
     
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    ArrayList<FoodItem> foodItems = new ArrayList<>();
+    FoodItemAdapter adapter;
+    SearchView searchView;
     
     public SearchFoodFragment() {
         // Required empty public constructor
     }
     
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SearchFoodFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static SearchFoodFragment newInstance(String param1, String param2) {
-        SearchFoodFragment fragment = new SearchFoodFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-        
     }
     
     @Override
     public void onStart() {
         super.onStart();
         
+        searchView = getView().findViewById(R.id.food_search_query);
+        
+        searchView.setOnQueryTextListener(searchQueryListener);
+        
         RecyclerView recyclerView = getView().findViewById(R.id.food_search_list);
+        adapter = new FoodItemAdapter(getContext(), foodItems);
+        recyclerView.setAdapter(adapter);
     }
     
     @Override
@@ -72,4 +56,26 @@ public class SearchFoodFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_search_food, container, false);
     }
+    
+    private final SearchView.OnQueryTextListener searchQueryListener = new SearchView.OnQueryTextListener() {
+        @Override
+        public boolean onQueryTextSubmit(String query) {
+            AppDatabase db = AppDatabase.getInstance();
+            List<FoodItemEntity> entities = FoodItemDatabaseManager.getListFromSearchQuery(db.foodItemDao(), query);
+            if (entities == null) {
+                return true;
+            }
+            foodItems.clear();
+            for (FoodItemEntity entity : entities) {
+                foodItems.add(new FoodItem(entity));
+            }
+            adapter.notifyDataSetChanged();
+            return true;
+        }
+        
+        @Override
+        public boolean onQueryTextChange(String newText) {
+            return true;
+        }
+    };
 }

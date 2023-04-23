@@ -2,6 +2,8 @@
     <string name="app_name">Calorie Tracker</string>
     <string name="sample">Sample Text</string>
 
+    <string name="placeholder_number">%d</string>
+
     <!-- MAIN PAGE STRINGS -->
     <string name="main_date_today">Today</string>
     <string name="main_date_yesterday">Yesterday</string>
@@ -19,7 +21,7 @@
     <string name="main_dinner">Dinner</string>
     <string name="main_snacks">Snacks/Other</string>
     <string name="main_water">Water</string>
-    <string name="main_water_consumption">%d.%d / %d.%d L</string>
+    <string name="main_water_consumption">%d.%d0 / %d.%d0 L</string>
 
 
     <!-- NAVIGATION BAR -->
@@ -35,8 +37,8 @@
     <string name="food_mode_add">Add</string>
 
     <string name="food_list_item_cals">%d kcal</string>
-    <string name="food_list_item_100g">100g</string>
-    <string name="food_list_item_nutrient_pct">%d%%</string>
+    <string name="food_list_item_portion_size">%d g</string>
+    <string name="food_list_item_nutrient_pct">%.1f%%</string>
     <string name="food_list_item_carbs">%d g\u000acarbs</string>
     <string name="food_list_item_fat">%d g\u000afat</string>
     <string name="food_list_item_protein">%d g\u000aprotein</string>
@@ -44,4 +46,13 @@
     <string name="food_list_item_portion_unit_g">g</string>
 
     <string name="food_search_query_hint">Search…</string>
+
+    <string name="food_new_name_hint">Name…</string>
+    <string name="food_new_cals_hint">Kcal per 100g</string>
+    <string name="food_new_nutrient_description">Nutrients per 100g, mg</string>
+    <string name="food_new_carbs_hint">Carbs</string>
+    <string name="food_new_fat_hint">Fat</string>
+    <string name="food_new_protein_hint">Protein</string>
+    <string name="food_new_check_add">Add item to current meal</string>
+    <string name="food_new_btn_save">Save</string>
 </resources>

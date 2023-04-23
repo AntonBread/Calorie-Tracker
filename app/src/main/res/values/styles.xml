@@ -45,14 +45,10 @@
         <item name="android:textColor">@color/orange_bright</item>
     </style>
 
-    <style name="FoodModeButtonSelected" parent="Widget.AppCompat.Button">
-        <item name="android:backgroundTint">@color/food_mode_selected_tint</item>
-        <item name="android:textColor">@color/orange_bright</item>
-    </style>
 
-    <style name="FoodModeButtonUnselected" parent="Widget.AppCompat.Button" >
-        <item name="android:backgroundTint">@color/food_mode_unselected_tint</item>
-        <item name="android:textColor">@color/gray_extra_dark</item>
+    <style name="FoodModeButton" parent="Widget.AppCompat.Button" >
+        <item name="android:backgroundTint">@color/food_mode_button_tint</item>
+        <item name="android:textColor">@color/food_mode_button_text</item>
     </style>
 
 </resources>

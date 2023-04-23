@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="8dp"
+    android:background="@drawable/back_section_reduced_radius"
     tools:ignore="RtlHardcoded">
 
     <!-- CONTAINER FOR THE ENTIRE LIST VIEW ITEM -->
@@ -16,8 +17,7 @@
         <!-- BASE PORTION OF FOOD ITEM VIEW -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/back_section_reduced_radius">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/food_list_item_name"
@@ -27,12 +27,12 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/sample"
                 android:textColor="@color/black"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/food_list_item_cal_per_100g"
+                android:id="@+id/food_list_item_cals"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -41,21 +41,22 @@
                 android:maxWidth="120dp"
                 android:text="@string/food_list_item_cals"
                 android:textColor="@color/text_secondary"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 app:drawableLeftCompat="@drawable/ic_kcal_16"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="@id/food_list_item_name"
                 app:layout_constraintTop_toBottomOf="@id/food_list_item_name" />
 
             <TextView
+                android:id="@+id/food_list_item_portion_size"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="108dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:text="@string/food_list_item_100g"
+                android:text="@string/food_list_item_portion_size"
                 android:textColor="@color/text_secondary"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/food_list_item_name" />
@@ -91,7 +92,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="12dp">
+            android:layout_marginBottom="12dp"
+            android:visibility="gone">
 
             <LinearLayout
                 android:id="@+id/food_list_item_nutrient_pct_container"
@@ -102,7 +104,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintWidth_default="percent"
-                app:layout_constraintWidth_percent="0.48">
+                app:layout_constraintWidth_percent="0.6">
 
                 <TextView
                     android:id="@+id/food_list_item_carbs_pct"
@@ -112,7 +114,7 @@
                     android:paddingHorizontal="1dp"
                     android:text="@string/food_list_item_nutrient_pct"
                     android:textColor="@color/nutrient_carbs"
-                    android:textSize="11sp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/food_list_item_fat_pct"
@@ -122,7 +124,7 @@
                     android:paddingHorizontal="1dp"
                     android:text="@string/food_list_item_nutrient_pct"
                     android:textColor="@color/nutrient_fat"
-                    android:textSize="11sp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/food_list_item_protein_pct"
@@ -132,7 +134,7 @@
                     android:paddingHorizontal="1dp"
                     android:text="@string/food_list_item_nutrient_pct"
                     android:textColor="@color/nutrient_protein"
-                    android:textSize="11sp" />
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -143,7 +145,7 @@
                 app:layout_constraintLeft_toLeftOf="@id/food_list_item_nutrient_pct_container"
                 app:layout_constraintTop_toBottomOf="@id/food_list_item_nutrient_pct_container"
                 app:layout_constraintWidth_default="percent"
-                app:layout_constraintWidth_percent="0.48">
+                app:layout_constraintWidth_percent="0.6">
 
                 <TextView
                     android:id="@+id/food_list_item_carbs_g"
@@ -153,7 +155,7 @@
                     android:paddingHorizontal="1dp"
                     android:text="@string/food_list_item_carbs"
                     android:textColor="@color/black"
-                    android:textSize="12sp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/food_list_item_fat_g"
@@ -163,7 +165,7 @@
                     android:paddingHorizontal="1dp"
                     android:text="@string/food_list_item_fat"
                     android:textColor="@color/black"
-                    android:textSize="12sp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/food_list_item_protein_g"
@@ -173,15 +175,14 @@
                     android:paddingHorizontal="1dp"
                     android:text="@string/food_list_item_protein"
                     android:textColor="@color/black"
-                    android:textSize="12sp" />
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/food_list_item_nutrient_chart"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_marginLeft="32dp"
-                app:layout_constraintBottom_toBottomOf="@id/food_list_item_nutrient_mass_container"
                 app:layout_constraintLeft_toRightOf="@id/food_list_item_nutrient_pct_container"
                 app:layout_constraintTop_toTopOf="@id/food_list_item_nutrient_pct_container" />
 
@@ -191,14 +192,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/back_food_item_portion_input"
+                android:background="@drawable/back_text_input_dark"
                 android:hint="@string/food_list_item_portion_size_input_hint"
                 android:importantForAutofill="no"
                 android:inputType="number"
                 android:paddingHorizontal="8dp"
                 android:paddingVertical="2dp"
                 android:textColor="@color/black"
-                android:textSize="12sp"
+                android:textSize="16sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/food_list_item_nutrient_mass_container"
                 app:layout_constraintWidth_default="percent"
@@ -211,7 +212,7 @@
                 android:layout_marginLeft="4dp"
                 android:text="@string/food_list_item_portion_unit_g"
                 android:textColor="@color/black"
-                android:textSize="12sp"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@id/food_list_item_portion_size_input"
                 app:layout_constraintLeft_toRightOf="@id/food_list_item_portion_size_input"
                 app:layout_constraintTop_toTopOf="@id/food_list_item_portion_size_input" />

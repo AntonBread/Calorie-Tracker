@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="16dp"
+    tools:context=".food.AddNewFoodFragment"
+    tools:ignore="RtlHardcoded">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/back_section_reduced_radius"
+        android:paddingTop="8dp"
+        android:paddingBottom="32dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="0.94">
+
+        <EditText
+            android:id="@+id/food_new_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/back_text_input_dark"
+            android:hint="@string/food_new_name_hint"
+            android:importantForAutofill="no"
+            android:inputType="textCapSentences"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="6dp"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.8" />
+
+        <ImageView
+            android:id="@+id/food_new_cals_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="24dp"
+            android:src="@drawable/ic_kcal_24"
+            app:layout_constraintBottom_toBottomOf="@id/food_new_cals"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/food_new_name" />
+
+        <EditText
+            android:id="@+id/food_new_cals"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/back_text_input_dark"
+            android:hint="@string/food_new_cals_hint"
+            android:importantForAutofill="no"
+            android:inputType="number"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"
+            android:textSize="18sp"
+            app:layout_constraintLeft_toRightOf="@id/food_new_cals_icon"
+            app:layout_constraintTop_toBottomOf="@id/food_new_name"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.4" />
+
+        <TextView
+            android:id="@+id/food_new_nutrient_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/food_new_nutrient_description"
+            android:textColor="@color/gray_extra_dark"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/food_new_cals" />
+
+        <LinearLayout
+            android:id="@+id/food_new_nutrient_input_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/food_new_nutrient_description"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.9">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center"
+                android:background="@drawable/text_nutrient_hint"
+                android:backgroundTint="@color/nutrient_carbs" />
+
+            <EditText
+                android:id="@+id/food_new_carbs"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="8dp"
+                android:layout_weight="0.33"
+                android:background="@drawable/back_text_input_dark"
+                android:hint="@string/food_new_carbs_hint"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center"
+                android:background="@drawable/text_nutrient_hint"
+                android:backgroundTint="@color/nutrient_fat" />
+
+            <EditText
+                android:id="@+id/food_new_fat"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="8dp"
+                android:layout_weight="0.33"
+                android:background="@drawable/back_text_input_dark"
+                android:hint="@string/food_new_fat_hint"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center"
+                android:background="@drawable/text_nutrient_hint"
+                android:backgroundTint="@color/nutrient_protein" />
+
+            <EditText
+                android:id="@+id/food_new_protein"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="8dp"
+                android:layout_weight="0.33"
+                android:background="@drawable/back_text_input_dark"
+                android:hint="@string/food_new_protein_hint"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/food_new_check_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="48dp"
+            android:buttonTint="@color/checkbox_default"
+            android:enabled="false"
+            android:text="@string/food_new_check_add"
+            android:textSize="16sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/food_new_nutrient_input_container" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/food_new_btn_save"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="16dp"
+            android:backgroundTint="@color/food_add_new_button_back_tint"
+            android:enabled="false"
+            android:text="@string/food_new_btn_save"
+            android:textColor="@color/food_add_new_button_text"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/food_new_check_add"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.5" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
