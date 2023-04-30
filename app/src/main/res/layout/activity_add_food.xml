@@ -32,7 +32,7 @@
 
     <TextView
         android:id="@+id/food_text_selected_count"
-        android:layout_width="wrap_content"
+        android:layout_width="36dp"
         android:layout_height="48dp"
         android:layout_marginRight="8dp"
         android:gravity="center"
@@ -46,6 +46,7 @@
         android:id="@+id/food_text_meal_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="44dp"
         android:text="@string/main_breakfast"
         android:textColor="@color/black"
         android:textSize="24sp"

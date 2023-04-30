@@ -3,19 +3,24 @@ package com.app.calorietracker.food.list;
 import com.app.calorietracker.database.foods.FoodItemEntity;
 
 public class FoodItem {
+    private final long id;  // db record id
+    
     private final String name;
     private final int kcal_per_100g;
     private final int carbs_mg_per_100g;
     private final int fat_mg_per_100g;
     private final int protein_mg_per_100g;
-    private final boolean isFavorite;
+    private boolean isFavorite;
     
-    // Default portion size if 100 g
+    // Default portion size is 100 g
     private int portionSize_g = 100;
+    // Default selection state is false
+    private boolean selected = false;
     
     private final int nutrients_mg_per_100g;
     
-    public FoodItem(String name, int kcal, int carbs_mg, int fat_mg, int protein_mg, boolean isFavorite) {
+    public FoodItem(long id, String name, int kcal, int carbs_mg, int fat_mg, int protein_mg, boolean isFavorite) {
+        this.id = id;
         this.name = name;
         this.kcal_per_100g = kcal;
         this.carbs_mg_per_100g = carbs_mg;
@@ -27,6 +32,7 @@ public class FoodItem {
     }
     
     public FoodItem(FoodItemEntity entity) {
+        this.id = entity.getId();
         this.name = entity.getName();
         this.kcal_per_100g = entity.getKcal();
         this.carbs_mg_per_100g = entity.getCarbs();
@@ -46,6 +52,10 @@ public class FoodItem {
         entity.setProtein(this.protein_mg_per_100g);
         entity.setFavorite(this.isFavorite);
         return entity;
+    }
+    
+    public long getId() {
+        return this.id;
     }
     
     public String getName() {
@@ -74,7 +84,19 @@ public class FoodItem {
     
     public int getPortionSize() {return this.portionSize_g;}
     
+    public boolean isSelected() {
+        return selected;
+    }
+    
+    public void setFavorite(boolean isFavorite) {
+        this.isFavorite = isFavorite;
+    }
+    
     public void setPortionSize(int portionSize_g) {this.portionSize_g = portionSize_g;}
+    
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
     
     public float getCarbsFraction() {
         return (float) carbs_mg_per_100g / nutrients_mg_per_100g * 100;

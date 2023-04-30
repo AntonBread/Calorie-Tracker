@@ -1,5 +1,6 @@
 package com.app.calorietracker.food;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.AppCompatButton;
@@ -55,7 +56,8 @@ public class AddNewFoodFragment extends Fragment {
             input.addTextChangedListener(inputTextWatcher);
         }
         
-        saveButton.setOnClickListener(saveButtonListener);
+        //saveButton.setOnClickListener(saveButtonListener);
+        saveButton.setOnClickListener(debugPopulateDb);
     }
     
     @Override
@@ -100,6 +102,17 @@ public class AddNewFoodFragment extends Fragment {
         AppDatabase db = AppDatabase.getInstance();
         db.foodItemDao().insert(foodItemEntity);
         clearInputFields();
+    };
+    
+    @SuppressLint("DefaultLocale")
+    private final View.OnClickListener debugPopulateDb = v -> {
+        FoodItemEntity foodItemEntity = createFoodItemEntity();
+        for (int i = 0; i < 20; i++) {
+            foodItemEntity.setName(String.format("Еда %d", i));
+            AppDatabase db = AppDatabase.getInstance();
+            db.foodItemDao().insert(foodItemEntity);
+            clearInputFields();
+        }
     };
     
     private FoodItemEntity createFoodItemEntity() {

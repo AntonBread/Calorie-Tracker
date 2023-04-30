@@ -10,10 +10,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.app.calorietracker.R;
+import com.app.calorietracker.database.AppDatabase;
+import com.app.calorietracker.database.foods.FoodItemDatabaseManager;
+import com.app.calorietracker.database.foods.FoodItemEntity;
 import com.app.calorietracker.food.list.FoodItem;
 import com.app.calorietracker.food.list.FoodItemAdapter;
+import com.app.calorietracker.food.list.FoodSelectionManager;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FavoriteFoodFragment extends Fragment {
     
@@ -32,11 +37,12 @@ public class FavoriteFoodFragment extends Fragment {
     public void onStart() {
         super.onStart();
     
-        foodItems.add(new FoodItem("Apple Juice", 46, 11, 0, 0, true));
-        foodItems.add(new FoodItem("Macaroni", 157, 30, 1, 6, true));
-        foodItems.add(new FoodItem("Overnight oats with PB&J", 184, 24, 7, 7, true));
+        getFavoriteFoodsFromDb();
+    
+        FoodSelectionManager foodSelectionManager = ((AddFoodActivity) requireActivity()).getFoodSelectionManager();
+        
         RecyclerView recyclerView = getView().findViewById(R.id.food_favorite_list);
-        FoodItemAdapter adapter = new FoodItemAdapter(getContext(), foodItems);
+        FoodItemAdapter adapter = new FoodItemAdapter(getContext(), foodItems, foodSelectionManager);
         recyclerView.setAdapter(adapter);
     }
     
@@ -45,5 +51,16 @@ public class FavoriteFoodFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_favorite_food, container, false);
+    }
+    
+    private void getFavoriteFoodsFromDb() {
+        AppDatabase db = AppDatabase.getInstance();
+        List<FoodItemEntity> entities = FoodItemDatabaseManager.getFavoriteFoodsList(db.foodItemDao());
+        if (entities == null) {
+            return;
+        }
+        for (FoodItemEntity entity : entities) {
+            foodItems.add(new FoodItem(entity));
+        }
     }
 }

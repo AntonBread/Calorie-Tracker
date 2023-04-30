@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.app.calorietracker.R;
 import com.app.calorietracker.food.list.FoodItem;
 import com.app.calorietracker.food.list.FoodItemAdapter;
+import com.app.calorietracker.food.list.FoodSelectionManager;
 
 import java.util.ArrayList;
 
@@ -34,15 +35,13 @@ public class HistoryFoodFragment extends Fragment {
     public void onStart() {
         super.onStart();
         
-        foodItems.add(new FoodItem("Banana", 90, 23, 1, 1, false));
-        foodItems.add(new FoodItem("Apple Juice", 46, 11, 0, 0, true));
-        foodItems.add(new FoodItem("Macaroni", 157, 30, 1, 6, true));
-        foodItems.add(new FoodItem("Roasted Chicken", 195, 1, 14, 16, false));
+        FoodSelectionManager foodSelectionManager = ((AddFoodActivity) requireActivity()).getFoodSelectionManager();
+        
         RecyclerView recyclerView = getView().findViewById(R.id.food_history_list);
-        FoodItemAdapter adapter = new FoodItemAdapter(getContext(), foodItems);
+        FoodItemAdapter adapter = new FoodItemAdapter(getContext(), foodItems, foodSelectionManager);
         recyclerView.setAdapter(adapter);
     }
- 
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

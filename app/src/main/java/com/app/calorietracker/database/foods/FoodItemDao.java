@@ -30,6 +30,9 @@ public interface FoodItemDao {
     @Query("SELECT * FROM FOODS WHERE is_favorite = 1")
     ListenableFuture<List<FoodItemEntity>> getFavoriteFoods();
     
+    @Query("SELECT * FROM FOODS WHERE id = :id")
+    ListenableFuture<FoodItemEntity> getFoodById(long id);
+    
     
     // Non async methods, were used for testing
     // might rewrite tests and remove these later

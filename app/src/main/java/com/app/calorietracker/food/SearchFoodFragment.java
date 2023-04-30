@@ -17,9 +17,11 @@ import com.app.calorietracker.database.foods.FoodItemDatabaseManager;
 import com.app.calorietracker.database.foods.FoodItemEntity;
 import com.app.calorietracker.food.list.FoodItem;
 import com.app.calorietracker.food.list.FoodItemAdapter;
+import com.app.calorietracker.food.list.FoodSelectionManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
 public class SearchFoodFragment extends Fragment {
@@ -41,12 +43,14 @@ public class SearchFoodFragment extends Fragment {
     public void onStart() {
         super.onStart();
         
+        FoodSelectionManager foodSelectionManager = ((AddFoodActivity) requireActivity()).getFoodSelectionManager();
+        
         searchView = getView().findViewById(R.id.food_search_query);
         
         searchView.setOnQueryTextListener(searchQueryListener);
         
         RecyclerView recyclerView = getView().findViewById(R.id.food_search_list);
-        adapter = new FoodItemAdapter(getContext(), foodItems);
+        adapter = new FoodItemAdapter(getContext(), foodItems, foodSelectionManager);
         recyclerView.setAdapter(adapter);
     }
     

@@ -6,6 +6,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.transition.ChangeBounds;
 import android.transition.TransitionManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ import androidx.appcompat.widget.AppCompatCheckBox;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.calorietracker.R;
+import com.app.calorietracker.database.AppDatabase;
+import com.app.calorietracker.database.foods.FoodItemDatabaseManager;
 import com.app.calorietracker.utils.ChartUtils;
 import com.github.mikephil.charting.charts.PieChart;
 
@@ -29,25 +32,32 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
     private final List<FoodItem> itemList;
     private final Context context;
     private final Resources res;
+    private final FoodSelectionManager foodSelectionManager;
     
-    public FoodItemAdapter(Context context, List<FoodItem> itemList) {
+    // TODO: add input watcher to portion size EditText
+    
+    public FoodItemAdapter(Context context, List<FoodItem> itemList, FoodSelectionManager foodSelectionManager) {
         this.itemList = itemList;
         this.inflater = LayoutInflater.from(context);
         this.context = context;
         res = context.getResources();
+        this.foodSelectionManager = foodSelectionManager;
     }
     
     @NonNull
     @Override
     public FoodItemAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = inflater.inflate(R.layout.list_food_item, parent, false);
-        v.setBackground(res.getDrawable(R.drawable.back_section_reduced_radius, context.getTheme()));       // Setting background in XML doesn't apply border radius
+        v.setBackground(res.getDrawable(R.drawable.back_section_reduced_radius, context.getTheme())); // Setting background in XML doesn't apply border radius
         return new ViewHolder(v);
     }
     
     @Override
     public void onBindViewHolder(@NonNull FoodItemAdapter.ViewHolder holder, int position) {
         FoodItem foodItem = itemList.get(position);
+        foodItem.setSelected(foodSelectionManager.isSelected(foodItem));
+        holder.foodItem = foodItem;
+        holder.foodSelectionManager = this.foodSelectionManager;
         holder.nameView.setText(foodItem.getName());
         holder.calsView.setText(String.format(res.getString(R.string.food_list_item_cals), foodItem.getKcal()));
         holder.portionSizeView.setText(String.format(res.getString(R.string.food_list_item_portion_size), 100));
@@ -58,10 +68,16 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
         holder.fatPctView.setText(String.format(res.getString(R.string.food_list_item_nutrient_pct), foodItem.getFatFraction()));
         holder.proteinPctView.setText(String.format(res.getString(R.string.food_list_item_nutrient_pct), foodItem.getProteinFraction()));
         holder.favoriteCheckView.setChecked(foodItem.isFavorite());
-        holder.favoriteCheckView.setOnCheckedChangeListener(favoriteCheckListener);
-        holder.selectionCheckView.setOnCheckedChangeListener(selectionCheckListener);
-        holder.portionInputView.addTextChangedListener(portionSizeInputWatcher);
+        holder.selectionCheckView.setChecked(foodItem.isSelected());
+        holder.portionInputView.setText(Integer.toString(foodItem.getPortionSize()));
         ChartUtils.initNutrientPieChart(holder.nutrientChartView, foodItem.getCarbs(), foodItem.getFat(), foodItem.getProtein(), context);
+        
+        holder.adapterNotificationInterface = new AdapterNotificationInterface() {
+            @Override
+            public void notifyChangeAt(int pos) {
+                notifyItemChanged(pos);
+            }
+        };
     }
     
     @Override
@@ -69,7 +85,17 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
         return itemList.size();
     }
     
+    interface AdapterNotificationInterface {
+        void notifyChangeAt(int pos);
+    }
+    
     public static class ViewHolder extends RecyclerView.ViewHolder {
+        FoodItem foodItem;
+    
+        AdapterNotificationInterface adapterNotificationInterface;
+        
+        FoodSelectionManager foodSelectionManager;
+        
         final TextView nameView;
         final TextView calsView;
         final TextView portionSizeView;
@@ -100,7 +126,11 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
             portionInputView = v.findViewById(R.id.food_list_item_portion_size_input);
             favoriteCheckView = v.findViewById(R.id.food_list_item_btn_favorite);
             selectionCheckView = v.findViewById(R.id.food_list_item_btn_select);
+            
             v.setOnClickListener(expandViewListener);
+            favoriteCheckView.setOnCheckedChangeListener(favoriteCheckListener);
+            selectionCheckView.setOnCheckedChangeListener(selectionCheckListener);
+            portionInputView.addTextChangedListener(portionSizeInputWatcher);
         }
     
         View.OnClickListener expandViewListener = (v) -> {
@@ -118,32 +148,50 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
                 expandableView.setVisibility(View.GONE);
             }
         };
+    
+        CompoundButton.OnCheckedChangeListener favoriteCheckListener = (buttonView, isChecked) -> {
+            if (!buttonView.isPressed()) return;    // Prevent false calls
+            
+            AppDatabase db = AppDatabase.getInstance();
+            boolean success = FoodItemDatabaseManager.updateFavoriteCheck(db.foodItemDao(), foodItem.getId(), isChecked);
+            Log.d("DEBUG", Boolean.toString(success));
+            if (success) {
+                foodItem.setFavorite(isChecked);
+                adapterNotificationInterface.notifyChangeAt(getAdapterPosition());
+            }
+        };
+    
+        CompoundButton.OnCheckedChangeListener selectionCheckListener = (buttonView, isChecked) -> {
+            if (!buttonView.isPressed()) return;    // Prevent false calls
+            
+            foodItem.setSelected(isChecked);
+            adapterNotificationInterface.notifyChangeAt(getAdapterPosition());
+            
+            if (isChecked) {
+                foodSelectionManager.addItem(foodItem);
+            }
+            else {
+                foodSelectionManager.removeItem(foodItem);
+            }
+            
+        };
+    
+        TextWatcher portionSizeInputWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            
+            }
+        
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            
+            }
+        
+            @Override
+            public void afterTextChanged(Editable s) {
+            
+            }
+        };
     }
     
-    
-    
-    CompoundButton.OnCheckedChangeListener favoriteCheckListener = (buttonView, isChecked) -> {
-    
-    };
-    
-    CompoundButton.OnCheckedChangeListener selectionCheckListener = (buttonView, isChecked) -> {
-    
-    };
-    
-    TextWatcher portionSizeInputWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        
-        }
-    
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-        
-        }
-    
-        @Override
-        public void afterTextChanged(Editable s) {
-        
-        }
-    };
 }
