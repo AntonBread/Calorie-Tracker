@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="16dp"
-    tools:context=".food.SearchFoodFragment"
+    tools:context=".ui.food.fragments.SearchFoodFragment"
     tools:ignore="RtlHardcoded">
 
     <SearchView

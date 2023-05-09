@@ -1,11 +1,10 @@
-package com.app.calorietracker.food;
+package com.app.calorietracker.ui.food.fragments;
 
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,14 +14,13 @@ import com.app.calorietracker.R;
 import com.app.calorietracker.database.AppDatabase;
 import com.app.calorietracker.database.foods.FoodItemDatabaseManager;
 import com.app.calorietracker.database.foods.FoodItemEntity;
-import com.app.calorietracker.food.list.FoodItem;
-import com.app.calorietracker.food.list.FoodItemAdapter;
-import com.app.calorietracker.food.list.FoodSelectionManager;
+import com.app.calorietracker.ui.food.AddFoodActivity;
+import com.app.calorietracker.ui.food.list.FoodItem;
+import com.app.calorietracker.ui.food.list.FoodItemAdapter;
+import com.app.calorietracker.ui.food.list.FoodSelectionManager;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.ExecutionException;
 
 public class SearchFoodFragment extends Fragment {
     

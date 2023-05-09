@@ -2,7 +2,7 @@ package com.app.calorietracker.database;
 
 import androidx.room.TypeConverter;
 
-import com.app.calorietracker.food.list.FoodItem;
+import com.app.calorietracker.ui.food.list.FoodItem;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

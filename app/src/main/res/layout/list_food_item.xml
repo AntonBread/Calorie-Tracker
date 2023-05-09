@@ -200,6 +200,7 @@
                 android:paddingVertical="2dp"
                 android:textColor="@color/black"
                 android:textSize="16sp"
+                android:imeOptions="actionDone"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/food_list_item_nutrient_mass_container"
                 app:layout_constraintWidth_default="percent"

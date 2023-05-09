@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 public class ChartUtils {
     
-    public static void initNutrientPieChart(PieChart chart, int carbs, int fat, int protein, Context context) {
+    public static void initNutrientPieChart(PieChart chart, float carbs, float fat, float protein, Context context) {
         initPieChartConfig(chart);
         PieData chartData = getNutrientPieChartData(context, carbs, fat, protein);
         showPieChart(chart, chartData);
@@ -33,7 +33,7 @@ public class ChartUtils {
         chart.setDrawEntryLabels(false);
     }
     
-    private static PieData getNutrientPieChartData(Context context, int carbs, int fat, int protein) {
+    private static PieData getNutrientPieChartData(Context context, float carbs, float fat, float protein) {
         ArrayList<PieEntry> entries = new ArrayList<>(3);
         entries.add(new PieEntry(carbs, "carbs"));
         entries.add(new PieEntry(fat, "fat"));

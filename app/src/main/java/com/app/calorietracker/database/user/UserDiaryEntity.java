@@ -6,7 +6,7 @@ import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-import com.app.calorietracker.food.list.FoodItem;
+import com.app.calorietracker.ui.food.list.FoodItem;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -19,18 +19,6 @@ public class UserDiaryEntity {
     @NonNull
     @PrimaryKey
     private LocalDate _date;
-    
-    @ColumnInfo(defaultValue = "0")
-    private int calories;
-    
-    @ColumnInfo(defaultValue = "0")
-    private int carbs_mg;
-    
-    @ColumnInfo(defaultValue = "0")
-    private int fat_mg;
-    
-    @ColumnInfo(defaultValue = "0")
-    private int protein_mg;
     
     @ColumnInfo(defaultValue = "0")
     private int water_ml;
@@ -46,22 +34,6 @@ public class UserDiaryEntity {
     @NonNull
     public LocalDate get_date() {
         return _date;
-    }
-    
-    public int getCalories() {
-        return calories;
-    }
-    
-    public int getCarbs_mg() {
-        return carbs_mg;
-    }
-    
-    public int getFat_mg() {
-        return fat_mg;
-    }
-    
-    public int getProtein_mg() {
-        return protein_mg;
     }
     
     public int getWater_ml() {
@@ -90,22 +62,6 @@ public class UserDiaryEntity {
     
     public void set_date(@NonNull LocalDate _date) {
         this._date = _date;
-    }
-    
-    public void setCalories(int calories) {
-        this.calories = calories;
-    }
-    
-    public void setCarbs_mg(int carbs_mg) {
-        this.carbs_mg = carbs_mg;
-    }
-    
-    public void setFat_mg(int fat_mg) {
-        this.fat_mg = fat_mg;
-    }
-    
-    public void setProtein_mg(int protein_mg) {
-        this.protein_mg = protein_mg;
     }
     
     public void setWater_ml(int water_ml) {

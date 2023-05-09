@@ -19,13 +19,13 @@ public class FoodItemEntity {
     private int kcal;
     
     @ColumnInfo(name = "carbs_mg_per_100g")
-    private int carbs;
+    private float carbs;
     
     @ColumnInfo(name = "fat_mg_per_100g")
-    private int fat;
+    private float fat;
     
     @ColumnInfo(name = "protein_mg_per_100g")
-    private int protein;
+    private float protein;
     
     @ColumnInfo(name = "is_favorite")
     private boolean isFavorite;
@@ -42,15 +42,15 @@ public class FoodItemEntity {
         return kcal;
     }
     
-    public int getCarbs() {
+    public float getCarbs() {
         return carbs;
     }
     
-    public int getFat() {
+    public float getFat() {
         return fat;
     }
     
-    public int getProtein() {
+    public float getProtein() {
         return protein;
     }
     
@@ -70,15 +70,15 @@ public class FoodItemEntity {
         this.kcal = kcal_per_100g;
     }
     
-    public void setCarbs(int carbs_mg_per_100g) {
+    public void setCarbs(float carbs_mg_per_100g) {
         this.carbs = carbs_mg_per_100g;
     }
     
-    public void setFat(int fat_mg_per_100g) {
+    public void setFat(float fat_mg_per_100g) {
         this.fat = fat_mg_per_100g;
     }
     
-    public void setProtein(int protein_mg_per_100g) {
+    public void setProtein(float protein_mg_per_100g) {
         this.protein = protein_mg_per_100g;
     }
     

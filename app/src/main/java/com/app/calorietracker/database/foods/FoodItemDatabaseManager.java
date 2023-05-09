@@ -1,7 +1,5 @@
 package com.app.calorietracker.database.foods;
 
-import com.app.calorietracker.food.list.FoodItem;
-
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 

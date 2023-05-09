@@ -1,4 +1,4 @@
-package com.app.calorietracker.food;
+package com.app.calorietracker.ui.food.fragments;
 
 import android.os.Bundle;
 
@@ -13,9 +13,10 @@ import com.app.calorietracker.R;
 import com.app.calorietracker.database.AppDatabase;
 import com.app.calorietracker.database.foods.FoodItemDatabaseManager;
 import com.app.calorietracker.database.foods.FoodItemEntity;
-import com.app.calorietracker.food.list.FoodItem;
-import com.app.calorietracker.food.list.FoodItemAdapter;
-import com.app.calorietracker.food.list.FoodSelectionManager;
+import com.app.calorietracker.ui.food.AddFoodActivity;
+import com.app.calorietracker.ui.food.list.FoodItem;
+import com.app.calorietracker.ui.food.list.FoodItemAdapter;
+import com.app.calorietracker.ui.food.list.FoodSelectionManager;
 
 import java.util.ArrayList;
 import java.util.List;

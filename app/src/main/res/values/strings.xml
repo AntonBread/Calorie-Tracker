@@ -12,14 +12,15 @@
     <string name="main_cal_consumed">Calories consumed: %d</string>
     <string name="main_cal_percentage">%d%% of baseline</string>
 
-    <string name="main_nutrients_carbs">Carbs: %d/%d g</string>
-    <string name="main_nutrients_fat">Fat: %d/%d g</string>
-    <string name="main_nutrients_protein">Protein: %d/%d g</string>
+    <string name="main_nutrients_carbs">Carbs: %.1f / %.1f g</string>
+    <string name="main_nutrients_fat">Fat: %.1f / %.1f g</string>
+    <string name="main_nutrients_protein">Protein: %.1f / %.1f g</string>
 
     <string name="main_breakfast">Breakfast</string>
     <string name="main_lunch">Lunch</string>
     <string name="main_dinner">Dinner</string>
     <string name="main_snacks">Snacks/Other</string>
+    <string name="main_meal_cals">%d kcal</string>
     <string name="main_water">Water</string>
     <string name="main_water_consumption">%d.%d0 / %d.%d0 L</string>
 
@@ -31,6 +32,11 @@
 
 
     <!-- ADD FOOD PAGE -->
+    <string name="food_title_breakfast">Breakfast</string>
+    <string name="food_title_lunch">Lunch</string>
+    <string name="food_title_dinner">Dinner</string>
+    <string name="food_title_snacks">Snacks</string>
+
     <string name="food_mode_search">Search</string>
     <string name="food_mode_history">History</string>
     <string name="food_mode_favorite">Favorite</string>
@@ -39,9 +45,9 @@
     <string name="food_list_item_cals">%d kcal</string>
     <string name="food_list_item_portion_size">%d g</string>
     <string name="food_list_item_nutrient_pct">%.1f%%</string>
-    <string name="food_list_item_carbs">%d g\u000acarbs</string>
-    <string name="food_list_item_fat">%d g\u000afat</string>
-    <string name="food_list_item_protein">%d g\u000aprotein</string>
+    <string name="food_list_item_carbs">%.1f g\u000acarbs</string>
+    <string name="food_list_item_fat">%.1f g\u000afat</string>
+    <string name="food_list_item_protein">%.1f g\u000aprotein</string>
     <string name="food_list_item_portion_size_input_hint">Portion size…</string>
     <string name="food_list_item_portion_unit_g">g</string>
 
@@ -49,7 +55,7 @@
 
     <string name="food_new_name_hint">Name…</string>
     <string name="food_new_cals_hint">Kcal per 100g</string>
-    <string name="food_new_nutrient_description">Nutrients per 100g, mg</string>
+    <string name="food_new_nutrient_description">Nutrients per 100g, g</string>
     <string name="food_new_carbs_hint">Carbs</string>
     <string name="food_new_fat_hint">Fat</string>
     <string name="food_new_protein_hint">Protein</string>

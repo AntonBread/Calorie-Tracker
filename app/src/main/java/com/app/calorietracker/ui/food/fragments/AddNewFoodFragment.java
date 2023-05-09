@@ -1,4 +1,4 @@
-package com.app.calorietracker.food;
+package com.app.calorietracker.ui.food.fragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment;
 
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,6 @@ import android.widget.EditText;
 import com.app.calorietracker.R;
 import com.app.calorietracker.database.AppDatabase;
 import com.app.calorietracker.database.foods.FoodItemEntity;
-import com.app.calorietracker.food.list.FoodItem;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -119,9 +117,9 @@ public class AddNewFoodFragment extends Fragment {
         // The order is the same as when forming inputFields list
         String name = inputFields.get(0).getText().toString();
         int cals = Integer.parseInt(inputFields.get(1).getText().toString());
-        int carbs = Integer.parseInt(inputFields.get(2).getText().toString());
-        int fat = Integer.parseInt(inputFields.get(3).getText().toString());
-        int protein = Integer.parseInt(inputFields.get(4).getText().toString());
+        float carbs = Float.parseFloat(inputFields.get(2).getText().toString());
+        float fat = Float.parseFloat(inputFields.get(3).getText().toString());
+        float protein = Float.parseFloat(inputFields.get(4).getText().toString());
     
         FoodItemEntity foodItemEntity = new FoodItemEntity();
         foodItemEntity.setName(name);

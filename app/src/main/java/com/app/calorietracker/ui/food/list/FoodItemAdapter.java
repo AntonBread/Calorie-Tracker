@@ -1,4 +1,4 @@
-package com.app.calorietracker.food.list;
+package com.app.calorietracker.ui.food.list;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -6,7 +6,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.transition.ChangeBounds;
 import android.transition.TransitionManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatCheckBox;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -33,8 +33,6 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
     private final Context context;
     private final Resources res;
     private final FoodSelectionManager foodSelectionManager;
-    
-    // TODO: add input watcher to portion size EditText
     
     public FoodItemAdapter(Context context, List<FoodItem> itemList, FoodSelectionManager foodSelectionManager) {
         this.itemList = itemList;
@@ -55,29 +53,52 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull FoodItemAdapter.ViewHolder holder, int position) {
         FoodItem foodItem = itemList.get(position);
-        foodItem.setSelected(foodSelectionManager.isSelected(foodItem));
+        boolean isSelected = foodSelectionManager.isSelected(foodItem);
+        foodItem.setSelected(isSelected);
+        if (isSelected) {
+            foodItem.setPortionSize(foodSelectionManager.getSelectedPortionSize(foodItem));
+        }
         holder.foodItem = foodItem;
         holder.foodSelectionManager = this.foodSelectionManager;
+        
         holder.nameView.setText(foodItem.getName());
-        holder.calsView.setText(String.format(res.getString(R.string.food_list_item_cals), foodItem.getKcal()));
-        holder.portionSizeView.setText(String.format(res.getString(R.string.food_list_item_portion_size), 100));
-        holder.carbsMassView.setText(String.format(res.getString(R.string.food_list_item_carbs), foodItem.getCarbs()));
-        holder.fatMassView.setText(String.format(res.getString(R.string.food_list_item_fat), foodItem.getFat()));
-        holder.proteinMassView.setText(String.format(res.getString(R.string.food_list_item_protein), foodItem.getProtein()));
+        holder.calsView.setText(String.format(res.getString(R.string.food_list_item_cals), foodItem.getKcalCurrent()));
+        holder.portionSizeView.setText(String.format(res.getString(R.string.food_list_item_portion_size), foodItem.getPortionSize()));
+        holder.carbsMassView.setText(String.format(res.getString(R.string.food_list_item_carbs), foodItem.getCarbsCurrent()));
+        holder.fatMassView.setText(String.format(res.getString(R.string.food_list_item_fat), foodItem.getFatCurrent()));
+        holder.proteinMassView.setText(String.format(res.getString(R.string.food_list_item_protein), foodItem.getProteinCurrent()));
         holder.carbsPctView.setText(String.format(res.getString(R.string.food_list_item_nutrient_pct), foodItem.getCarbsFraction()));
         holder.fatPctView.setText(String.format(res.getString(R.string.food_list_item_nutrient_pct), foodItem.getFatFraction()));
         holder.proteinPctView.setText(String.format(res.getString(R.string.food_list_item_nutrient_pct), foodItem.getProteinFraction()));
         holder.favoriteCheckView.setChecked(foodItem.isFavorite());
         holder.selectionCheckView.setChecked(foodItem.isSelected());
-        holder.portionInputView.setText(Integer.toString(foodItem.getPortionSize()));
-        ChartUtils.initNutrientPieChart(holder.nutrientChartView, foodItem.getCarbs(), foodItem.getFat(), foodItem.getProtein(), context);
+        // Don't set text on active EditText views
+        if (!holder.portionInputView.hasFocus()) {
+            holder.portionInputView.setText(Integer.toString(foodItem.getPortionSize()));
+        }
+        ChartUtils.initNutrientPieChart(holder.nutrientChartView, foodItem.getCarbsPer100g(), foodItem.getFatPer100g(), foodItem.getProteinPer100g(), context);
         
         holder.adapterNotificationInterface = new AdapterNotificationInterface() {
             @Override
-            public void notifyChangeAt(int pos) {
-                notifyItemChanged(pos);
+            public void notifyChangeAt(int pos, boolean isExpanded) {
+                notifyItemChanged(pos, isExpanded);
             }
         };
+    }
+    
+    @Override
+    public void onBindViewHolder(@NonNull FoodItemAdapter.ViewHolder holder, int position, @Nullable List<Object> payloads) {
+        onBindViewHolder(holder, position);
+        
+        if (payloads == null) return;
+        
+        try {
+            boolean isExpanded = (boolean) payloads.get(0);
+            if (isExpanded) {
+                holder.expandableView.setVisibility(View.VISIBLE);
+            }
+        }
+        catch (IndexOutOfBoundsException ignored){}
     }
     
     @Override
@@ -86,7 +107,7 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
     }
     
     interface AdapterNotificationInterface {
-        void notifyChangeAt(int pos);
+        void notifyChangeAt(int pos, boolean isExpanded);
     }
     
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -95,6 +116,8 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
         AdapterNotificationInterface adapterNotificationInterface;
         
         FoodSelectionManager foodSelectionManager;
+        
+        final View expandableView;
         
         final TextView nameView;
         final TextView calsView;
@@ -111,8 +134,11 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
         final AppCompatCheckBox favoriteCheckView;
         final AppCompatCheckBox selectionCheckView;
         
+        boolean isExpanded = false;
+        
         ViewHolder(View v) {
             super(v);
+            expandableView = v.findViewById(R.id.food_list_item_expandable);
             nameView = v.findViewById(R.id.food_list_item_name);
             calsView = v.findViewById(R.id.food_list_item_cals);
             portionSizeView = v.findViewById(R.id.food_list_item_portion_size);
@@ -135,17 +161,18 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
     
         View.OnClickListener expandViewListener = (v) -> {
             View expandableView = v.findViewById(R.id.food_list_item_expandable);
-            if (expandableView.getVisibility() == View.GONE) {
-                final ChangeBounds transition = new ChangeBounds();
+            final ChangeBounds transition = new ChangeBounds();
+            if (!isExpanded) {
                 transition.setDuration(400);
                 TransitionManager.beginDelayedTransition((ViewGroup) v, transition);
                 expandableView.setVisibility(View.VISIBLE);
+                isExpanded = true;
             }
             else {
-                final ChangeBounds transition = new ChangeBounds();
                 transition.setDuration(200);
                 TransitionManager.beginDelayedTransition((ViewGroup) v, transition);
                 expandableView.setVisibility(View.GONE);
+                isExpanded = false;
             }
         };
     
@@ -154,10 +181,10 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
             
             AppDatabase db = AppDatabase.getInstance();
             boolean success = FoodItemDatabaseManager.updateFavoriteCheck(db.foodItemDao(), foodItem.getId(), isChecked);
-            Log.d("DEBUG", Boolean.toString(success));
+            //Log.d("FAVORITE UPDATE SUCCESSFUL", Boolean.toString(success));
             if (success) {
                 foodItem.setFavorite(isChecked);
-                adapterNotificationInterface.notifyChangeAt(getAdapterPosition());
+                adapterNotificationInterface.notifyChangeAt(getAdapterPosition(), isExpanded);
             }
         };
     
@@ -165,7 +192,7 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
             if (!buttonView.isPressed()) return;    // Prevent false calls
             
             foodItem.setSelected(isChecked);
-            adapterNotificationInterface.notifyChangeAt(getAdapterPosition());
+            adapterNotificationInterface.notifyChangeAt(getAdapterPosition(), isExpanded);
             
             if (isChecked) {
                 foodSelectionManager.addItem(foodItem);
@@ -178,18 +205,27 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
     
         TextWatcher portionSizeInputWatcher = new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
         
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            
-            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
         
             @Override
             public void afterTextChanged(Editable s) {
-            
+                boolean isInFocus = portionInputView.hasFocus();
+                if (!isInFocus) return;     // prevent false calls
+                
+                int portionSize;
+                try {
+                    portionSize = Integer.parseInt(s.toString().trim());
+                }
+                catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    return;
+                }
+                foodItem.setPortionSize(portionSize);
+                foodSelectionManager.updateItemPortionSize(foodItem);
+                adapterNotificationInterface.notifyChangeAt(getAdapterPosition(), isExpanded);
             }
         };
     }
