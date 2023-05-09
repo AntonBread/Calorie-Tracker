@@ -1,5 +1,13 @@
 package com.app.calorietracker.ui.main;
 
+import android.app.DatePickerDialog;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.DatePicker;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -8,21 +16,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.AppCompatImageButton;
 
-import android.app.DatePickerDialog;
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.DatePicker;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-
 import com.app.calorietracker.R;
 import com.app.calorietracker.database.AppDatabase;
 import com.app.calorietracker.database.user.UserDiaryEntity;
 import com.app.calorietracker.ui.food.AddFoodActivity;
 import com.app.calorietracker.ui.food.FoodActivityIntentVars;
 import com.app.calorietracker.ui.food.list.FoodItem;
+import com.app.calorietracker.ui.settings.SettingsActivity;
+import com.app.calorietracker.ui.settings.SettingsManager;
 import com.app.calorietracker.utils.ChartUtils;
 import com.app.calorietracker.utils.DateUtils;
 import com.github.mikephil.charting.charts.PieChart;
@@ -34,24 +35,26 @@ import java.util.Arrays;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
-
 public class MainActivity extends AppCompatActivity {
     
     private LocalDate selectedDate;
-    private Locale locale;
+    private Locale decimalFormatLocale;
     
     private UserDiaryEntity currentEntry;
     
     private AppDatabase db;
     
-    private final int CALORIE_BASELINE = 2500;
-    private final float CARBS_BASELINE = 200.5f;
-    private final float FAT_BASELINE = 80.0f;
-    private final float PROTEIN_BASELINE = 150.0f;
-    private final int WATER_BASELINE = 3000;
-    private final int WATER_STEP = 100;
+    private int CALORIE_BASELINE;
+    private float CARBS_BASELINE;
+    private float FAT_BASELINE;
+    private float PROTEIN_BASELINE;
+    private int WATER_BASELINE;
+    private int WATER_STEP;
     
     
+    // Linter keeps saying "Cannot resolve symbol 'ActivityResultContracts'"
+    // but project builds and runs without a hitch
+    // okay, android studio
     ActivityResultLauncher<Intent> foodActivityLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
                 @Override
@@ -76,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);     // Force light theme
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        locale = new Locale("en");
+        decimalFormatLocale = Locale.US;
         
         try {
             db = AppDatabase.getInstance();
@@ -88,12 +91,42 @@ public class MainActivity extends AppCompatActivity {
             db = AppDatabase.getInstance();
         }
         
+        initSettings();
+        
         initDateSelector();
         
         initMealAddButtons();
         
-        BottomNavigationView bottomNav = findViewById(R.id.main_navbar);
-        bottomNav.setSelectedItemId(R.id.navigation_main);
+        initNavbar();
+    }
+    
+    private void initSettings() {
+        SettingsManager settingsManager = new SettingsManager(this);
+        CALORIE_BASELINE = settingsManager.getCalorieBaseline();
+        CARBS_BASELINE = settingsManager.getCarbsBaseline();
+        FAT_BASELINE = settingsManager.getFatBaseline();
+        PROTEIN_BASELINE = settingsManager.getProteinBaseline();
+        WATER_BASELINE = settingsManager.getWaterBaseline();
+        WATER_STEP = settingsManager.getWaterStep();
+        settingsManager.applyLocalePreference();
+    }
+    
+    private void initNavbar() {
+        BottomNavigationView navbar = findViewById(R.id.main_navbar);
+        navbar.setSelectedItemId(R.id.navigation_main);
+        navbar.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.navigation_settings) {
+                startActivity(new Intent(getBaseContext(), SettingsActivity.class));
+                return true;
+            }
+            else if (id == R.id.navigation_progress) {
+                return true;
+            }
+            else {
+                return true;
+            }
+        });
     }
     
     private void initMealAddButtons() {
@@ -135,7 +168,8 @@ public class MainActivity extends AppCompatActivity {
     
     private void initDateSelector(LocalDate date) {
         selectedDate = date;
-        DateUtils.init(getString(R.string.main_date_today), getString(R.string.main_date_yesterday), locale);
+        DateUtils.init(getString(R.string.main_date_today), getString(R.string.main_date_yesterday),
+                       decimalFormatLocale);
         updateDate();
         initDateButtons();
     }
@@ -216,14 +250,15 @@ public class MainActivity extends AppCompatActivity {
         
         TextView remaining = findViewById(R.id.main_cal_text_remaining);
         remaining.setText(
-                String.format(locale, getString(R.string.main_cal_remaining), (CALORIE_BASELINE - caloriesTotal)));
+                String.format(decimalFormatLocale, getString(R.string.main_cal_remaining),
+                              (CALORIE_BASELINE - caloriesTotal)));
         
         TextView consumed = findViewById(R.id.main_cal_text_consumed);
-        consumed.setText(String.format(locale, getString(R.string.main_cal_consumed), caloriesTotal));
+        consumed.setText(String.format(decimalFormatLocale, getString(R.string.main_cal_consumed), caloriesTotal));
         
         int pct = Math.round((float) caloriesTotal / CALORIE_BASELINE * 100);
         TextView percent = findViewById(R.id.main_cal_text_percentage);
-        percent.setText(String.format(locale, getString(R.string.main_cal_percentage), pct));
+        percent.setText(String.format(decimalFormatLocale, getString(R.string.main_cal_percentage), pct));
         
         ProgressBar progress = findViewById(R.id.main_cal_progress);
         progress.setProgress(Math.min(pct, progress.getMax()));
@@ -240,13 +275,15 @@ public class MainActivity extends AppCompatActivity {
         }
         
         TextView carbs = findViewById(R.id.main_nutrients_text_carbs);
-        carbs.setText(String.format(locale, getString(R.string.main_nutrients_carbs), carbs_g, CARBS_BASELINE));
+        carbs.setText(
+                String.format(decimalFormatLocale, getString(R.string.main_nutrients_carbs), carbs_g, CARBS_BASELINE));
         
         TextView fat = findViewById(R.id.main_nutrients_text_fat);
-        fat.setText(String.format(locale, getString(R.string.main_nutrients_fat), fat_g, FAT_BASELINE));
+        fat.setText(String.format(decimalFormatLocale, getString(R.string.main_nutrients_fat), fat_g, FAT_BASELINE));
         
         TextView protein = findViewById(R.id.main_nutrients_text_protein);
-        protein.setText(String.format(locale, getString(R.string.main_nutrients_protein), protein_g, PROTEIN_BASELINE));
+        protein.setText(String.format(decimalFormatLocale, getString(R.string.main_nutrients_protein), protein_g,
+                                      PROTEIN_BASELINE));
         
         PieChart chart = findViewById(R.id.main_nutrients_chart);
         ChartUtils.initNutrientPieChart(chart, carbs_g, fat_g, protein_g, this);
@@ -258,10 +295,14 @@ public class MainActivity extends AppCompatActivity {
         TextView dinnerCaloriesView = findViewById(R.id.main_dinner_cals);
         TextView otherCaloriesView = findViewById(R.id.main_snacks_cals);
         
-        breakfastCaloriesView.setText(String.format(getString(R.string.main_meal_cals), breakfast.getCals()));
-        lunchCaloriesView.setText(String.format(getString(R.string.main_meal_cals), lunch.getCals()));
-        dinnerCaloriesView.setText(String.format(getString(R.string.main_meal_cals), dinner.getCals()));
-        otherCaloriesView.setText(String.format(getString(R.string.main_meal_cals), other.getCals()));
+        breakfastCaloriesView.setText(
+                String.format(decimalFormatLocale, getString(R.string.main_meal_cals), breakfast.getCals()));
+        lunchCaloriesView.setText(
+                String.format(decimalFormatLocale, getString(R.string.main_meal_cals), lunch.getCals()));
+        dinnerCaloriesView.setText(
+                String.format(decimalFormatLocale, getString(R.string.main_meal_cals), dinner.getCals()));
+        otherCaloriesView.setText(
+                String.format(decimalFormatLocale, getString(R.string.main_meal_cals), other.getCals()));
     }
     
     private void updateWaterViews() {
@@ -273,7 +314,9 @@ public class MainActivity extends AppCompatActivity {
         int baseInteger = WATER_BASELINE / 1000;
         int baseFraction = WATER_BASELINE % 1000 / 100;
         progressText.setText(
-                String.format(locale, getString(R.string.main_water_consumption), waterInteger, waterFraction, baseInteger,
+                String.format(decimalFormatLocale, getString(R.string.main_water_consumption), waterInteger,
+                              waterFraction,
+                              baseInteger,
                               baseFraction));
         
         int pct = Math.round((float) currentEntry.getWater_ml() / WATER_BASELINE * 100);

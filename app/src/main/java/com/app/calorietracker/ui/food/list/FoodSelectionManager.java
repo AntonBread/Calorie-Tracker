@@ -1,15 +1,10 @@
 package com.app.calorietracker.ui.food.list;
 
-import android.util.Log;
-
 import com.app.calorietracker.database.AppDatabase;
 import com.app.calorietracker.database.foods.FoodItemEntity;
 import com.app.calorietracker.ui.food.AddFoodActivity;
 
-import org.checkerframework.checker.units.qual.A;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 
@@ -43,6 +38,7 @@ public class FoodSelectionManager {
         context.updateSelectionCount(getSelectionCount());
     }
     
+    @SuppressWarnings("ConstantConditions")
     public int getSelectedPortionSize(FoodItem foodItem) {
         long id = foodItem.getId();
         return selectionMap.get(id);
@@ -56,6 +52,7 @@ public class FoodSelectionManager {
         return selectionMap.size();
     }
     
+    @SuppressWarnings("ConstantConditions")
     public ArrayList<FoodItem> getSelectedFoodItems() {
         ArrayList<FoodItem> foods = new ArrayList<>(getSelectionCount());
         

@@ -54,8 +54,7 @@ public class AddNewFoodFragment extends Fragment {
             input.addTextChangedListener(inputTextWatcher);
         }
         
-        //saveButton.setOnClickListener(saveButtonListener);
-        saveButton.setOnClickListener(debugPopulateDb);
+        saveButton.setOnClickListener(saveButtonListener);
     }
     
     @Override

@@ -12,9 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CalorieTracker">
         <activity
+            android:name=".ui.settings.SettingsActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.food.AddFoodActivity"
             android:exported="false"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.main.MainActivity"
             android:exported="true"

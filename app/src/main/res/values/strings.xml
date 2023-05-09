@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Calorie Tracker</string>
-    <string name="sample">Sample Text</string>
+    <string name="sample" translatable="false">Sample Text</string>
 
-    <string name="placeholder_number">%d</string>
+    <string name="placeholder_number" translatable="false">%d</string>
 
     <!-- MAIN PAGE STRINGS -->
     <string name="main_date_today">Today</string>
@@ -44,10 +44,10 @@
 
     <string name="food_list_item_cals">%d kcal</string>
     <string name="food_list_item_portion_size">%d g</string>
-    <string name="food_list_item_nutrient_pct">%.1f%%</string>
+    <string name="food_list_item_nutrient_pct" translatable="false">%.1f%%</string>
+    <string name="food_list_item_protein">%.1f g\u000aprotein</string>
     <string name="food_list_item_carbs">%.1f g\u000acarbs</string>
     <string name="food_list_item_fat">%.1f g\u000afat</string>
-    <string name="food_list_item_protein">%.1f g\u000aprotein</string>
     <string name="food_list_item_portion_size_input_hint">Portion size…</string>
     <string name="food_list_item_portion_unit_g">g</string>
 
@@ -61,4 +61,21 @@
     <string name="food_new_protein_hint">Protein</string>
     <string name="food_new_check_add">Add item to current meal</string>
     <string name="food_new_btn_save">Save</string>
+
+    <!-- SETTINGS PAGE -->
+    <string name="settings_baselines_header">Baseline daily intakes</string>
+    <string name="settings_language_header">Language</string>
+
+    <string name="settings_calories_title">Calories (kcal)</string>
+    <string name="settings_carbs_title">Carbs (g)</string>
+    <string name="settings_fat_title">Fat (g)</string>
+    <string name="settings_protein_title">Protein (g)</string>
+    <string name="settings_water_title">Water (ml)</string>
+    <string name="settings_water_step_title">Water step (ml)</string>
+    <string name="settings_water_step_message">Amount of water added/subtracted on pressing +/- button on main page</string>
+
+    <string name="settings_lang_en" translatable="false">English</string>
+    <string name="settings_lang_ru" translatable="false">Русский</string>
+
+
 </resources>
