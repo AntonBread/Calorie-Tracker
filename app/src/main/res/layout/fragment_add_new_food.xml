@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="16dp"
-    tools:context=".food.AddNewFoodFragment"
-    tools:ignore="RtlHardcoded">
+    tools:context=".ui.food.fragments.AddNewFoodFragment"
+    tools:ignore="RtlHardcoded, ContentDescription">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
@@ -108,7 +108,7 @@
                 android:background="@drawable/back_text_input_dark"
                 android:hint="@string/food_new_carbs_hint"
                 android:importantForAutofill="no"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:paddingHorizontal="8dp"
                 android:paddingVertical="4dp"
                 android:textSize="18sp" />
@@ -130,7 +130,7 @@
                 android:background="@drawable/back_text_input_dark"
                 android:hint="@string/food_new_fat_hint"
                 android:importantForAutofill="no"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:paddingHorizontal="8dp"
                 android:paddingVertical="4dp"
                 android:textSize="18sp" />
@@ -152,7 +152,7 @@
                 android:background="@drawable/back_text_input_dark"
                 android:hint="@string/food_new_protein_hint"
                 android:importantForAutofill="no"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:paddingHorizontal="8dp"
                 android:paddingVertical="4dp"
                 android:textSize="18sp" />

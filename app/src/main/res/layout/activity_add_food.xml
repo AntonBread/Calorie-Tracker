@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".food.AddFoodActivity"
+    tools:context=".ui.food.AddFoodActivity"
     tools:ignore="RtlHardcoded">
 
     <androidx.appcompat.widget.AppCompatImageButton
@@ -26,13 +26,14 @@
         android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
         android:backgroundTint="@color/activity_background"
+        android:onClick="doneButtonListener"
         android:src="@drawable/btn_ok_48"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/food_text_selected_count"
-        android:layout_width="wrap_content"
+        android:layout_width="36dp"
         android:layout_height="48dp"
         android:layout_marginRight="8dp"
         android:gravity="center"
@@ -46,7 +47,7 @@
         android:id="@+id/food_text_meal_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/main_breakfast"
+        android:layout_marginLeft="44dp"
         android:textColor="@color/black"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@id/food_btn_cancel"

@@ -1,4 +1,4 @@
-package com.app.calorietracker.food;
+package com.app.calorietracker.ui.food.fragments;
 
 import android.os.Bundle;
 
@@ -10,16 +10,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.app.calorietracker.R;
-import com.app.calorietracker.food.list.FoodItem;
-import com.app.calorietracker.food.list.FoodItemAdapter;
+import com.app.calorietracker.ui.food.AddFoodActivity;
+import com.app.calorietracker.ui.food.list.FoodItem;
+import com.app.calorietracker.ui.food.list.FoodItemAdapter;
+import com.app.calorietracker.ui.food.list.FoodSelectionManager;
 
 import java.util.ArrayList;
 
-public class FavoriteFoodFragment extends Fragment {
+public class HistoryFoodFragment extends Fragment {
     
     ArrayList<FoodItem> foodItems = new ArrayList<>();
     
-    public FavoriteFoodFragment() {
+    public HistoryFoodFragment() {
         // Required empty public constructor
     }
     
@@ -31,12 +33,11 @@ public class FavoriteFoodFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-    
-        foodItems.add(new FoodItem("Apple Juice", 46, 11, 0, 0, true));
-        foodItems.add(new FoodItem("Macaroni", 157, 30, 1, 6, true));
-        foodItems.add(new FoodItem("Overnight oats with PB&J", 184, 24, 7, 7, true));
-        RecyclerView recyclerView = getView().findViewById(R.id.food_favorite_list);
-        FoodItemAdapter adapter = new FoodItemAdapter(getContext(), foodItems);
+        
+        FoodSelectionManager foodSelectionManager = ((AddFoodActivity) requireActivity()).getFoodSelectionManager();
+        
+        RecyclerView recyclerView = getView().findViewById(R.id.food_history_list);
+        FoodItemAdapter adapter = new FoodItemAdapter(getContext(), foodItems, foodSelectionManager);
         recyclerView.setAdapter(adapter);
     }
     
@@ -44,6 +45,6 @@ public class FavoriteFoodFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favorite_food, container, false);
+        return inflater.inflate(R.layout.fragment_history_food, container, false);
     }
 }

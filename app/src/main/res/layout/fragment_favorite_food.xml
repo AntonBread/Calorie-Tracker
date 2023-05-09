@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="16dp"
-    tools:context=".food.FavoriteFoodFragment">
+    tools:context=".ui.food.fragments.FavoriteFoodFragment">
 
     <!-- RecyclerView with height set to wrap_content doesn't properly
          scroll all the way down. Bottom padding of 260 dp was added to compensate

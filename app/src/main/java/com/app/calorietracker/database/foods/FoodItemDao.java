@@ -7,11 +7,11 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.app.calorietracker.food.list.FoodItem;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Dao
 public interface FoodItemDao {
@@ -29,6 +29,12 @@ public interface FoodItemDao {
     
     @Query("SELECT * FROM FOODS WHERE is_favorite = 1")
     ListenableFuture<List<FoodItemEntity>> getFavoriteFoods();
+    
+    @Query("SELECT * FROM FOODS WHERE id = :id")
+    ListenableFuture<FoodItemEntity> getFoodById(long id);
+    
+    @Query("SELECT * FROM FOODS WHERE id IN (:ids)")
+    ListenableFuture<List<FoodItemEntity>> getFoodsByIds(Set<Long> ids);
     
     
     // Non async methods, were used for testing

@@ -10,7 +10,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import com.app.calorietracker.database.AppDatabase;
 import com.app.calorietracker.database.foods.FoodItemEntity;
 import com.app.calorietracker.database.user.UserDiaryEntity;
-import com.app.calorietracker.food.list.FoodItem;
+import com.app.calorietracker.ui.food.list.FoodItem;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,21 +32,21 @@ public class DatabaseInstrumentedTest {
         assertEquals(item2.getName(), entity.getName());
         assertEquals(item.getName(), entity.getName());
         
-        assertEquals(item2.getKcal(), item.getKcal());
-        assertEquals(item2.getKcal(), entity.getKcal());
-        assertEquals(item.getKcal(), entity.getKcal());
+        assertEquals(item2.getKcalPer100g(), item.getKcalPer100g());
+        assertEquals(item2.getKcalPer100g(), entity.getKcal());
+        assertEquals(item.getKcalPer100g(), entity.getKcal());
         
-        assertEquals(item2.getCarbs(), item.getCarbs());
-        assertEquals(item2.getCarbs(), entity.getCarbs());
-        assertEquals(item.getCarbs(), entity.getCarbs());
+        assertEquals(item2.getCarbsPer100g(), item.getCarbsPer100g());
+        assertEquals(item2.getCarbsPer100g(), entity.getCarbs());
+        assertEquals(item.getCarbsPer100g(), entity.getCarbs());
         
-        assertEquals(item2.getFat(), item.getFat());
-        assertEquals(item2.getFat(), entity.getFat());
-        assertEquals(item.getFat(), entity.getFat());
+        assertEquals(item2.getFatPer100g(), item.getFatPer100g());
+        assertEquals(item2.getFatPer100g(), entity.getFat());
+        assertEquals(item.getFatPer100g(), entity.getFat());
         
-        assertEquals(item2.getProtein(), item.getProtein());
-        assertEquals(item2.getProtein(), entity.getProtein());
-        assertEquals(item.getProtein(), entity.getProtein());
+        assertEquals(item2.getProteinPer100g(), item.getProteinPer100g());
+        assertEquals(item2.getProteinPer100g(), entity.getProtein());
+        assertEquals(item.getProteinPer100g(), entity.getProtein());
         
         assertEquals(item2.isFavorite(), item.isFavorite());
         assertEquals(item2.isFavorite(), entity.isFavorite());
@@ -77,10 +77,10 @@ public class DatabaseInstrumentedTest {
             FoodItem item2 = diaryEntity2.getBreakfast().get(i);
             
             assertEquals(item1.getName(), item2.getName());
-            assertEquals(item1.getKcal(), item2.getKcal());
-            assertEquals(item1.getCarbs(), item2.getCarbs());
-            assertEquals(item1.getFat(), item2.getFat());
-            assertEquals(item1.getProtein(), item2.getProtein());
+            assertEquals(item1.getKcalPer100g(), item2.getKcalPer100g());
+            assertEquals(item1.getCarbsPer100g(), item2.getCarbsPer100g());
+            assertEquals(item1.getFatPer100g(), item2.getFatPer100g());
+            assertEquals(item1.getProteinPer100g(), item2.getProteinPer100g());
             assertEquals(item1.isFavorite(), item2.isFavorite());
         }
     }

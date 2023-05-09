@@ -1,0 +1,92 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:allowDividerAbove="true"
+    app:allowDividerBelow="true">
+
+    <PreferenceCategory
+        app:allowDividerAbove="true"
+        app:allowDividerBelow="true"
+        app:title="@string/settings_baselines_header">
+
+        <EditTextPreference
+            android:inputType="number"
+            app:allowDividerAbove="true"
+            app:allowDividerBelow="true"
+            app:defaultValue="2500"
+            app:icon="@drawable/ic_kcal_24"
+            app:key="calories"
+            app:title="@string/settings_calories_title"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            android:inputType="numberDecimal"
+            app:allowDividerAbove="true"
+            app:allowDividerBelow="true"
+            app:defaultValue="250"
+            app:icon="@drawable/ic_prefs_carbs_24"
+            app:key="carbs"
+            app:title="@string/settings_carbs_title"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            android:inputType="numberDecimal"
+            app:allowDividerAbove="true"
+            app:allowDividerBelow="true"
+            app:defaultValue="80"
+            app:icon="@drawable/ic_prefs_fat_24"
+            app:key="fat"
+            app:title="@string/settings_fat_title"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            android:inputType="numberDecimal"
+            app:allowDividerAbove="true"
+            app:allowDividerBelow="true"
+            app:defaultValue="175"
+            app:icon="@drawable/ic_prefs_protein_24"
+            app:key="protein"
+            app:title="@string/settings_protein_title"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            android:inputType="number"
+            app:allowDividerAbove="true"
+            app:allowDividerBelow="true"
+            app:defaultValue="2000"
+            app:icon="@drawable/ic_prefs_water_24"
+            app:key="water"
+            app:title="@string/settings_water_title"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            android:inputType="number"
+            app:allowDividerAbove="true"
+            app:allowDividerBelow="false"
+            app:defaultValue="200"
+            app:dialogMessage="@string/settings_water_step_message"
+            app:icon="@drawable/ic_prefs_water_24"
+            app:key="water_step"
+            app:title="@string/settings_water_step_title"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:allowDividerAbove="false"
+        app:allowDividerBelow="true"
+        app:title="@string/settings_language_header">
+
+        <ListPreference
+            app:allowDividerAbove="true"
+            app:allowDividerBelow="true"
+            app:defaultValue="en"
+            app:entries="@array/prefs_language_entries"
+            app:entryValues="@array/prefs_language_values"
+            app:icon="@drawable/ic_prefs_language_24"
+            app:key="language"
+            app:title="@string/settings_language_header"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
