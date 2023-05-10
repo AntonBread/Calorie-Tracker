@@ -1,5 +1,10 @@
 package com.app.calorietracker.utils;
 
+import android.content.Context;
+
+import com.app.calorietracker.R;
+import com.app.calorietracker.ui.settings.SettingsManager;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
@@ -12,13 +17,18 @@ public class DateUtils {
     private static String strYesterday;
     private static Locale locale;
     
-    public static void init(String today, String yesterday, Locale l) {
-        strToday = today;
-        strYesterday = yesterday;
-        locale = l;
+    public static void init(Context context) {
+        strToday = context.getString(R.string.main_date_today);
+        strYesterday = context.getString(R.string.main_date_yesterday);
+        locale = new SettingsManager(context).getLocale();
         
         dayOfWeekFmt = DateTimeFormatter.ofPattern("EEEE", locale);
-        monthDayFmt = DateTimeFormatter.ofPattern("MMMM d", locale);
+        if (locale.getLanguage().equals("ru")) {
+            monthDayFmt = DateTimeFormatter.ofPattern("d MMMM", locale);
+        }
+        else {
+            monthDayFmt = DateTimeFormatter.ofPattern("MMMM d", locale);
+        }
     }
     
     public static String getDateText(LocalDate date) {
@@ -43,7 +53,10 @@ public class DateUtils {
             prefix.append(strYesterday);
         }
         else {
-            prefix.append(date.format(dayOfWeekFmt));
+            // Append day of the week with first letter capitalized
+            String weekday = date.format(dayOfWeekFmt);
+            weekday = weekday.substring(0, 1).toUpperCase() + weekday.substring(1);
+            prefix.append(weekday);
         }
         prefix.append(", ");
         

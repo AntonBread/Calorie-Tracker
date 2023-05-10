@@ -37,8 +37,13 @@ import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
     
+    // TODO: food selection history
+    // TODO: add new food fragment checkbox logic
+    // TODO: food list adapter decimal formatting with dot (use locale.US)
+    // TODO: change EditTexts in SettingsActivity to only accept numbers
+    
     private LocalDate selectedDate;
-    private Locale decimalFormatLocale;
+    private final Locale decimalFormatLocale = Locale.US;   // Used to format decimal numbers with a dot
     
     private UserDiaryEntity currentEntry;
     
@@ -79,7 +84,6 @@ public class MainActivity extends AppCompatActivity {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);     // Force light theme
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        decimalFormatLocale = Locale.US;
         
         try {
             db = AppDatabase.getInstance();
@@ -168,8 +172,7 @@ public class MainActivity extends AppCompatActivity {
     
     private void initDateSelector(LocalDate date) {
         selectedDate = date;
-        DateUtils.init(getString(R.string.main_date_today), getString(R.string.main_date_yesterday),
-                       decimalFormatLocale);
+        DateUtils.init(this);
         updateDate();
         initDateButtons();
     }
