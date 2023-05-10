@@ -38,7 +38,6 @@ import java.util.concurrent.ExecutionException;
 public class MainActivity extends AppCompatActivity {
     
     // TODO: food selection history
-    // TODO: add new food fragment checkbox logic
     // TODO: food list adapter decimal formatting with dot (use locale.US)
     // TODO: change EditTexts in SettingsActivity to only accept numbers
     

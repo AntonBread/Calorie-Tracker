@@ -59,4 +59,19 @@
         <item name="android:textColor">@color/food_mode_button_text</item>
     </style>
 
+    <style name="addNewFood_EditText">
+        <item name="android:textSize">18sp</item>
+        <item name="android:background">@drawable/back_text_input_dark</item>
+        <item name="android:paddingVertical">4dp</item>
+        <item name="android:paddingHorizontal">8dp</item>
+        <item name="android:importantForAutofill">no</item>
+    </style>
+
+    <style name="addNewFood_EditText_Nutrient" parent="addNewFood_EditText">
+        <item name="android:layout_marginLeft">4dp</item>
+        <item name="android:layout_marginRight">8dp</item>
+        <item name="android:layout_weight">0.33</item>
+        <item name="android:inputType">numberDecimal</item>
+    </style>
+
 </resources>

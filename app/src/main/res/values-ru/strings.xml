@@ -52,4 +52,5 @@
     <string name="settings_water_title">Вода (мл)</string>
     <string name="settings_water_step_title">Вода шаг (мл)</string>
     <string name="settings_water_step_message">Объем воды, добавляемый или отнимаемый при нажатии кнопки + или - на главной странице</string>
+    <string name="food_new_save_fail">При сохранении произошла ошибка. Продукт не был сохранён.</string>
 </resources>
