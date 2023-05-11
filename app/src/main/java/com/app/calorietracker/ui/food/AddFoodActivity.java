@@ -2,10 +2,10 @@ package com.app.calorietracker.ui.food;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -18,13 +18,18 @@ import com.app.calorietracker.ui.food.fragments.AddNewFoodFragment;
 import com.app.calorietracker.ui.food.fragments.FavoriteFoodFragment;
 import com.app.calorietracker.ui.food.fragments.HistoryFoodFragment;
 import com.app.calorietracker.ui.food.fragments.SearchFoodFragment;
+import com.app.calorietracker.ui.food.list.FoodItem;
 import com.app.calorietracker.ui.food.list.FoodSelectionManager;
+import com.app.calorietracker.ui.food.list.SelectionHistoryCacheManager;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class AddFoodActivity extends AppCompatActivity {
     
     private FoodSelectionManager foodSelectionManager;
+    private SelectionHistoryCacheManager selectionHistoryCacheManager;
+    
     private TextView selectionCountView;
     private AppCompatImageButton doneButton;
     
@@ -41,6 +46,7 @@ public class AddFoodActivity extends AppCompatActivity {
         date = (LocalDate) getIntent().getExtras().get(FoodActivityIntentVars.DATE_KEY);
         
         foodSelectionManager = new FoodSelectionManager(this);
+        selectionHistoryCacheManager = new SelectionHistoryCacheManager(this);
         
         RadioGroup modeSelector = findViewById(R.id.food_mode_selector);
         modeSelector.setOnCheckedChangeListener(switchModeListener);
@@ -67,8 +73,16 @@ public class AddFoodActivity extends AppCompatActivity {
         Intent intent = new Intent();
         intent.putExtra(FoodActivityIntentVars.DATE_KEY, date);
         intent.putExtra(FoodActivityIntentVars.MEAL_TYPE_KEY, mealType);
-        intent.putExtra(FoodActivityIntentVars.FOOD_LIST_KEY, foodSelectionManager.getSelectedFoodItems());
+        
+        ArrayList<FoodItem> selectedFoods = foodSelectionManager.getSelectedFoodItems();
+        intent.putExtra(FoodActivityIntentVars.FOOD_LIST_KEY, selectedFoods);
         setResult(FoodActivityIntentVars.ADD_FOOD_DONE, intent);
+        
+        boolean selectionCacheSuccess = selectionHistoryCacheManager.addItemIDs(selectedFoods);
+        if (!selectionCacheSuccess) {
+            Toast.makeText(this, "", Toast.LENGTH_LONG).show();
+        }
+        
         finish();
     }
     
@@ -102,6 +116,10 @@ public class AddFoodActivity extends AppCompatActivity {
     
     public FoodSelectionManager getFoodSelectionManager() {
         return foodSelectionManager;
+    }
+    
+    public SelectionHistoryCacheManager getSelectionHistoryCacheManager() {
+        return selectionHistoryCacheManager;
     }
     
     public void updateSelectionCount(int count) {

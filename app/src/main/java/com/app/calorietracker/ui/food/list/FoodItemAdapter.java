@@ -25,6 +25,7 @@ import com.app.calorietracker.utils.ChartUtils;
 import com.github.mikephil.charting.charts.PieChart;
 
 import java.util.List;
+import java.util.Locale;
 
 public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHolder>{
     
@@ -33,6 +34,8 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
     private final Context context;
     private final Resources res;
     private final FoodSelectionManager foodSelectionManager;
+    
+    private final Locale decimalFormatLocale = Locale.US;
     
     public FoodItemAdapter(Context context, List<FoodItem> itemList, FoodSelectionManager foodSelectionManager) {
         this.itemList = itemList;
@@ -62,14 +65,14 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
         holder.foodSelectionManager = this.foodSelectionManager;
         
         holder.nameView.setText(foodItem.getName());
-        holder.calsView.setText(String.format(res.getString(R.string.food_list_item_cals), foodItem.getKcalCurrent()));
-        holder.portionSizeView.setText(String.format(res.getString(R.string.food_list_item_portion_size), foodItem.getPortionSize()));
-        holder.carbsMassView.setText(String.format(res.getString(R.string.food_list_item_carbs), foodItem.getCarbsCurrent()));
-        holder.fatMassView.setText(String.format(res.getString(R.string.food_list_item_fat), foodItem.getFatCurrent()));
-        holder.proteinMassView.setText(String.format(res.getString(R.string.food_list_item_protein), foodItem.getProteinCurrent()));
-        holder.carbsPctView.setText(String.format(res.getString(R.string.food_list_item_nutrient_pct), foodItem.getCarbsFraction()));
-        holder.fatPctView.setText(String.format(res.getString(R.string.food_list_item_nutrient_pct), foodItem.getFatFraction()));
-        holder.proteinPctView.setText(String.format(res.getString(R.string.food_list_item_nutrient_pct), foodItem.getProteinFraction()));
+        holder.calsView.setText(String.format(decimalFormatLocale, res.getString(R.string.food_list_item_cals), foodItem.getKcalCurrent()));
+        holder.portionSizeView.setText(String.format(decimalFormatLocale, res.getString(R.string.food_list_item_portion_size), foodItem.getPortionSize()));
+        holder.carbsMassView.setText(String.format(decimalFormatLocale, res.getString(R.string.food_list_item_carbs), foodItem.getCarbsCurrent()));
+        holder.fatMassView.setText(String.format(decimalFormatLocale, res.getString(R.string.food_list_item_fat), foodItem.getFatCurrent()));
+        holder.proteinMassView.setText(String.format(decimalFormatLocale, res.getString(R.string.food_list_item_protein), foodItem.getProteinCurrent()));
+        holder.carbsPctView.setText(String.format(decimalFormatLocale, res.getString(R.string.food_list_item_nutrient_pct), foodItem.getCarbsFraction()));
+        holder.fatPctView.setText(String.format(decimalFormatLocale, res.getString(R.string.food_list_item_nutrient_pct), foodItem.getFatFraction()));
+        holder.proteinPctView.setText(String.format(decimalFormatLocale, res.getString(R.string.food_list_item_nutrient_pct), foodItem.getProteinFraction()));
         holder.favoriteCheckView.setChecked(foodItem.isFavorite());
         holder.selectionCheckView.setChecked(foodItem.isSelected());
         // Don't set text on active EditText views

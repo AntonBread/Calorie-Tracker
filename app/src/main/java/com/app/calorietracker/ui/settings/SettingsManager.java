@@ -2,7 +2,6 @@ package com.app.calorietracker.ui.settings;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.os.LocaleListCompat;
@@ -50,10 +49,9 @@ public class SettingsManager {
     
     public void applyLocalePreference() {
         Locale locale = getLocale();
-    
+        
         LocaleListCompat appLocale = LocaleListCompat.create(locale);
         AppCompatDelegate.setApplicationLocales(appLocale);
     }
-    
     
 }

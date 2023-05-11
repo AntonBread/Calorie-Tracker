@@ -38,7 +38,7 @@ import java.util.concurrent.ExecutionException;
 public class MainActivity extends AppCompatActivity {
     
     private LocalDate selectedDate;
-    private Locale decimalFormatLocale;
+    private final Locale decimalFormatLocale = Locale.US;   // Used to format decimal numbers with a dot
     
     private UserDiaryEntity currentEntry;
     
@@ -79,13 +79,12 @@ public class MainActivity extends AppCompatActivity {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);     // Force light theme
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        decimalFormatLocale = Locale.US;
         
         try {
             db = AppDatabase.getInstance();
         }
         catch (NullPointerException e) {
-            AppDatabase.instanceInit(getApplicationContext(), AppDatabase.MODE_IN_MEMORY);
+            AppDatabase.instanceInit(getApplicationContext(), AppDatabase.MODE_STANDARD);
         }
         finally {
             db = AppDatabase.getInstance();
@@ -168,8 +167,7 @@ public class MainActivity extends AppCompatActivity {
     
     private void initDateSelector(LocalDate date) {
         selectedDate = date;
-        DateUtils.init(getString(R.string.main_date_today), getString(R.string.main_date_yesterday),
-                       decimalFormatLocale);
+        DateUtils.init(this);
         updateDate();
         initDateButtons();
     }

@@ -42,6 +42,8 @@
     <string name="food_mode_favorite">Favorite</string>
     <string name="food_mode_add">Add</string>
 
+    <string name="food_history_add_fail">Error! Foods were not added to selection history.</string>
+
     <string name="food_list_item_cals">%d kcal</string>
     <string name="food_list_item_portion_size">%d g</string>
     <string name="food_list_item_nutrient_pct" translatable="false">%.1f%%</string>
@@ -61,6 +63,7 @@
     <string name="food_new_protein_hint">Protein</string>
     <string name="food_new_check_add">Add item to current meal</string>
     <string name="food_new_btn_save">Save</string>
+    <string name="food_new_save_fail">An error occurred during saving. Item was not saved.</string>
 
     <!-- SETTINGS PAGE -->
     <string name="settings_baselines_header">Baseline daily intakes</string>

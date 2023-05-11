@@ -11,18 +11,18 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class SelectionHistoryCacheManager {
-    private final Context context;
     private static final String HISTORY_CACHE_FILE_NAME = "history";
     // Cache file stores up to HISTORY_CACHE_LIMIT IDs of previously selected items
     private final File cacheFile;
     
-    private final int HISTORY_CACHE_LIMIT = 5;
+    public static final int HISTORY_CACHE_LIMIT = 10;
     
     public SelectionHistoryCacheManager(Context context) {
-        this.context = context;
         String filePath = context.getCacheDir().getAbsolutePath();
         this.cacheFile = new File(filePath, HISTORY_CACHE_FILE_NAME);
     }
@@ -39,21 +39,22 @@ public class SelectionHistoryCacheManager {
         }
     }
     
+    // LinkedHashSet implementation is used exclusively
+    // in order to keep insertion order
     public boolean addItemIDs(ArrayList<FoodItem> foodItems) {
         if (!createFile()) return false;
         
-        ArrayList<String> newIDs = foodItems.stream().map(FoodItem::getId)
+        Set<String> newIDs = foodItems.stream().map(FoodItem::getId)
                                             .map(id -> Long.toString(id))
-                                            .collect(Collectors.toCollection(ArrayList::new));
+                                            .collect(Collectors.toCollection(LinkedHashSet::new));
         
         try {
-            ArrayList<String> currentIDs = getItemIds();
-            if ((currentIDs.size() + newIDs.size()) > HISTORY_CACHE_LIMIT) {
-                handleAddOverflow(currentIDs, newIDs);
+            Set<String> currentIDs = getCurrentItemIds();
+            Set<String> ids = mergeIdSets(newIDs, currentIDs);
+            if (ids.size() > HISTORY_CACHE_LIMIT) {
+                ids = trimSetToLimit(ids);
             }
-            else {
-                handleAddDefault(newIDs);
-            }
+            handleAdd(ids);
             return true;
         }
         catch (IOException e) {
@@ -62,52 +63,43 @@ public class SelectionHistoryCacheManager {
         }
     }
     
-    private ArrayList<String> getItemIds() throws IOException {
+    private Set<String> getCurrentItemIds() throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(cacheFile));
-        ArrayList<String> ids = reader.lines().collect(Collectors.toCollection(ArrayList::new));
+        Set<String> ids = reader.lines().collect(Collectors.toCollection(LinkedHashSet::new));
         reader.close();
         return ids;
     }
     
-    private void handleAddOverflow(ArrayList<String> currentIDs, ArrayList<String> newIDs) throws IOException {
-        int newCount = newIDs.size();
-        BufferedWriter writer = new BufferedWriter(new FileWriter(cacheFile));
-        
-        for (int i = newCount; i < HISTORY_CACHE_LIMIT; i++) {
-            writer.append(currentIDs.get(i));
-            writer.newLine();
-        }
-        
-        // If amount of new IDs exceeds the limit,
-        // first few elements are trimmed so that the size
-        // of list is exactly HISTORY_CACHE_LIMIT
-        if (newCount > HISTORY_CACHE_LIMIT) {
-            int diff = HISTORY_CACHE_LIMIT - newCount;
-            newIDs = (ArrayList<String>) newIDs.subList(diff, newIDs.size());
-        }
-        for (String newID : newIDs) {
-            writer.append(newID);
-            writer.newLine();
-        }
-        writer.close();
+    private Set<String> mergeIdSets(Set<String> newIDs, Set<String> currentIDs) {
+        Set<String> ids = new LinkedHashSet<>(HISTORY_CACHE_LIMIT);
+        ids.addAll(currentIDs);
+        ids.addAll(newIDs);
+        return ids;
     }
     
-    private void handleAddDefault(ArrayList<String> newIDs) throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter(cacheFile, true));
-        for (String newID : newIDs) {
-            writer.append(newID);
+    private Set<String> trimSetToLimit(Set<String> ids) {
+        // Since currentIDs were added to the set first,
+        // only last selected food ids will be skipped
+        int diff = ids.size() - HISTORY_CACHE_LIMIT;
+        return ids.stream().skip(diff).collect(Collectors.toCollection(LinkedHashSet::new));
+    }
+    
+    private void handleAdd(Set<String> ids) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(cacheFile));
+        for (String id : ids) {
+            writer.append(id);
             writer.newLine();
         }
         writer.close();
     }
     
     @Nullable
-    public ArrayList<Long> getIDs() {
+    public Set<Long> getIDs() {
         if (!createFile()) return null;
         
         try {
             BufferedReader reader = new BufferedReader(new FileReader(cacheFile));
-            ArrayList<Long> IDs = reader.lines().map(Long::parseLong).collect(Collectors.toCollection(ArrayList::new));
+            Set<Long> IDs = reader.lines().map(Long::parseLong).collect(Collectors.toCollection(LinkedHashSet::new));
             reader.close();
             return IDs;
         }
@@ -115,6 +107,11 @@ public class SelectionHistoryCacheManager {
             e.printStackTrace();
             return null;
         }
+    }
+    
+    public void clearFile() {
+        cacheFile.delete();
+        createFile();
     }
     
 }

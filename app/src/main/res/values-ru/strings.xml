@@ -29,9 +29,9 @@
     <string name="food_mode_add">Добавить</string>
     <string name="food_list_item_cals">%d ккал</string>
     <string name="food_list_item_portion_size">%d г</string>
-    <string name="food_list_item_carbs">%.1f g\u000aуглеводы</string>
-    <string name="food_list_item_fat">%.1f g\u000aжиры</string>
-    <string name="food_list_item_protein">%.1f g\u000aбелки</string>
+    <string name="food_list_item_carbs">%.1f г\u000aуглеводы</string>
+    <string name="food_list_item_fat">%.1f г\u000aжиры</string>
+    <string name="food_list_item_protein">%.1f г\u000aбелки</string>
     <string name="food_list_item_portion_size_input_hint">Размер порции…</string>
     <string name="food_list_item_portion_unit_g">г</string>
     <string name="food_search_query_hint">Поиск…</string>
@@ -52,4 +52,6 @@
     <string name="settings_water_title">Вода (мл)</string>
     <string name="settings_water_step_title">Вода шаг (мл)</string>
     <string name="settings_water_step_message">Объем воды, добавляемый или отнимаемый при нажатии кнопки + или - на главной странице</string>
+    <string name="food_new_save_fail">При сохранении произошла ошибка. Продукт не был сохранён.</string>
+    <string name="food_history_add_fail">Ошибка! Продукты не были добавлены в историю выбора.</string>
 </resources>

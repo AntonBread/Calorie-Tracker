@@ -9,7 +9,6 @@ import androidx.room.Update;
 
 import com.google.common.util.concurrent.ListenableFuture;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 

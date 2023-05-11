@@ -2,23 +2,17 @@ package com.app.calorietracker.ui.settings;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.os.LocaleListCompat;
-import androidx.preference.EditTextPreference;
-import androidx.preference.ListPreference;
-import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
 import com.app.calorietracker.R;
 import com.app.calorietracker.ui.main.MainActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.util.Arrays;
 import java.util.Locale;
 
 public class SettingsActivity extends AppCompatActivity {

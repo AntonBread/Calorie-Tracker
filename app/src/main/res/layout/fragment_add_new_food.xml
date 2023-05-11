@@ -100,18 +100,10 @@
 
             <EditText
                 android:id="@+id/food_new_carbs"
+                style="@style/addNewFood_EditText_Nutrient"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="8dp"
-                android:layout_weight="0.33"
-                android:background="@drawable/back_text_input_dark"
-                android:hint="@string/food_new_carbs_hint"
-                android:importantForAutofill="no"
-                android:inputType="numberDecimal"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="4dp"
-                android:textSize="18sp" />
+                android:hint="@string/food_new_carbs_hint" />
 
             <ImageView
                 android:layout_width="16dp"
@@ -122,18 +114,10 @@
 
             <EditText
                 android:id="@+id/food_new_fat"
+                style="@style/addNewFood_EditText_Nutrient"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="8dp"
-                android:layout_weight="0.33"
-                android:background="@drawable/back_text_input_dark"
-                android:hint="@string/food_new_fat_hint"
-                android:importantForAutofill="no"
-                android:inputType="numberDecimal"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="4dp"
-                android:textSize="18sp" />
+                android:hint="@string/food_new_fat_hint" />
 
             <ImageView
                 android:layout_width="16dp"
@@ -144,33 +128,53 @@
 
             <EditText
                 android:id="@+id/food_new_protein"
+                style="@style/addNewFood_EditText_Nutrient"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="8dp"
-                android:layout_weight="0.33"
-                android:background="@drawable/back_text_input_dark"
-                android:hint="@string/food_new_protein_hint"
-                android:importantForAutofill="no"
-                android:inputType="numberDecimal"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="4dp"
-                android:textSize="18sp" />
+                android:hint="@string/food_new_protein_hint" />
 
         </LinearLayout>
+
+        <EditText
+            android:id="@+id/food_new_portion_size"
+            style="@style/addNewFood_EditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="24dp"
+            android:enabled="false"
+            android:hint="@string/food_list_item_portion_size_input_hint"
+            android:inputType="number"
+            android:visibility="gone"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/food_new_nutrient_input_container"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.5" />
+
+        <TextView
+            android:id="@+id/food_new_portion_size_unit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:text="@string/food_list_item_portion_unit_g"
+            android:textSize="18sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/food_new_portion_size"
+            app:layout_constraintLeft_toRightOf="@id/food_new_portion_size"
+            app:layout_constraintTop_toTopOf="@id/food_new_portion_size" />
 
         <androidx.appcompat.widget.AppCompatCheckBox
             android:id="@+id/food_new_check_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="24dp"
             android:buttonTint="@color/checkbox_default"
             android:enabled="false"
             android:text="@string/food_new_check_add"
             android:textSize="16sp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/food_new_nutrient_input_container" />
+            app:layout_constraintTop_toBottomOf="@id/food_new_portion_size" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/food_new_btn_save"
