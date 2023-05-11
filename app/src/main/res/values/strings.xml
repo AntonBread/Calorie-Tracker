@@ -42,6 +42,8 @@
     <string name="food_mode_favorite">Favorite</string>
     <string name="food_mode_add">Add</string>
 
+    <string name="food_history_add_fail">Error! Foods were not added to selection history.</string>
+
     <string name="food_list_item_cals">%d kcal</string>
     <string name="food_list_item_portion_size">%d g</string>
     <string name="food_list_item_nutrient_pct" translatable="false">%.1f%%</string>

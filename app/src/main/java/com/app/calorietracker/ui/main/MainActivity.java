@@ -37,10 +37,6 @@ import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
     
-    // TODO: food selection history
-    // TODO: food list adapter decimal formatting with dot (use locale.US)
-    // TODO: change EditTexts in SettingsActivity to only accept numbers
-    
     private LocalDate selectedDate;
     private final Locale decimalFormatLocale = Locale.US;   // Used to format decimal numbers with a dot
     
@@ -88,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
             db = AppDatabase.getInstance();
         }
         catch (NullPointerException e) {
-            AppDatabase.instanceInit(getApplicationContext(), AppDatabase.MODE_IN_MEMORY);
+            AppDatabase.instanceInit(getApplicationContext(), AppDatabase.MODE_STANDARD);
         }
         finally {
             db = AppDatabase.getInstance();
