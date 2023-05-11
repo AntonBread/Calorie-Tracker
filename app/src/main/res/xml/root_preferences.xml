@@ -1,5 +1,4 @@
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
     app:allowDividerAbove="true"
     app:allowDividerBelow="true">
 
@@ -9,60 +8,60 @@
         app:title="@string/settings_baselines_header">
 
         <EditTextPreference
-            android:inputType="number"
             app:allowDividerAbove="true"
             app:allowDividerBelow="true"
             app:defaultValue="2500"
+            app:dialogLayout="@layout/dialog_preference_edit_text_number"
             app:icon="@drawable/ic_kcal_24"
             app:key="calories"
             app:title="@string/settings_calories_title"
             app:useSimpleSummaryProvider="true" />
 
         <EditTextPreference
-            android:inputType="numberDecimal"
             app:allowDividerAbove="true"
             app:allowDividerBelow="true"
             app:defaultValue="250"
+            app:dialogLayout="@layout/dialog_preference_edit_text_number_decimal"
             app:icon="@drawable/ic_prefs_carbs_24"
             app:key="carbs"
             app:title="@string/settings_carbs_title"
             app:useSimpleSummaryProvider="true" />
 
         <EditTextPreference
-            android:inputType="numberDecimal"
             app:allowDividerAbove="true"
             app:allowDividerBelow="true"
             app:defaultValue="80"
+            app:dialogLayout="@layout/dialog_preference_edit_text_number_decimal"
             app:icon="@drawable/ic_prefs_fat_24"
             app:key="fat"
             app:title="@string/settings_fat_title"
             app:useSimpleSummaryProvider="true" />
 
         <EditTextPreference
-            android:inputType="numberDecimal"
             app:allowDividerAbove="true"
             app:allowDividerBelow="true"
             app:defaultValue="175"
+            app:dialogLayout="@layout/dialog_preference_edit_text_number_decimal"
             app:icon="@drawable/ic_prefs_protein_24"
             app:key="protein"
             app:title="@string/settings_protein_title"
             app:useSimpleSummaryProvider="true" />
 
         <EditTextPreference
-            android:inputType="number"
             app:allowDividerAbove="true"
             app:allowDividerBelow="true"
             app:defaultValue="2000"
+            app:dialogLayout="@layout/dialog_preference_edit_text_number"
             app:icon="@drawable/ic_prefs_water_24"
             app:key="water"
             app:title="@string/settings_water_title"
             app:useSimpleSummaryProvider="true" />
 
         <EditTextPreference
-            android:inputType="number"
             app:allowDividerAbove="true"
             app:allowDividerBelow="false"
             app:defaultValue="200"
+            app:dialogLayout="@layout/dialog_preference_edit_text_number"
             app:dialogMessage="@string/settings_water_step_message"
             app:icon="@drawable/ic_prefs_water_24"
             app:key="water_step"
