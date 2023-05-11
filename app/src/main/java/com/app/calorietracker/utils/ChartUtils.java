@@ -1,11 +1,9 @@
 package com.app.calorietracker.utils;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Color;
 
 import com.app.calorietracker.R;
-import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
