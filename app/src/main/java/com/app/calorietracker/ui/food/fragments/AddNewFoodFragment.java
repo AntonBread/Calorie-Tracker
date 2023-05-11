@@ -175,7 +175,14 @@ public class AddNewFoodFragment extends Fragment {
     private void addFoodItemAsSelected(long id) throws ExecutionException, InterruptedException {
         FoodItemEntity entity = AppDatabase.getInstance().foodItemDao().getFoodById(id).get();
         FoodItem foodItem = new FoodItem(entity);
-        int portionSize = Integer.parseInt(portionSizeInput.getText().toString());
+        int portionSize;
+        try {
+            portionSize = Integer.parseInt(portionSizeInput.getText().toString());
+        }
+        catch (NumberFormatException e) {
+            // If portion size was not provided by user, default it to 100g
+            portionSize = 100;
+        }
         foodItem.setPortionSize(portionSize);
         foodSelectionManager.addItem(foodItem);
     }
