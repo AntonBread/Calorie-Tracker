@@ -335,8 +335,14 @@ public class MainActivity extends AppCompatActivity {
     }
     
     private void updateDatabaseEntry() {
-        db.userDiaryDao().update(currentEntry);
-        updateActivityDataViews();
+        try {
+            int updatedCount = db.userDiaryDao().update(currentEntry).get();
+            assert updatedCount == 1;
+            updateActivityDataViews();
+        }
+        catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
     }
     
     private void updateMealData(ArrayList<FoodItem> foods, FoodActivityIntentVars.MealType mealType) {

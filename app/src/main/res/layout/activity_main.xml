@@ -503,8 +503,8 @@
                     <androidx.appcompat.widget.AppCompatImageButton
                         android:id="@+id/main_btn_water_sub"
                         style="@style/Button_Main_Add_Food"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:layout_marginRight="0dp"
                         android:backgroundTint="@color/water_dark"
                         android:foreground="@drawable/btn_remove_fore"
@@ -513,9 +513,9 @@
                     <androidx.appcompat.widget.AppCompatImageButton
                         android:id="@+id/main_btn_water_add"
                         style="@style/Button_Main_Add_Food"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:layout_marginLeft="16dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="20dp"
                         android:layout_marginRight="0dp"
                         android:backgroundTint="@color/water_dark"
                         android:onClick="incrementWaterProgress" />
