@@ -64,7 +64,7 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
         holder.foodItem = foodItem;
         holder.foodSelectionManager = this.foodSelectionManager;
         
-        holder.nameView.setText(foodItem.getName());
+        holder.nameView.setText(holder.trimItemName(foodItem.getName()));
         holder.calsView.setText(String.format(decimalFormatLocale, res.getString(R.string.food_list_item_cals), foodItem.getKcalCurrent()));
         holder.portionSizeView.setText(String.format(decimalFormatLocale, res.getString(R.string.food_list_item_portion_size), foodItem.getPortionSize()));
         holder.carbsMassView.setText(String.format(decimalFormatLocale, res.getString(R.string.food_list_item_carbs), foodItem.getCarbsCurrent()));
@@ -99,6 +99,7 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
             boolean isExpanded = (boolean) payloads.get(0);
             if (isExpanded) {
                 holder.expandableView.setVisibility(View.VISIBLE);
+                holder.nameView.setText(holder.foodItem.getName());
             }
         }
         catch (IndexOutOfBoundsException ignored){}
@@ -164,18 +165,21 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
     
         View.OnClickListener expandViewListener = (v) -> {
             View expandableView = v.findViewById(R.id.food_list_item_expandable);
+            TextView nameView = v.findViewById(R.id.food_list_item_name);
             final ChangeBounds transition = new ChangeBounds();
             if (!isExpanded) {
                 transition.setDuration(400);
                 TransitionManager.beginDelayedTransition((ViewGroup) v, transition);
                 expandableView.setVisibility(View.VISIBLE);
                 isExpanded = true;
+                nameView.setText(foodItem.getName());
             }
             else {
                 transition.setDuration(200);
                 TransitionManager.beginDelayedTransition((ViewGroup) v, transition);
                 expandableView.setVisibility(View.GONE);
                 isExpanded = false;
+                nameView.setText(trimItemName(foodItem.getName()));
             }
         };
     
@@ -231,6 +235,12 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
                 adapterNotificationInterface.notifyChangeAt(getAdapterPosition(), isExpanded);
             }
         };
+    
+        public String trimItemName(String name) {
+            if (name.length() < 25) return name;
+        
+            return name.substring(0, 25).concat("…");
+        }
     }
     
 }
