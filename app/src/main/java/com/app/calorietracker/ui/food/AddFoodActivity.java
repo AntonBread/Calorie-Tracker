@@ -56,11 +56,7 @@ public class AddFoodActivity extends AppCompatActivity {
         doneButton = findViewById(R.id.food_btn_done);
         
         setTitleText();
-    }
     
-    @Override
-    public void onStart() {
-        super.onStart();
         updateSelectionCount(0);    // init selection count with zero
     }
     
@@ -80,7 +76,7 @@ public class AddFoodActivity extends AppCompatActivity {
         
         boolean selectionCacheSuccess = selectionHistoryCacheManager.addItemIDs(selectedFoods);
         if (!selectionCacheSuccess) {
-            Toast.makeText(this, "", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.food_history_add_fail, Toast.LENGTH_LONG).show();
         }
         
         finish();

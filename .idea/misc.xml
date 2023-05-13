@@ -47,12 +47,13 @@
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/layout/activity_add_food.xml" value="0.67" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/layout/activity_main.xml" value="0.48922863099374564" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/layout/dialog_preference_edit_text.xml" value="0.3188405797101449" />
-        <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/layout/dialog_preference_edit_text_number_decimal.xml" value="0.3188405797101449" />
+        <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/layout/dialog_preference_edit_text_number.xml" value="0.3374094202898551" />
+        <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/layout/dialog_preference_edit_text_number_decimal.xml" value="0.75" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/layout/fragment_add_new_food.xml" value="0.67" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/layout/fragment_favorite_food.xml" value="0.35260416666666666" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/layout/fragment_history_food.xml" value="0.36666666666666664" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/layout/fragment_search_food.xml" value="0.5" />
-        <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/layout/list_food_item.xml" value="0.8476394849785408" />
+        <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/layout/list_food_item.xml" value="0.5" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/layout/settings_activity.xml" value="0.3319746376811594" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/menu/navbar_items.xml" value="0.36666666666666664" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/xml/root_preferences.xml" value="0.33" />

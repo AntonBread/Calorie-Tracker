@@ -37,6 +37,10 @@ import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
     
+    // TODO: stop UI lag in AddFoodActivity
+    // TODO: remake main page nutrient chart to 3 vertical bars
+    // TODO: make selected list visible in AddFoodActivity
+    
     private LocalDate selectedDate;
     private final Locale decimalFormatLocale = Locale.US;   // Used to format decimal numbers with a dot
     
@@ -246,20 +250,21 @@ public class MainActivity extends AppCompatActivity {
     private void updateCalorieViews(MealData[] meals) {
         int caloriesTotal = Arrays.stream(meals).mapToInt(MealData::getCals).sum();
         
-        TextView remaining = findViewById(R.id.main_cal_text_remaining);
-        remaining.setText(
-                String.format(decimalFormatLocale, getString(R.string.main_cal_remaining),
-                              (CALORIE_BASELINE - caloriesTotal)));
+        TextView remainingView = findViewById(R.id.main_cal_text_remaining);
+        // Display 0 instead of negative number when calorie consumption is over baseline
+        int remainingCals = Math.max((CALORIE_BASELINE - caloriesTotal), 0);
+        remainingView.setText(
+                String.format(decimalFormatLocale, getString(R.string.main_cal_remaining), remainingCals));
         
-        TextView consumed = findViewById(R.id.main_cal_text_consumed);
-        consumed.setText(String.format(decimalFormatLocale, getString(R.string.main_cal_consumed), caloriesTotal));
+        TextView consumedView = findViewById(R.id.main_cal_text_consumed);
+        consumedView.setText(String.format(decimalFormatLocale, getString(R.string.main_cal_consumed), caloriesTotal));
         
         int pct = Math.round((float) caloriesTotal / CALORIE_BASELINE * 100);
-        TextView percent = findViewById(R.id.main_cal_text_percentage);
-        percent.setText(String.format(decimalFormatLocale, getString(R.string.main_cal_percentage), pct));
+        TextView percentView = findViewById(R.id.main_cal_text_percentage);
+        percentView.setText(String.format(decimalFormatLocale, getString(R.string.main_cal_percentage), pct));
         
-        ProgressBar progress = findViewById(R.id.main_cal_progress);
-        progress.setProgress(Math.min(pct, progress.getMax()));
+        ProgressBar progressBar = findViewById(R.id.main_cal_progress);
+        progressBar.setProgress(Math.min(pct, progressBar.getMax()));
     }
     
     private void updateNutrientViews(MealData[] meals) {
@@ -272,15 +277,15 @@ public class MainActivity extends AppCompatActivity {
             protein_g += m.getProtein_g();
         }
         
-        TextView carbs = findViewById(R.id.main_nutrients_text_carbs);
-        carbs.setText(
+        TextView carbsView = findViewById(R.id.main_nutrients_text_carbs);
+        carbsView.setText(
                 String.format(decimalFormatLocale, getString(R.string.main_nutrients_carbs), carbs_g, CARBS_BASELINE));
         
-        TextView fat = findViewById(R.id.main_nutrients_text_fat);
-        fat.setText(String.format(decimalFormatLocale, getString(R.string.main_nutrients_fat), fat_g, FAT_BASELINE));
+        TextView fatView = findViewById(R.id.main_nutrients_text_fat);
+        fatView.setText(String.format(decimalFormatLocale, getString(R.string.main_nutrients_fat), fat_g, FAT_BASELINE));
         
-        TextView protein = findViewById(R.id.main_nutrients_text_protein);
-        protein.setText(String.format(decimalFormatLocale, getString(R.string.main_nutrients_protein), protein_g,
+        TextView proteinView = findViewById(R.id.main_nutrients_text_protein);
+        proteinView.setText(String.format(decimalFormatLocale, getString(R.string.main_nutrients_protein), protein_g,
                                       PROTEIN_BASELINE));
         
         PieChart chart = findViewById(R.id.main_nutrients_chart);
