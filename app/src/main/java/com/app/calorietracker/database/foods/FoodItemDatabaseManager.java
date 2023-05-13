@@ -1,9 +1,12 @@
 package com.app.calorietracker.database.foods;
 
+import androidx.annotation.Nullable;
+
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class FoodItemDatabaseManager {
+    @Nullable
     public static List<FoodItemEntity> getListFromSearchQuery(FoodItemDao dao, String query) {
         try {
             List<FoodItemEntity> foodItemEntities = dao.getFoodsByName(query).get();
@@ -18,6 +21,7 @@ public class FoodItemDatabaseManager {
         }
     }
     
+    @Nullable
     public static List<FoodItemEntity> getFavoriteFoodsList(FoodItemDao dao) {
         try {
             List<FoodItemEntity> foodItemEntities = dao.getFavoriteFoods().get();

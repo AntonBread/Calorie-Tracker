@@ -60,6 +60,7 @@ public class FavoriteFoodFragment extends Fragment {
         if (entities == null) {
             return;
         }
+        foodItems.clear();
         for (FoodItemEntity entity : entities) {
             foodItems.add(new FoodItem(entity));
         }

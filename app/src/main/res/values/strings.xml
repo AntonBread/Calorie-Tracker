@@ -74,7 +74,7 @@
     <string name="settings_fat_title">Fat (g)</string>
     <string name="settings_protein_title">Protein (g)</string>
     <string name="settings_water_title">Water (ml)</string>
-    <string name="settings_water_step_title">Water step (ml)</string>
+    <string name="settings_water_step_title">Cup size (ml)</string>
     <string name="settings_water_step_message">Amount of water added/subtracted on pressing +/- button on main page</string>
 
     <string name="settings_lang_en" translatable="false">English</string>

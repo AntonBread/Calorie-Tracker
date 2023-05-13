@@ -64,6 +64,7 @@ public class HistoryFoodFragment extends Fragment {
         try {
             List<FoodItemEntity> entities = AppDatabase.getInstance().foodItemDao().getFoodsByIds(ids).get();
             if (entities == null) return;
+            foodItems.clear();
             for (FoodItemEntity entity : entities) {
                 foodItems.add(new FoodItem(entity));
             }
