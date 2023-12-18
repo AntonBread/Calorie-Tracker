@@ -202,10 +202,10 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
             adapterNotificationInterface.notifyChangeAt(getAdapterPosition(), isExpanded);
             
             if (isChecked) {
-                foodSelectionManager.addItem(foodItem);
+                foodSelectionManager.addItem(foodItem, getAdapterPosition());
             }
             else {
-                foodSelectionManager.removeItem(foodItem);
+                foodSelectionManager.removeItem(foodItem, getAdapterPosition());
             }
             
         };

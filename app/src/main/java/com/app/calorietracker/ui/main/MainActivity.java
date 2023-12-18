@@ -25,7 +25,7 @@ import com.app.calorietracker.ui.food.list.FoodItem;
 import com.app.calorietracker.ui.settings.SettingsActivity;
 import com.app.calorietracker.ui.settings.SettingsManager;
 import com.app.calorietracker.utils.ChartUtils;
-import com.app.calorietracker.utils.DateUtils;
+import com.app.calorietracker.utils.DateFormatter;
 import com.github.mikephil.charting.charts.PieChart;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     // TODO: stop UI lag in AddFoodActivity
     // TODO: remake main page nutrient chart to 3 vertical bars
     // TODO: make selected list visible in AddFoodActivity
+    // TODO: different portion size units
     
     private LocalDate selectedDate;
     private final Locale decimalFormatLocale = Locale.US;   // Used to format decimal numbers with a dot
@@ -171,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
     
     private void initDateSelector(LocalDate date) {
         selectedDate = date;
-        DateUtils.init(this);
+        DateFormatter.init(this);
         updateDate();
         initDateButtons();
     }
@@ -224,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
     
     private void updateSelectedDateText() {
         TextView dateView = findViewById(R.id.main_text_date);
-        dateView.setText(DateUtils.getDateText(selectedDate));
+        dateView.setText(DateFormatter.getDateText(selectedDate));
     }
     
     private void updateActivityDataViews() {
@@ -277,19 +278,39 @@ public class MainActivity extends AppCompatActivity {
             protein_g += m.getProtein_g();
         }
         
-        TextView carbsView = findViewById(R.id.main_nutrients_text_carbs);
-        carbsView.setText(
+        updateCarbsViews(carbs_g);
+        updateFatViews(fat_g);
+        updateProteinViews(protein_g);
+    }
+    
+    private void updateCarbsViews(float carbs_g) {
+        TextView textView = findViewById(R.id.main_nutrients_text_carbs);
+        textView.setText(
                 String.format(decimalFormatLocale, getString(R.string.main_nutrients_carbs), carbs_g, CARBS_BASELINE));
         
-        TextView fatView = findViewById(R.id.main_nutrients_text_fat);
-        fatView.setText(String.format(decimalFormatLocale, getString(R.string.main_nutrients_fat), fat_g, FAT_BASELINE));
+        ProgressBar progressBar = findViewById(R.id.main_nutrients_progress_carbs);
+        int pct = Math.round(carbs_g / CARBS_BASELINE * 100);
+        progressBar.setProgress(Math.min(pct, progressBar.getMax()));
+    }
+    
+    private void updateFatViews(float fat_g) {
+        TextView textView = findViewById(R.id.main_nutrients_text_fat);
+        textView.setText(
+                String.format(decimalFormatLocale, getString(R.string.main_nutrients_fat), fat_g, FAT_BASELINE));
         
-        TextView proteinView = findViewById(R.id.main_nutrients_text_protein);
-        proteinView.setText(String.format(decimalFormatLocale, getString(R.string.main_nutrients_protein), protein_g,
-                                      PROTEIN_BASELINE));
+        ProgressBar progressBar = findViewById(R.id.main_nutrients_progress_fat);
+        int pct = Math.round(fat_g / FAT_BASELINE * 100);
+        progressBar.setProgress(Math.min(pct, progressBar.getMax()));
+    }
+    
+    private void updateProteinViews(float protein_g) {
+        TextView textView = findViewById(R.id.main_nutrients_text_protein);
+        textView.setText(String.format(decimalFormatLocale, getString(R.string.main_nutrients_protein), protein_g,
+                                       PROTEIN_BASELINE));
         
-        PieChart chart = findViewById(R.id.main_nutrients_chart);
-        ChartUtils.initNutrientPieChart(chart, carbs_g, fat_g, protein_g, this);
+        ProgressBar progressBar = findViewById(R.id.main_nutrients_progress_protein);
+        int pct = Math.round(protein_g / PROTEIN_BASELINE * 100);
+        progressBar.setProgress(Math.min(pct, progressBar.getMax()));
     }
     
     private void updateMealViews(MealData breakfast, MealData lunch, MealData dinner, MealData other) {

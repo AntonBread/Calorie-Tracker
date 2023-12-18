@@ -1,10 +1,7 @@
 package com.app.calorietracker.ui.food.fragments;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
-
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,19 +10,19 @@ import com.app.calorietracker.R;
 import com.app.calorietracker.database.AppDatabase;
 import com.app.calorietracker.database.foods.FoodItemDatabaseManager;
 import com.app.calorietracker.database.foods.FoodItemEntity;
-import com.app.calorietracker.ui.food.AddFoodActivity;
 import com.app.calorietracker.ui.food.list.FoodItem;
-import com.app.calorietracker.ui.food.list.FoodItemAdapter;
 import com.app.calorietracker.ui.food.list.FoodSelectionManager;
+import com.app.calorietracker.utils.FoodListUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class FavoriteFoodFragment extends Fragment {
+public class SearchFavoriteFoodListFragment extends FoodListFragment {
     
-    ArrayList<FoodItem> foodItems = new ArrayList<>();
+    private List<FoodItemEntity> favoriteEntities;
     
-    public FavoriteFoodFragment() {
+    public SearchFavoriteFoodListFragment() {
         // Required empty public constructor
     }
     
@@ -37,14 +34,6 @@ public class FavoriteFoodFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-    
-        getFavoriteFoodsFromDb();
-    
-        FoodSelectionManager foodSelectionManager = ((AddFoodActivity) requireActivity()).getFoodSelectionManager();
-        
-        RecyclerView recyclerView = getView().findViewById(R.id.food_favorite_list);
-        FoodItemAdapter adapter = new FoodItemAdapter(getContext(), foodItems, foodSelectionManager);
-        recyclerView.setAdapter(adapter);
     }
     
     @Override
@@ -54,15 +43,40 @@ public class FavoriteFoodFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_favorite_food, container, false);
     }
     
-    private void getFavoriteFoodsFromDb() {
+    @Override
+    void populateInitialList() {
         AppDatabase db = AppDatabase.getInstance();
         List<FoodItemEntity> entities = FoodItemDatabaseManager.getFavoriteFoodsList(db.foodItemDao());
         if (entities == null) {
             return;
         }
-        foodItems.clear();
-        for (FoodItemEntity entity : entities) {
-            foodItems.add(new FoodItem(entity));
-        }
+        replaceFoodListFromEntities(entities);
+        favoriteEntities = entities;
     }
+    
+    @Override
+    boolean handleSearchQuerySubmit(String query) {
+        List<FoodItemEntity> nameFilteredEntities = FoodListUtils.filterByName(favoriteEntities, query);
+        if (nameFilteredEntities == null) {
+            return true;
+        }
+        replaceFoodListFromEntities(nameFilteredEntities);
+        return true;
+    }
+    
+    @Override
+    boolean handleSearchQueryChange(String query) {
+        return true;
+    }
+    
+    @Override
+    public void addFoodItem(FoodItem item) {
+        scaleBottomPadding();
+        if (!item.isFavorite()) {
+            return;
+        }
+        foodItems.add(0, item);
+        adapter.notifyItemInserted(0);
+    }
+    
 }

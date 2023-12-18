@@ -12,7 +12,7 @@
     <string name="main_breakfast">Завтрак</string>
     <string name="main_lunch">Обед</string>
     <string name="main_dinner">Ужин</string>
-    <string name="main_snacks">Закуски/Другое</string>
+    <string name="main_snacks">Перекусы/Другое</string>
     <string name="main_meal_cals">%d ккал</string>
     <string name="main_water">Вода</string>
     <string name="main_water_consumption">%d.%d0 / %d.%d0 Л</string>
@@ -22,8 +22,7 @@
     <string name="food_title_breakfast">Завтрак</string>
     <string name="food_title_lunch">Обед</string>
     <string name="food_title_dinner">Ужин</string>
-    <string name="food_title_snacks">Закуски</string>
-    <string name="food_mode_search">Поиск</string>
+    <string name="food_title_snacks">Перекусы</string>
     <string name="food_mode_history">История</string>
     <string name="food_mode_favorite">Избранное</string>
     <string name="food_mode_add">Добавить</string>
@@ -54,4 +53,5 @@
     <string name="settings_water_step_message">Объем воды, добавляемый или отнимаемый при нажатии кнопки + или - на главной странице</string>
     <string name="food_new_save_fail">При сохранении произошла ошибка. Продукт не был сохранён.</string>
     <string name="food_history_add_fail">Ошибка! Продукты не были добавлены в историю выбора.</string>
+    <string name="food_mode_search">Все</string>
 </resources>

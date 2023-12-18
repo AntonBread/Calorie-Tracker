@@ -37,7 +37,7 @@
     <string name="food_title_dinner">Dinner</string>
     <string name="food_title_snacks">Snacks</string>
 
-    <string name="food_mode_search">Search</string>
+    <string name="food_mode_search">All</string>
     <string name="food_mode_history">History</string>
     <string name="food_mode_favorite">Favorite</string>
     <string name="food_mode_add">Add</string>

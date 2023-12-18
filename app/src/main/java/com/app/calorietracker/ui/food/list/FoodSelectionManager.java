@@ -19,11 +19,11 @@ public class FoodSelectionManager {
         selectionMap = new HashMap<>(10);
     }
     
-    public void addItem(FoodItem foodItem) {
+    public void addItem(FoodItem foodItem, int adapterPosition) {
         long id = foodItem.getId();
         int portionSize = foodItem.getPortionSize();
         selectionMap.put(id, portionSize);
-        context.updateSelectionCount(getSelectionCount());
+        contextUpdate(foodItem, adapterPosition, true);
     }
     
     public void updateItemPortionSize(FoodItem foodItem) {
@@ -32,10 +32,20 @@ public class FoodSelectionManager {
         selectionMap.replace(id, portionSize);
     }
     
-    public void removeItem(FoodItem foodItem) {
+    public void removeItem(FoodItem foodItem, int adapterPosition) {
         long id = foodItem.getId();
         selectionMap.remove(id);
+        contextUpdate(foodItem, adapterPosition, false);
+    }
+    
+    public void contextUpdate(FoodItem foodItem, int adapterPosition, boolean select) {
         context.updateSelectionCount(getSelectionCount());
+        if (select) {
+            context.transferFoodItemToSelectionList(foodItem, adapterPosition);
+        }
+        else {
+            context.transferFoodItemToSearchList(foodItem, adapterPosition);
+        }
     }
     
     @SuppressWarnings("ConstantConditions")

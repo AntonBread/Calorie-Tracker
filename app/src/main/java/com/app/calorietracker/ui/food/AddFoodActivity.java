@@ -2,6 +2,7 @@ package com.app.calorietracker.ui.food;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -12,23 +13,32 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatRadioButton;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentContainerView;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.calorietracker.R;
 import com.app.calorietracker.ui.food.fragments.AddNewFoodFragment;
-import com.app.calorietracker.ui.food.fragments.FavoriteFoodFragment;
-import com.app.calorietracker.ui.food.fragments.HistoryFoodFragment;
-import com.app.calorietracker.ui.food.fragments.SearchFoodFragment;
+import com.app.calorietracker.ui.food.fragments.FoodListFragment;
+import com.app.calorietracker.ui.food.fragments.SearchFavoriteFoodListFragment;
+import com.app.calorietracker.ui.food.fragments.SearchHistoryFoodListFragment;
+import com.app.calorietracker.ui.food.fragments.SearchAllFoodListFragment;
 import com.app.calorietracker.ui.food.list.FoodItem;
+import com.app.calorietracker.ui.food.list.FoodItemAdapter;
 import com.app.calorietracker.ui.food.list.FoodSelectionManager;
 import com.app.calorietracker.ui.food.list.SelectionHistoryCacheManager;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 public class AddFoodActivity extends AppCompatActivity {
     
+    private ArrayList<FoodItem> selectedFoodItems = new ArrayList<>();
+    private FoodItemAdapter adapter;
     private FoodSelectionManager foodSelectionManager;
     private SelectionHistoryCacheManager selectionHistoryCacheManager;
+    
+    private RecyclerView selectedFoodsRecyclerView;
     
     private TextView selectionCountView;
     private AppCompatImageButton doneButton;
@@ -58,6 +68,10 @@ public class AddFoodActivity extends AppCompatActivity {
         setTitleText();
     
         updateSelectionCount(0);    // init selection count with zero
+        
+        selectedFoodsRecyclerView = findViewById(R.id.food_selected_list);
+        adapter = new FoodItemAdapter(this, selectedFoodItems, foodSelectionManager);
+        selectedFoodsRecyclerView.setAdapter(adapter);
     }
     
     public void cancelButtonListener(View v) {
@@ -96,19 +110,23 @@ public class AddFoodActivity extends AppCompatActivity {
     
     private final RadioGroup.OnCheckedChangeListener switchModeListener = (group, checkedId) -> {
         if (checkedId == R.id.food_mode_select_history) {
-            setFragmentView(HistoryFoodFragment.class);
+            setFragmentView(SearchHistoryFoodListFragment.class);
         }
         else if (checkedId == R.id.food_mode_select_favorite) {
-            setFragmentView(FavoriteFoodFragment.class);
+            setFragmentView(SearchFavoriteFoodListFragment.class);
         }
         else if (checkedId == R.id.food_mode_select_add) {
             setFragmentView(AddNewFoodFragment.class);
         }
         // The default option
         else {
-            setFragmentView(SearchFoodFragment.class);
+            setFragmentView(SearchAllFoodListFragment.class);
         }
     };
+    
+    public int getFoodItemViewHeight() {
+        return selectedFoodsRecyclerView.getChildAt(0).getHeight();
+    }
     
     public FoodSelectionManager getFoodSelectionManager() {
         return foodSelectionManager;
@@ -151,5 +169,27 @@ public class AddFoodActivity extends AppCompatActivity {
                 title = getString(R.string.food_title_snacks);
         }
         titleView.setText(title);
+    }
+    
+    public void transferFoodItemToSelectionList(FoodItem foodItem, int position) {
+        Fragment f = getSupportFragmentManager().findFragmentById(R.id.food_mode_fragment_container);
+        if (f instanceof FoodListFragment) {
+            ((FoodListFragment) f).removeFoodItem(foodItem, position);
+        }
+        
+        selectedFoodItems.add(foodItem);
+        adapter.notifyItemInserted(selectedFoodItems.size() - 1);
+        // Auto scroll list to bottom
+        selectedFoodsRecyclerView.scrollToPosition(selectedFoodItems.size() - 1);
+    }
+    
+    public void transferFoodItemToSearchList(FoodItem foodItem, int position) {
+        Fragment f = getSupportFragmentManager().findFragmentById(R.id.food_mode_fragment_container);
+        if (f instanceof FoodListFragment) {
+            ((FoodListFragment) f).addFoodItem(foodItem);
+        }
+        
+        selectedFoodItems.remove(foodItem);
+        adapter.notifyItemRemoved(position);
     }
 }

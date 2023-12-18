@@ -10,9 +10,27 @@
 
     <style name="ProgressBarVertical">
         <item name="android:indeterminateOnly">false</item>
-        <item name="android:progressDrawable">@drawable/progress_vertical</item>
+        <item name="android:progressDrawable">@drawable/progress_vertical_calories</item>
         <item name="android:indeterminateProgressStyle">@android:drawable/progress_indeterminate_horizontal</item>
         <item name="android:minWidth">6dp</item>
+    </style>
+
+    <style name="ProgressBarVerticalNutrient" parent="ProgressBarVertical">
+        <item name="android:layout_width">20dp</item>
+        <item name="android:layout_height">100dp</item>
+        <item name="android:max">100</item>
+    </style>
+
+    <style name="ProgressBarVerticalNutrientCarbs" parent="ProgressBarVerticalNutrient">
+        <item name="android:progressDrawable">@drawable/progress_vertical_carbs</item>
+    </style>
+
+    <style name="ProgressBarVerticalNutrientFat" parent="ProgressBarVerticalNutrient">
+        <item name="android:progressDrawable">@drawable/progress_vertical_fat</item>
+    </style>
+
+    <style name="ProgressBarVerticalNutrientProtein" parent="ProgressBarVerticalNutrient">
+        <item name="android:progressDrawable">@drawable/progress_vertical_protein</item>
     </style>
     
     <style name="Text_Main_Section_Title">

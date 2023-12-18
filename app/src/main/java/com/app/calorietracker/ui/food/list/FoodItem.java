@@ -28,7 +28,7 @@ public class FoodItem implements Serializable {
     
     private final float nutrients_g_per_100g;
     
-    public FoodItem(long id, String name, int kcal, int carbs_g, int fat_g, int protein_g, boolean isFavorite) {
+    public FoodItem(long id, String name, int kcal, float carbs_g, float fat_g, float protein_g, boolean isFavorite) {
         this.id = id;
         this.name = name;
         this.kcal_per_100g = kcal;

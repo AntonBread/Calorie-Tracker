@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="16dp"
-    tools:context=".ui.food.fragments.SearchFoodFragment"
+    tools:context=".ui.food.fragments.SearchAllFoodListFragment"
     tools:ignore="RtlHardcoded">
 
     <SearchView
@@ -32,16 +32,16 @@
         app:queryBackground="@android:color/transparent" />
 
     <!-- RecyclerView with height set to wrap_content doesn't properly
-         scroll all the way down. Bottom padding of 300 dp was added to compensate
+         scroll all the way down. Bottom padding of 340 dp was added to compensate
          for that restriction. 200dp is the exact height of all previous views,
-         100dp is the padding proper to visualize the bottom of list -->
+         140dp is the padding proper to visualize the bottom of list -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/food_search_list"
+        android:id="@+id/food_list"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:clipToPadding="false"
-        android:paddingBottom="300dp"
+        android:paddingBottom="340dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constrainedHeight="true"
         app:layout_constraintLeft_toLeftOf="parent"

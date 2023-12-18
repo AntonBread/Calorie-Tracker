@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
-public class DateUtils {
+public class DateFormatter {
     
     private static DateTimeFormatter dayOfWeekFmt;
     private static DateTimeFormatter monthDayFmt;

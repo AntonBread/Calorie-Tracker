@@ -169,7 +169,8 @@ public class AddNewFoodFragment extends Fragment {
             portionSize = 100;
         }
         foodItem.setPortionSize(portionSize);
-        foodSelectionManager.addItem(foodItem);
+        // Adapter position doesn't matter when adding from this fragment
+        foodSelectionManager.addItem(foodItem, -1);
     }
     
     private void clearInputFields() {
