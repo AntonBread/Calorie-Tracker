@@ -27,6 +27,7 @@ import com.app.calorietracker.ui.food.list.FoodItemAdapter;
 import com.app.calorietracker.ui.food.list.FoodSelectionManager;
 import com.app.calorietracker.ui.food.list.SelectionHistoryCacheManager;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
@@ -84,12 +85,13 @@ public class AddFoodActivity extends AppCompatActivity {
         intent.putExtra(FoodActivityIntentVars.DATE_KEY, date);
         intent.putExtra(FoodActivityIntentVars.MEAL_TYPE_KEY, mealType);
         
-        ArrayList<FoodItem> selectedFoods = foodSelectionManager.getSelectedFoodItems();
-        intent.putExtra(FoodActivityIntentVars.FOOD_LIST_KEY, selectedFoods);
+        intent.putExtra(FoodActivityIntentVars.FOOD_LIST_KEY, selectedFoodItems);
         setResult(FoodActivityIntentVars.ADD_FOOD_DONE, intent);
         
-        boolean selectionCacheSuccess = selectionHistoryCacheManager.addItemIDs(selectedFoods);
-        if (!selectionCacheSuccess) {
+        try {
+            selectionHistoryCacheManager.addItemIDs(selectedFoodItems);
+        }
+        catch (IOException e) {
             Toast.makeText(this, R.string.food_history_add_fail, Toast.LENGTH_LONG).show();
         }
         

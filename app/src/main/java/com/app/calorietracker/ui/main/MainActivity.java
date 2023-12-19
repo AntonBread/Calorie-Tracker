@@ -37,11 +37,6 @@ import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
     
-    // TODO: stop UI lag in AddFoodActivity
-    // TODO: remake main page nutrient chart to 3 vertical bars
-    // TODO: make selected list visible in AddFoodActivity
-    // TODO: different portion size units
-    
     private LocalDate selectedDate;
     private final Locale decimalFormatLocale = Locale.US;   // Used to format decimal numbers with a dot
     

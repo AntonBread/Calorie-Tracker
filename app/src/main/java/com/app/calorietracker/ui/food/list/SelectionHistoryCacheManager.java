@@ -1,8 +1,12 @@
 package com.app.calorietracker.ui.food.list;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
+
+import com.app.calorietracker.database.AppDatabase;
+import com.app.calorietracker.database.foods.FoodItemEntity;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -11,8 +15,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 public class SelectionHistoryCacheManager {
@@ -20,7 +25,7 @@ public class SelectionHistoryCacheManager {
     // Cache file stores up to HISTORY_CACHE_LIMIT IDs of previously selected items
     private final File cacheFile;
     
-    public static final int HISTORY_CACHE_LIMIT = 10;
+    public static final int HISTORY_CACHE_LIMIT = 50;
     
     public SelectionHistoryCacheManager(Context context) {
         String filePath = context.getCacheDir().getAbsolutePath();
@@ -39,67 +44,78 @@ public class SelectionHistoryCacheManager {
         }
     }
     
-    // LinkedHashSet implementation is used exclusively
-    // in order to keep insertion order
-    public boolean addItemIDs(ArrayList<FoodItem> foodItems) {
-        if (!createFile()) return false;
-        
-        Set<String> newIDs = foodItems.stream().map(FoodItem::getId)
-                                            .map(id -> Long.toString(id))
-                                            .collect(Collectors.toCollection(LinkedHashSet::new));
-        
-        try {
-            Set<String> currentIDs = getCurrentItemIds();
-            Set<String> ids = mergeIdSets(newIDs, currentIDs);
-            if (ids.size() > HISTORY_CACHE_LIMIT) {
-                ids = trimSetToLimit(ids);
-            }
-            handleAdd(ids);
-            return true;
+    public void addItemIDs(ArrayList<FoodItem> foodItems) throws IOException {
+        if (!createFile()) {
+            throw new IOException("Cache file creation exception");
         }
-        catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-    
-    private Set<String> getCurrentItemIds() throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(cacheFile));
-        Set<String> ids = reader.lines().collect(Collectors.toCollection(LinkedHashSet::new));
-        reader.close();
-        return ids;
-    }
-    
-    private Set<String> mergeIdSets(Set<String> newIDs, Set<String> currentIDs) {
-        Set<String> ids = new LinkedHashSet<>(HISTORY_CACHE_LIMIT);
-        ids.addAll(currentIDs);
-        ids.addAll(newIDs);
-        return ids;
-    }
-    
-    private Set<String> trimSetToLimit(Set<String> ids) {
-        // Since currentIDs were added to the set first,
-        // only last selected food ids will be skipped
-        int diff = ids.size() - HISTORY_CACHE_LIMIT;
-        return ids.stream().skip(diff).collect(Collectors.toCollection(LinkedHashSet::new));
-    }
-    
-    private void handleAdd(Set<String> ids) throws IOException {
+        
+        List<String> newIDs = getIdStringsFromItems(foodItems);
+        List<String> oldIDs = getIdStringsFromFile();
+        
         BufferedWriter writer = new BufferedWriter(new FileWriter(cacheFile));
-        for (String id : ids) {
-            writer.append(id);
-            writer.newLine();
+        
+        writeNewIDs(writer, newIDs);
+        int remaining = HISTORY_CACHE_LIMIT - newIDs.size();
+        if (remaining < 1) {
+            writer.close();
+            return;
         }
+        writeOldIDs(writer, oldIDs, newIDs, remaining);
         writer.close();
     }
     
+    private List<String> getIdStringsFromItems(ArrayList<FoodItem> foodItems) {
+        return foodItems.stream()
+                        .map(FoodItem::getId)
+                        .map(id -> Long.toString(id))
+                        .collect(Collectors.toList());
+    }
+    
+    private List<String> getIdStringsFromFile() throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(cacheFile));
+        List<String> IDs = reader.lines().collect(Collectors.toList());
+        reader.close();
+        return IDs;
+    }
+    
+    private void writeNewIDs(BufferedWriter writer, List<String> newIDs) throws IOException {
+        int size = newIDs.size();
+    
+        Log.d("NEW IDS", Arrays.toString(newIDs.toArray()));
+        
+        int i = 0;
+        while (i < size && i < HISTORY_CACHE_LIMIT) {
+            String id = newIDs.get(i);
+            writer.append(id);
+            writer.newLine();
+            i++;
+        }
+    }
+    
+    private void writeOldIDs(BufferedWriter writer, List<String> oldIDs, List<String> newIDs, int remaining) throws IOException {
+        Log.d("OLD IDS", Arrays.toString(oldIDs.toArray()));
+        
+        int size = oldIDs.size();
+        int i = 0;
+        while (i < size && remaining > 0) {
+            String id = oldIDs.get(i++);
+            // prevent writing duplicate IDs
+            if (newIDs.contains(id)) {
+                continue;
+            }
+            writer.append(id);
+            writer.newLine();
+            remaining--;
+        }
+    }
+    
     @Nullable
-    public Set<Long> getIDs() {
+    public List<Long> getIDs() {
         if (!createFile()) return null;
         
         try {
             BufferedReader reader = new BufferedReader(new FileReader(cacheFile));
-            Set<Long> IDs = reader.lines().map(Long::parseLong).collect(Collectors.toCollection(LinkedHashSet::new));
+            List<Long> IDs = reader.lines().map(Long::parseLong).collect(Collectors.toList());
             reader.close();
             return IDs;
         }
@@ -107,6 +123,44 @@ public class SelectionHistoryCacheManager {
             e.printStackTrace();
             return null;
         }
+    }
+    
+    @Nullable
+    public List<FoodItemEntity> getRecentFoodItemEntities() throws ExecutionException, InterruptedException {
+        List<Long> IDs = getIDs();
+        if (IDs == null || IDs.size() == 0) {
+            return null;
+        }
+        
+        List<FoodItemEntity> entities = AppDatabase.getInstance().foodItemDao().getFoodsByIds(IDs).get();
+        if (entities == null || entities.size() == 0) {
+            return null;
+        }
+        
+        return orderFoodItemEntities(entities, IDs);
+    }
+    
+    // When selecting with list of IDs,
+    // food entities are ordered by ID in ascending order.
+    // These entities must be reordered to accurately
+    // display history of selection
+    private List<FoodItemEntity> orderFoodItemEntities(List<FoodItemEntity> entities, List<Long> orderList) {
+        List<FoodItemEntity> orderedEntities = new ArrayList<>();
+        
+        for (long id : orderList) {
+            FoodItemEntity orderedEntity = entities.stream()
+                                          .filter(entity -> id == entity.getId())
+                                          .findFirst()
+                                          .orElse(null);
+            
+            if (orderedEntity == null) {
+                continue;
+            }
+            
+            orderedEntities.add(orderedEntity);
+        }
+        
+        return orderedEntities;
     }
     
     public void clearFile() {

@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SearchView;
 
 import com.app.calorietracker.R;
 import com.app.calorietracker.database.AppDatabase;
@@ -16,13 +15,11 @@ import com.app.calorietracker.ui.food.list.SelectionHistoryCacheManager;
 import com.app.calorietracker.utils.FoodListUtils;
 
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.ExecutionException;
-import java.util.stream.Collectors;
 
 public class SearchHistoryFoodListFragment extends FoodListFragment {
     
-    Set<Long> ids;
+    List<Long> ids;
     List<FoodItemEntity> recentEntities;
     
     public SearchHistoryFoodListFragment() {
@@ -53,10 +50,9 @@ public class SearchHistoryFoodListFragment extends FoodListFragment {
         if (ids == null || ids.size() == 0) return;
         
         try {
-            List<FoodItemEntity> entities = AppDatabase.getInstance().foodItemDao().getFoodsByIds(ids).get();
-            if (entities == null) return;
-            replaceFoodListFromEntities(entities);
-            recentEntities = entities;
+            recentEntities = selectionHistoryCacheManager.getRecentFoodItemEntities();
+            if (recentEntities == null) return;
+            replaceFoodListFromEntities(recentEntities);
         }
         catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
