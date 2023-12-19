@@ -33,7 +33,7 @@ public interface FoodItemDao {
     ListenableFuture<FoodItemEntity> getFoodById(long id);
     
     @Query("SELECT * FROM FOODS WHERE id IN (:ids)")
-    ListenableFuture<List<FoodItemEntity>> getFoodsByIds(Set<Long> ids);
+    ListenableFuture<List<FoodItemEntity>> getFoodsByIds(List<Long> ids);
     
     
     // Non async methods, were used for testing

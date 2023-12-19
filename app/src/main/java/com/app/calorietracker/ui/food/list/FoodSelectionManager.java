@@ -61,28 +61,4 @@ public class FoodSelectionManager {
     public int getSelectionCount() {
         return selectionMap.size();
     }
-    
-    @SuppressWarnings("ConstantConditions")
-    public ArrayList<FoodItem> getSelectedFoodItems() {
-        ArrayList<FoodItem> foods = new ArrayList<>(getSelectionCount());
-        
-        try {
-            ArrayList<FoodItemEntity> entities = (ArrayList<FoodItemEntity>) AppDatabase.getInstance()
-                                                                                        .foodItemDao()
-                                                                                        .getFoodsByIds(
-                                                                                                selectionMap.keySet())
-                                                                                        .get();
-            
-            for (FoodItemEntity entity : entities) {
-                FoodItem foodItem = new FoodItem(entity);
-                foodItem.setPortionSize(selectionMap.get(foodItem.getId()));
-                foods.add(foodItem);
-            }
-        }
-        catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-        }
-        
-        return foods;
-    }
 }
