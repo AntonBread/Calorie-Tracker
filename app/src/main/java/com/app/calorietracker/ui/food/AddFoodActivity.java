@@ -2,7 +2,6 @@ package com.app.calorietracker.ui.food;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -13,15 +12,14 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatRadioButton;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentContainerView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.calorietracker.R;
 import com.app.calorietracker.ui.food.fragments.AddNewFoodFragment;
 import com.app.calorietracker.ui.food.fragments.FoodListFragment;
+import com.app.calorietracker.ui.food.fragments.SearchAllFoodListFragment;
 import com.app.calorietracker.ui.food.fragments.SearchFavoriteFoodListFragment;
 import com.app.calorietracker.ui.food.fragments.SearchHistoryFoodListFragment;
-import com.app.calorietracker.ui.food.fragments.SearchAllFoodListFragment;
 import com.app.calorietracker.ui.food.list.FoodItem;
 import com.app.calorietracker.ui.food.list.FoodItemAdapter;
 import com.app.calorietracker.ui.food.list.FoodSelectionManager;
@@ -30,11 +28,10 @@ import com.app.calorietracker.ui.food.list.SelectionHistoryCacheManager;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 public class AddFoodActivity extends AppCompatActivity {
     
-    private ArrayList<FoodItem> selectedFoodItems = new ArrayList<>();
+    private final ArrayList<FoodItem> selectedFoodItems = new ArrayList<>();
     private FoodItemAdapter adapter;
     private FoodSelectionManager foodSelectionManager;
     private SelectionHistoryCacheManager selectionHistoryCacheManager;
@@ -53,8 +50,10 @@ public class AddFoodActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_food);
         
-        mealType = (FoodActivityIntentVars.MealType) getIntent().getExtras().get(FoodActivityIntentVars.MEAL_TYPE_KEY);
-        date = (LocalDate) getIntent().getExtras().get(FoodActivityIntentVars.DATE_KEY);
+        Bundle intentData = getIntent().getExtras();
+        
+        mealType = (FoodActivityIntentVars.MealType) intentData.get(FoodActivityIntentVars.MEAL_TYPE_KEY);
+        date = (LocalDate) intentData.get(FoodActivityIntentVars.DATE_KEY);
         
         foodSelectionManager = new FoodSelectionManager(this);
         selectionHistoryCacheManager = new SelectionHistoryCacheManager(this);
@@ -67,12 +66,20 @@ public class AddFoodActivity extends AppCompatActivity {
         doneButton = findViewById(R.id.food_btn_done);
         
         setTitleText();
-    
-        updateSelectionCount(0);    // init selection count with zero
         
         selectedFoodsRecyclerView = findViewById(R.id.food_selected_list);
         adapter = new FoodItemAdapter(this, selectedFoodItems, foodSelectionManager);
         selectedFoodsRecyclerView.setAdapter(adapter);
+    
+        try {
+            populateInitialSelectionList(intentData);
+        }
+        catch (ClassCastException e) {
+            selectedFoodItems.clear();
+            adapter.notifyDataSetChanged();
+            updateSelectionCount(0);
+            Toast.makeText(this, R.string.food_initial_selection_fail, Toast.LENGTH_LONG).show();
+        }
     }
     
     public void cancelButtonListener(View v) {
@@ -193,5 +200,20 @@ public class AddFoodActivity extends AppCompatActivity {
         
         selectedFoodItems.remove(foodItem);
         adapter.notifyItemRemoved(position);
+    }
+    
+    private void populateInitialSelectionList(Bundle intentData) throws ClassCastException {
+        @SuppressWarnings("unchecked")
+        ArrayList<FoodItem> initialFoodItems =
+                (ArrayList<FoodItem>) intentData.get(FoodActivityIntentVars.FOOD_LIST_KEY);
+        
+        if (initialFoodItems == null || initialFoodItems.size() == 0) {
+            updateSelectionCount(0);
+            return;
+        }
+        
+        for (FoodItem foodItem : initialFoodItems) {
+            foodSelectionManager.addItem(foodItem, -1);
+        }
     }
 }

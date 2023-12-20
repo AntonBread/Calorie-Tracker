@@ -80,9 +80,6 @@ public class SelectionHistoryCacheManager {
     
     private void writeNewIDs(BufferedWriter writer, List<String> newIDs) throws IOException {
         int size = newIDs.size();
-    
-        Log.d("NEW IDS", Arrays.toString(newIDs.toArray()));
-        
         int i = 0;
         while (i < size && i < HISTORY_CACHE_LIMIT) {
             String id = newIDs.get(i);
@@ -93,8 +90,6 @@ public class SelectionHistoryCacheManager {
     }
     
     private void writeOldIDs(BufferedWriter writer, List<String> oldIDs, List<String> newIDs, int remaining) throws IOException {
-        Log.d("OLD IDS", Arrays.toString(oldIDs.toArray()));
-        
         int size = oldIDs.size();
         int i = 0;
         while (i < size && remaining > 0) {
