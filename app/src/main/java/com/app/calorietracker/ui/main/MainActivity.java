@@ -24,9 +24,7 @@ import com.app.calorietracker.ui.food.FoodActivityIntentVars;
 import com.app.calorietracker.ui.food.list.FoodItem;
 import com.app.calorietracker.ui.settings.SettingsActivity;
 import com.app.calorietracker.ui.settings.SettingsManager;
-import com.app.calorietracker.utils.ChartUtils;
 import com.app.calorietracker.utils.DateFormatter;
-import com.github.mikephil.charting.charts.PieChart;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.time.LocalDate;
@@ -129,36 +127,25 @@ public class MainActivity extends AppCompatActivity {
     }
     
     private void initMealAddButtons() {
-        String mealTypeKey = FoodActivityIntentVars.MEAL_TYPE_KEY;
-        String dateKey = FoodActivityIntentVars.DATE_KEY;
+        findViewById(R.id.main_btn_breakfast_add).setOnClickListener(
+                v -> handleMealAddButtonClick(FoodActivityIntentVars.MealType.BREAKFAST, currentEntry.getBreakfast()));
         
-        findViewById(R.id.main_btn_breakfast_add).setOnClickListener(v -> {
-            Intent intent = new Intent(this, AddFoodActivity.class);
-            intent.putExtra(dateKey, selectedDate);
-            intent.putExtra(mealTypeKey, FoodActivityIntentVars.MealType.BREAKFAST);
-            foodActivityLauncher.launch(intent);
-        });
+        findViewById(R.id.main_btn_lunch_add).setOnClickListener(
+                v -> handleMealAddButtonClick(FoodActivityIntentVars.MealType.LUNCH, currentEntry.getLunch()));
         
-        findViewById(R.id.main_btn_lunch_add).setOnClickListener(v -> {
-            Intent intent = new Intent(this, AddFoodActivity.class);
-            intent.putExtra(dateKey, selectedDate);
-            intent.putExtra(mealTypeKey, FoodActivityIntentVars.MealType.LUNCH);
-            foodActivityLauncher.launch(intent);
-        });
+        findViewById(R.id.main_btn_dinner_add).setOnClickListener(
+                v -> handleMealAddButtonClick(FoodActivityIntentVars.MealType.DINNER, currentEntry.getDinner()));
         
-        findViewById(R.id.main_btn_dinner_add).setOnClickListener(v -> {
-            Intent intent = new Intent(this, AddFoodActivity.class);
-            intent.putExtra(dateKey, selectedDate);
-            intent.putExtra(mealTypeKey, FoodActivityIntentVars.MealType.DINNER);
-            foodActivityLauncher.launch(intent);
-        });
-        
-        findViewById(R.id.main_btn_snacks_add).setOnClickListener(v -> {
-            Intent intent = new Intent(this, AddFoodActivity.class);
-            intent.putExtra(dateKey, selectedDate);
-            intent.putExtra(mealTypeKey, FoodActivityIntentVars.MealType.SNACKS);
-            foodActivityLauncher.launch(intent);
-        });
+        findViewById(R.id.main_btn_snacks_add).setOnClickListener(
+                v -> handleMealAddButtonClick(FoodActivityIntentVars.MealType.SNACKS, currentEntry.getOther()));
+    }
+    
+    private void handleMealAddButtonClick(FoodActivityIntentVars.MealType mealType, ArrayList<FoodItem> mealFoodItems) {
+        Intent intent = new Intent(this, AddFoodActivity.class);
+        intent.putExtra(FoodActivityIntentVars.DATE_KEY, selectedDate);
+        intent.putExtra(FoodActivityIntentVars.MEAL_TYPE_KEY, mealType);
+        intent.putExtra(FoodActivityIntentVars.FOOD_LIST_KEY, mealFoodItems);
+        foodActivityLauncher.launch(intent);
     }
     
     private void initDateSelector() {

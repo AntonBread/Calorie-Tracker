@@ -54,4 +54,5 @@
     <string name="food_new_save_fail">При сохранении произошла ошибка. Продукт не был сохранён.</string>
     <string name="food_history_add_fail">Ошибка! Продукты не были добавлены в историю выбора.</string>
     <string name="food_mode_search">Все</string>
+    <string name="food_initial_selection_fail">Ошибка! Не получилось загрузить продукты, ранее выбранные для данного приёма пищи.</string>
 </resources>
