@@ -2,6 +2,7 @@ package com.app.calorietracker.ui.food;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -188,6 +189,7 @@ public class AddFoodActivity extends AppCompatActivity {
         
         selectedFoodItems.add(foodItem);
         adapter.notifyItemInserted(selectedFoodItems.size() - 1);
+        scaleSelectionListBottomPadding();
         // Auto scroll list to bottom
         selectedFoodsRecyclerView.scrollToPosition(selectedFoodItems.size() - 1);
     }
@@ -200,6 +202,7 @@ public class AddFoodActivity extends AppCompatActivity {
         
         selectedFoodItems.remove(foodItem);
         adapter.notifyItemRemoved(position);
+        scaleSelectionListBottomPadding();
     }
     
     private void populateInitialSelectionList(Bundle intentData) throws ClassCastException {
@@ -214,6 +217,18 @@ public class AddFoodActivity extends AppCompatActivity {
         
         for (FoodItem foodItem : initialFoodItems) {
             foodSelectionManager.addItem(foodItem, -1);
+        }
+    }
+    
+    private void scaleSelectionListBottomPadding() {
+        if (foodSelectionManager.getSelectionCount() >= 3) {
+            int padding_dp = 80;
+            float scale = getResources().getDisplayMetrics().density;
+            int padding_px = (int) (padding_dp * scale + 0.5f);
+            selectedFoodsRecyclerView.setPadding(0, 0, 0, padding_px);
+        }
+        else {
+            selectedFoodsRecyclerView.setPadding(0, 0, 0, 0);
         }
     }
 }
