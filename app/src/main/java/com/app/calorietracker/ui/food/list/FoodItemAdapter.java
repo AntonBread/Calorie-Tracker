@@ -16,6 +16,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatCheckBox;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.calorietracker.R;
@@ -34,22 +35,24 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
     private final Context context;
     private final Resources res;
     private final FoodSelectionManager foodSelectionManager;
+    private final FoodListScroll scrollInterface;
     
     private final Locale decimalFormatLocale = Locale.US;
     
-    public FoodItemAdapter(Context context, List<FoodItem> itemList, FoodSelectionManager foodSelectionManager) {
+    public FoodItemAdapter(Context context, List<FoodItem> itemList, FoodSelectionManager foodSelectionManager, FoodListScroll scrollInterface) {
         this.itemList = itemList;
         this.inflater = LayoutInflater.from(context);
         this.context = context;
         res = context.getResources();
         this.foodSelectionManager = foodSelectionManager;
+        this.scrollInterface = scrollInterface;
     }
     
     @NonNull
     @Override
     public FoodItemAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = inflater.inflate(R.layout.list_food_item, parent, false);
-        v.setBackground(res.getDrawable(R.drawable.back_section_reduced_radius, context.getTheme())); // Setting background in XML doesn't apply border radius
+        v.setBackground(ResourcesCompat.getDrawable(res, R.drawable.back_section_reduced_radius, context.getTheme())); // Setting background in XML doesn't apply border radius
         return new ViewHolder(v);
     }
     
@@ -77,7 +80,7 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
         holder.selectionCheckView.setChecked(foodItem.isSelected());
         // Don't set text on active EditText views
         if (!holder.portionInputView.hasFocus()) {
-            holder.portionInputView.setText(Integer.toString(foodItem.getPortionSize()));
+            holder.portionInputView.setText(String.format(decimalFormatLocale, "%d", foodItem.getPortionSize()));
         }
         ChartUtils.initNutrientPieChart(holder.nutrientChartView, foodItem.getCarbsPer100g(), foodItem.getFatPer100g(), foodItem.getProteinPer100g(), context);
         
@@ -85,6 +88,11 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
             @Override
             public void notifyChangeAt(int pos, boolean isExpanded) {
                 notifyItemChanged(pos, isExpanded);
+            }
+            
+            @Override
+            public void notifyExpandAt(int pos) {
+                scrollInterface.onViewHolderExpand(pos);
             }
         };
     }
@@ -112,6 +120,7 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
     
     interface AdapterNotificationInterface {
         void notifyChangeAt(int pos, boolean isExpanded);
+        void notifyExpandAt(int pos);
     }
     
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -173,6 +182,7 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
                 expandableView.setVisibility(View.VISIBLE);
                 isExpanded = true;
                 nameView.setText(foodItem.getName());
+                adapterNotificationInterface.notifyExpandAt(getAdapterPosition());
             }
             else {
                 transition.setDuration(200);
