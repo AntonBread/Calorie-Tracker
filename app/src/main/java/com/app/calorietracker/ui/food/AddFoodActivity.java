@@ -2,7 +2,6 @@ package com.app.calorietracker.ui.food;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -69,7 +68,7 @@ public class AddFoodActivity extends AppCompatActivity {
         setTitleText();
         
         selectedFoodsRecyclerView = findViewById(R.id.food_selected_list);
-        adapter = new FoodItemAdapter(this, selectedFoodItems, foodSelectionManager);
+        adapter = new FoodItemAdapter(this, selectedFoodItems, foodSelectionManager, this::handleSelectionListItemExpand);
         selectedFoodsRecyclerView.setAdapter(adapter);
     
         try {
@@ -230,5 +229,9 @@ public class AddFoodActivity extends AppCompatActivity {
         else {
             selectedFoodsRecyclerView.setPadding(0, 0, 0, 0);
         }
+    }
+    
+    private void handleSelectionListItemExpand(int pos) {
+        selectedFoodsRecyclerView.scrollToPosition(pos);
     }
 }

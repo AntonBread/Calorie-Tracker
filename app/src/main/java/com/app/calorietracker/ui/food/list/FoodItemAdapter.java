@@ -35,15 +35,17 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
     private final Context context;
     private final Resources res;
     private final FoodSelectionManager foodSelectionManager;
+    private final FoodListScroll scrollInterface;
     
     private final Locale decimalFormatLocale = Locale.US;
     
-    public FoodItemAdapter(Context context, List<FoodItem> itemList, FoodSelectionManager foodSelectionManager) {
+    public FoodItemAdapter(Context context, List<FoodItem> itemList, FoodSelectionManager foodSelectionManager, FoodListScroll scrollInterface) {
         this.itemList = itemList;
         this.inflater = LayoutInflater.from(context);
         this.context = context;
         res = context.getResources();
         this.foodSelectionManager = foodSelectionManager;
+        this.scrollInterface = scrollInterface;
     }
     
     @NonNull
@@ -87,6 +89,11 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
             public void notifyChangeAt(int pos, boolean isExpanded) {
                 notifyItemChanged(pos, isExpanded);
             }
+            
+            @Override
+            public void notifyExpandAt(int pos) {
+                scrollInterface.onViewHolderExpand(pos);
+            }
         };
     }
     
@@ -113,6 +120,7 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
     
     interface AdapterNotificationInterface {
         void notifyChangeAt(int pos, boolean isExpanded);
+        void notifyExpandAt(int pos);
     }
     
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -174,6 +182,7 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
                 expandableView.setVisibility(View.VISIBLE);
                 isExpanded = true;
                 nameView.setText(foodItem.getName());
+                adapterNotificationInterface.notifyExpandAt(getAdapterPosition());
             }
             else {
                 transition.setDuration(200);

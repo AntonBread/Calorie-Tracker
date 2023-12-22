@@ -1,10 +1,10 @@
 package com.app.calorietracker.ui.food.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.SearchView;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.calorietracker.R;
@@ -69,11 +69,11 @@ public abstract class FoodListFragment extends Fragment {
         
         foodSelectionManager = ((AddFoodActivity) requireActivity()).getFoodSelectionManager();
         
-        searchView = getView().findViewById(R.id.food_search_query);
+        searchView = requireView().findViewById(R.id.food_search_query);
         searchView.setOnQueryTextListener(searchQueryListener);
         
-        recyclerView = getView().findViewById(R.id.food_list);
-        adapter = new FoodItemAdapter(getContext(), foodItems, foodSelectionManager);
+        recyclerView = requireView().findViewById(R.id.food_list);
+        adapter = new FoodItemAdapter(getContext(), foodItems, foodSelectionManager, this::handleFoodListItemExpand);
         recyclerView.setAdapter(adapter);
         
         populateInitialList();
@@ -98,6 +98,30 @@ public abstract class FoodListFragment extends Fragment {
         int size = foodItems.size();
         foodItems.clear();
         adapter.notifyItemRangeRemoved(0, size);
+    }
+    
+    private void handleFoodListItemExpand(int pos) {
+        if (recyclerView.getLayoutManager() == null) {
+            return;
+        }
+        // Scroll must only be applied when
+        // expanded viewHolder wouldn't be fully visible otherwise,
+        // i.e. when viewHolder's position is near the bottom or the top
+        // of currently visible items
+        int lastVisiblePos = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastVisibleItemPosition();
+        int firstVisiblePos = ((LinearLayoutManager) recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
+        if (pos > firstVisiblePos && pos < lastVisiblePos) {
+            return;
+        }
+        int scroll_dp = 200; // roughly the height of an expanded viewHolder
+        float scale = getResources().getDisplayMetrics().density;
+        int scroll_px = (int) (scroll_dp * scale + 0.5f);
+        if (pos >= lastVisiblePos) {
+            recyclerView.scrollBy(0, scroll_px);
+        }
+        else if (pos <= firstVisiblePos) {
+            recyclerView.scrollBy(0, -scroll_px);
+        }
     }
     
     void scaleBottomPadding() {
