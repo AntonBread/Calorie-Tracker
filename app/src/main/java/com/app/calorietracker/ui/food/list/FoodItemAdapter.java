@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -166,59 +167,80 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
             favoriteCheckView = v.findViewById(R.id.food_list_item_btn_favorite);
             selectionCheckView = v.findViewById(R.id.food_list_item_btn_select);
             
-            v.setOnClickListener(expandViewListener);
-            favoriteCheckView.setOnCheckedChangeListener(favoriteCheckListener);
-            selectionCheckView.setOnCheckedChangeListener(selectionCheckListener);
+            v.setOnClickListener(this::handleOnClick);
+            v.setOnLongClickListener(this::handleOnLongClick);
+            favoriteCheckView.setOnCheckedChangeListener(this::handleFavoriteCheckChange);
+            selectionCheckView.setOnCheckedChangeListener(this::handleSelectionCheckChange);
             portionInputView.addTextChangedListener(portionSizeInputWatcher);
         }
-    
-        View.OnClickListener expandViewListener = (v) -> {
-            View expandableView = v.findViewById(R.id.food_list_item_expandable);
-            TextView nameView = v.findViewById(R.id.food_list_item_name);
-            final ChangeBounds transition = new ChangeBounds();
+        
+        private void handleOnClick(View v) {
             if (!isExpanded) {
-                transition.setDuration(400);
-                TransitionManager.beginDelayedTransition((ViewGroup) v, transition);
-                expandableView.setVisibility(View.VISIBLE);
-                isExpanded = true;
-                nameView.setText(foodItem.getName());
-                adapterNotificationInterface.notifyExpandAt(getAdapterPosition());
+                expand(v);
             }
             else {
-                transition.setDuration(200);
-                TransitionManager.beginDelayedTransition((ViewGroup) v, transition);
-                expandableView.setVisibility(View.GONE);
-                isExpanded = false;
-                nameView.setText(trimItemName(foodItem.getName()));
+                collapse(v);
             }
-        };
+        }
+        
+        private void expand(View v) {
+            final ChangeBounds transition = new ChangeBounds();
+            transition.setDuration(400);
+            TransitionManager.beginDelayedTransition((ViewGroup) v, transition);
+            expandableView.setVisibility(View.VISIBLE);
+            isExpanded = true;
+            nameView.setText(foodItem.getName());
+            adapterNotificationInterface.notifyExpandAt(getAdapterPosition());
+        }
+        
+        private void collapse(View v) {
+            final ChangeBounds transition = new ChangeBounds();
+            transition.setDuration(200);
+            TransitionManager.beginDelayedTransition((ViewGroup) v, transition);
+            expandableView.setVisibility(View.GONE);
+            isExpanded = false;
+            nameView.setText(trimItemName(foodItem.getName()));
+        }
     
-        CompoundButton.OnCheckedChangeListener favoriteCheckListener = (buttonView, isChecked) -> {
+        private String trimItemName(String name) {
+            if (name.length() < 25) return name;
+        
+            return name.substring(0, 25).concat("…");
+        }
+        
+        private boolean handleOnLongClick(View v) {
+            // TODO: Implement edit/delete popup menu
+            // Allow edit/delete only on not selected items
+            if (foodItem.isSelected()) {
+                return true;
+            }
+            return true;
+        }
+        
+        private void handleFavoriteCheckChange(CompoundButton buttonView, boolean isChecked) {
             if (!buttonView.isPressed()) return;    // Prevent false calls
-            
+    
             AppDatabase db = AppDatabase.getInstance();
             boolean success = FoodItemDatabaseManager.updateFavoriteCheck(db.foodItemDao(), foodItem.getId(), isChecked);
-            //Log.d("FAVORITE UPDATE SUCCESSFUL", Boolean.toString(success));
             if (success) {
                 foodItem.setFavorite(isChecked);
                 adapterNotificationInterface.notifyChangeAt(getAdapterPosition(), isExpanded);
             }
-        };
-    
-        CompoundButton.OnCheckedChangeListener selectionCheckListener = (buttonView, isChecked) -> {
+        }
+        
+        private void handleSelectionCheckChange(CompoundButton buttonView, boolean isChecked) {
             if (!buttonView.isPressed()) return;    // Prevent false calls
-            
+    
             foodItem.setSelected(isChecked);
             adapterNotificationInterface.notifyChangeAt(getAdapterPosition(), isExpanded);
-            
+    
             if (isChecked) {
                 foodSelectionManager.addItem(foodItem, getAdapterPosition());
             }
             else {
                 foodSelectionManager.removeItem(foodItem, getAdapterPosition());
             }
-            
-        };
+        }
     
         TextWatcher portionSizeInputWatcher = new TextWatcher() {
             @Override
@@ -231,7 +253,7 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
             public void afterTextChanged(Editable s) {
                 boolean isInFocus = portionInputView.hasFocus();
                 if (!isInFocus) return;     // prevent false calls
-                
+            
                 int portionSize;
                 try {
                     portionSize = Integer.parseInt(s.toString().trim());
@@ -245,12 +267,7 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
                 adapterNotificationInterface.notifyChangeAt(getAdapterPosition(), isExpanded);
             }
         };
-    
-        public String trimItemName(String name) {
-            if (name.length() < 25) return name;
         
-            return name.substring(0, 25).concat("…");
-        }
     }
     
 }
