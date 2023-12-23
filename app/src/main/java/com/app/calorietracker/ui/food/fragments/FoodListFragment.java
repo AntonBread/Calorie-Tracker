@@ -92,6 +92,7 @@ public abstract class FoodListFragment extends Fragment {
             foodItems.add(new FoodItem(entity));
             adapter.notifyItemInserted(foodItems.size() - 1);
         }
+        scaleBottomPadding();
     }
     
     private void clearList() {

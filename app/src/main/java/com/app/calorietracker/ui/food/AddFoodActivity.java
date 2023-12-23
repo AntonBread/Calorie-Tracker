@@ -217,6 +217,9 @@ public class AddFoodActivity extends AppCompatActivity {
         for (FoodItem foodItem : initialFoodItems) {
             foodSelectionManager.addItem(foodItem, -1);
         }
+        // When editing previously added meals,
+        // list should not be scrolled to bottom
+        selectedFoodsRecyclerView.scrollToPosition(0);
     }
     
     private void scaleSelectionListBottomPadding() {

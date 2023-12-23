@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -109,6 +108,9 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
             if (isExpanded) {
                 holder.expandableView.setVisibility(View.VISIBLE);
                 holder.nameView.setText(holder.foodItem.getName());
+            }
+            else {
+                holder.expandableView.setVisibility(View.GONE);
             }
         }
         catch (IndexOutOfBoundsException ignored){}
