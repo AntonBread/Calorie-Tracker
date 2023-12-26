@@ -10,7 +10,6 @@ import androidx.room.Update;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.List;
-import java.util.Set;
 
 @Dao
 public interface FoodItemDao {
@@ -23,17 +22,21 @@ public interface FoodItemDao {
     @Delete
     ListenableFuture<Integer> delete(FoodItemEntity foodItemEntity);
     
-    @Query("SELECT * FROM FOODS WHERE name LIKE '%' || :name || '%'")
+    @Query("UPDATE FOODS SET deleted_flag = 1 WHERE id = :id")
+    ListenableFuture<Integer> markDeleted(long id);
+    
+    @Query("SELECT * FROM FOODS WHERE name LIKE '%' || :name || '%' AND deleted_flag <> 1")
     ListenableFuture<List<FoodItemEntity>> getFoodsByName(String name);
     
-    @Query("SELECT * FROM FOODS WHERE is_favorite = 1")
+    @Query("SELECT * FROM FOODS WHERE is_favorite = 1 AND deleted_flag <> 1")
     ListenableFuture<List<FoodItemEntity>> getFavoriteFoods();
     
-    @Query("SELECT * FROM FOODS WHERE id = :id")
+    @Query("SELECT * FROM FOODS WHERE id = :id AND deleted_flag <> 1")
     ListenableFuture<FoodItemEntity> getFoodById(long id);
     
-    @Query("SELECT * FROM FOODS WHERE id IN (:ids)")
+    @Query("SELECT * FROM FOODS WHERE id IN (:ids) AND deleted_flag <> 1")
     ListenableFuture<List<FoodItemEntity>> getFoodsByIds(List<Long> ids);
+    
     
     
     // Non async methods, were used for testing

@@ -2,17 +2,23 @@ package com.app.calorietracker.database;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
+import androidx.room.migration.Migration;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.app.calorietracker.database.foods.FoodItemDao;
 import com.app.calorietracker.database.foods.FoodItemEntity;
 import com.app.calorietracker.database.user.UserDiaryDao;
 import com.app.calorietracker.database.user.UserDiaryEntity;
 
-@Database(entities = {UserDiaryEntity.class, FoodItemEntity.class}, version = 1, exportSchema = false)
+@Database(
+        entities = {UserDiaryEntity.class, FoodItemEntity.class},
+        version = 2,
+        exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
     public abstract UserDiaryDao userDiaryDao();
@@ -36,15 +42,26 @@ public abstract class AppDatabase extends RoomDatabase {
             return true;
         }
         if (mode == MODE_STANDARD) {
-            instance = Room.databaseBuilder(context, AppDatabase.class, DATABASE_NAME).build();
+            instance = Room.databaseBuilder(context, AppDatabase.class, DATABASE_NAME)
+                           .addMigrations(MIGRATION_1_2)
+                           .build();
             return true;
         }
         else if (mode == MODE_IN_MEMORY) {
-            instance = Room.inMemoryDatabaseBuilder(context, AppDatabase.class).build();
+            instance = Room.inMemoryDatabaseBuilder(context, AppDatabase.class)
+                           .addMigrations(MIGRATION_1_2)
+                           .build();
             return true;
         }
         else {
             return false;
         }
     }
+    
+    private static final Migration MIGRATION_1_2 = new Migration(1, 2) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE FOODS ADD COLUMN deleted_flag INTEGER NOT NULL DEFAULT 0");
+        }
+    };
 }

@@ -48,4 +48,19 @@ public class FoodItemDatabaseManager {
             return false;
         }
     }
+    
+    public static boolean markItemDeleted(FoodItemDao dao, long id) {
+        try {
+            int updRowCount = dao.markDeleted(id).get();
+            // This operation must update exactly one db record
+            if (updRowCount != 1) {
+                throw new Exception();
+            }
+            return true;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

@@ -30,6 +30,14 @@ public class FoodItemEntity {
     @ColumnInfo(name = "is_favorite")
     private boolean isFavorite;
     
+    /*
+     * Instead of deleting entries from DB,
+     * this flag is set when user "deletes" a food item.
+     * This way there hopefully won't be any problems in the future.
+     */
+    @ColumnInfo(name = "deleted_flag", defaultValue = "0")
+    private boolean isDeleted;
+    
     public long getId() {
         return id;
     }
@@ -58,6 +66,10 @@ public class FoodItemEntity {
         return isFavorite;
     }
     
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+    
     public void setId(long id) {
         this.id = id;
     }
@@ -84,5 +96,9 @@ public class FoodItemEntity {
     
     public void setFavorite(boolean favorite) {
         isFavorite = favorite;
+    }
+    
+    public void setDeleted(boolean deleted) {
+        this.isDeleted = deleted;
     }
 }
