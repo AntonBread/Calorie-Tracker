@@ -22,6 +22,7 @@ import com.app.calorietracker.ui.food.fragments.SearchFavoriteFoodListFragment;
 import com.app.calorietracker.ui.food.fragments.SearchHistoryFoodListFragment;
 import com.app.calorietracker.ui.food.list.FoodItem;
 import com.app.calorietracker.ui.food.list.FoodItemAdapter;
+import com.app.calorietracker.ui.food.list.FoodListAction;
 import com.app.calorietracker.ui.food.list.FoodSelectionManager;
 import com.app.calorietracker.ui.food.list.SelectionHistoryCacheManager;
 
@@ -67,8 +68,21 @@ public class AddFoodActivity extends AppCompatActivity {
         
         setTitleText();
         
+        FoodListAction foodListActionInterface = new FoodListAction() {
+            @Override
+            public void scrollOnViewHolderExpand(int pos) {
+                handleSelectionListItemExpand(pos);
+            }
+    
+            // By design, selected food items don't register long clicks,
+            // thus they cannot be deleted and don't require
+            // an onDelete implementation beyond this empty method
+            @Override
+            public void onFoodItemDelete(int pos, FoodItem foodItem) {}
+        };
+        
         selectedFoodsRecyclerView = findViewById(R.id.food_selected_list);
-        adapter = new FoodItemAdapter(this, selectedFoodItems, foodSelectionManager, this::handleSelectionListItemExpand);
+        adapter = new FoodItemAdapter(this, selectedFoodItems, foodSelectionManager, foodListActionInterface);
         selectedFoodsRecyclerView.setAdapter(adapter);
     
         try {
@@ -217,6 +231,9 @@ public class AddFoodActivity extends AppCompatActivity {
         for (FoodItem foodItem : initialFoodItems) {
             foodSelectionManager.addItem(foodItem, -1);
         }
+        // When editing previously added meals,
+        // list should not be scrolled to bottom
+        selectedFoodsRecyclerView.scrollToPosition(0);
     }
     
     private void scaleSelectionListBottomPadding() {
@@ -234,4 +251,5 @@ public class AddFoodActivity extends AppCompatActivity {
     private void handleSelectionListItemExpand(int pos) {
         selectedFoodsRecyclerView.scrollToPosition(pos);
     }
+
 }

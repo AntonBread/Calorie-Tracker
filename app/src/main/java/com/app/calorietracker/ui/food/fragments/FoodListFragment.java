@@ -12,6 +12,7 @@ import com.app.calorietracker.database.foods.FoodItemEntity;
 import com.app.calorietracker.ui.food.AddFoodActivity;
 import com.app.calorietracker.ui.food.list.FoodItem;
 import com.app.calorietracker.ui.food.list.FoodItemAdapter;
+import com.app.calorietracker.ui.food.list.FoodListAction;
 import com.app.calorietracker.ui.food.list.FoodSelectionManager;
 
 import java.util.ArrayList;
@@ -72,8 +73,20 @@ public abstract class FoodListFragment extends Fragment {
         searchView = requireView().findViewById(R.id.food_search_query);
         searchView.setOnQueryTextListener(searchQueryListener);
         
+        FoodListAction foodListActionInterface = new FoodListAction() {
+            @Override
+            public void scrollOnViewHolderExpand(int pos) {
+                handleFoodListItemExpand(pos);
+            }
+    
+            @Override
+            public void onFoodItemDelete(int pos, FoodItem foodItem) {
+                handleFoodListItemDelete(pos, foodItem);
+            }
+        };
+        
         recyclerView = requireView().findViewById(R.id.food_list);
-        adapter = new FoodItemAdapter(getContext(), foodItems, foodSelectionManager, this::handleFoodListItemExpand);
+        adapter = new FoodItemAdapter(getContext(), foodItems, foodSelectionManager, foodListActionInterface);
         recyclerView.setAdapter(adapter);
         
         populateInitialList();
@@ -92,6 +105,7 @@ public abstract class FoodListFragment extends Fragment {
             foodItems.add(new FoodItem(entity));
             adapter.notifyItemInserted(foodItems.size() - 1);
         }
+        scaleBottomPadding();
     }
     
     private void clearList() {
@@ -122,6 +136,11 @@ public abstract class FoodListFragment extends Fragment {
         else if (pos <= firstVisiblePos) {
             recyclerView.scrollBy(0, -scroll_px);
         }
+    }
+    
+    private void handleFoodListItemDelete(int pos, FoodItem foodItem) {
+        foodItems.remove(foodItem);
+        adapter.notifyItemRemoved(pos);
     }
     
     void scaleBottomPadding() {

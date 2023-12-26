@@ -2,26 +2,33 @@ package com.app.calorietracker.ui.food.list;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.transition.ChangeBounds;
 import android.transition.TransitionManager;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatCheckBox;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.calorietracker.R;
 import com.app.calorietracker.database.AppDatabase;
 import com.app.calorietracker.database.foods.FoodItemDatabaseManager;
+import com.app.calorietracker.ui.food.fragments.dialog.FoodItemDeleteDialogFragment;
 import com.app.calorietracker.utils.ChartUtils;
 import com.github.mikephil.charting.charts.PieChart;
 
@@ -35,17 +42,17 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
     private final Context context;
     private final Resources res;
     private final FoodSelectionManager foodSelectionManager;
-    private final FoodListScroll scrollInterface;
+    private final FoodListAction actionInterface;
     
     private final Locale decimalFormatLocale = Locale.US;
     
-    public FoodItemAdapter(Context context, List<FoodItem> itemList, FoodSelectionManager foodSelectionManager, FoodListScroll scrollInterface) {
+    public FoodItemAdapter(Context context, List<FoodItem> itemList, FoodSelectionManager foodSelectionManager, FoodListAction actionInterface) {
         this.itemList = itemList;
         this.inflater = LayoutInflater.from(context);
         this.context = context;
         res = context.getResources();
         this.foodSelectionManager = foodSelectionManager;
-        this.scrollInterface = scrollInterface;
+        this.actionInterface = actionInterface;
     }
     
     @NonNull
@@ -92,7 +99,12 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
             
             @Override
             public void notifyExpandAt(int pos) {
-                scrollInterface.onViewHolderExpand(pos);
+                actionInterface.scrollOnViewHolderExpand(pos);
+            }
+            
+            @Override
+            public void notifyDelete(int pos, FoodItem item) {
+                actionInterface.onFoodItemDelete(pos, item);
             }
         };
     }
@@ -109,6 +121,9 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
                 holder.expandableView.setVisibility(View.VISIBLE);
                 holder.nameView.setText(holder.foodItem.getName());
             }
+            else {
+                holder.expandableView.setVisibility(View.GONE);
+            }
         }
         catch (IndexOutOfBoundsException ignored){}
     }
@@ -121,6 +136,7 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
     interface AdapterNotificationInterface {
         void notifyChangeAt(int pos, boolean isExpanded);
         void notifyExpandAt(int pos);
+        void notifyDelete(int pos, FoodItem item);
     }
     
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -166,59 +182,142 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
             favoriteCheckView = v.findViewById(R.id.food_list_item_btn_favorite);
             selectionCheckView = v.findViewById(R.id.food_list_item_btn_select);
             
-            v.setOnClickListener(expandViewListener);
-            favoriteCheckView.setOnCheckedChangeListener(favoriteCheckListener);
-            selectionCheckView.setOnCheckedChangeListener(selectionCheckListener);
+            v.setOnClickListener(this::handleOnClick);
+            v.setOnLongClickListener(this::handleOnLongClick);
+            favoriteCheckView.setOnCheckedChangeListener(this::handleFavoriteCheckChange);
+            selectionCheckView.setOnCheckedChangeListener(this::handleSelectionCheckChange);
             portionInputView.addTextChangedListener(portionSizeInputWatcher);
         }
-    
-        View.OnClickListener expandViewListener = (v) -> {
-            View expandableView = v.findViewById(R.id.food_list_item_expandable);
-            TextView nameView = v.findViewById(R.id.food_list_item_name);
-            final ChangeBounds transition = new ChangeBounds();
+        
+        private void handleOnClick(View v) {
             if (!isExpanded) {
-                transition.setDuration(400);
-                TransitionManager.beginDelayedTransition((ViewGroup) v, transition);
-                expandableView.setVisibility(View.VISIBLE);
-                isExpanded = true;
-                nameView.setText(foodItem.getName());
-                adapterNotificationInterface.notifyExpandAt(getAdapterPosition());
+                expand(v);
             }
             else {
-                transition.setDuration(200);
-                TransitionManager.beginDelayedTransition((ViewGroup) v, transition);
-                expandableView.setVisibility(View.GONE);
-                isExpanded = false;
-                nameView.setText(trimItemName(foodItem.getName()));
+                collapse(v);
             }
-        };
+        }
+        
+        private void expand(View v) {
+            final ChangeBounds transition = new ChangeBounds();
+            transition.setDuration(400);
+            TransitionManager.beginDelayedTransition((ViewGroup) v, transition);
+            expandableView.setVisibility(View.VISIBLE);
+            isExpanded = true;
+            nameView.setText(foodItem.getName());
+            adapterNotificationInterface.notifyExpandAt(getAdapterPosition());
+        }
+        
+        private void collapse(View v) {
+            final ChangeBounds transition = new ChangeBounds();
+            transition.setDuration(200);
+            TransitionManager.beginDelayedTransition((ViewGroup) v, transition);
+            expandableView.setVisibility(View.GONE);
+            isExpanded = false;
+            nameView.setText(trimItemName(foodItem.getName()));
+        }
     
-        CompoundButton.OnCheckedChangeListener favoriteCheckListener = (buttonView, isChecked) -> {
-            if (!buttonView.isPressed()) return;    // Prevent false calls
+        private String trimItemName(String name) {
+            if (name.length() < 25) return name;
+        
+            return name.substring(0, 25).concat("…");
+        }
+        
+        private boolean handleOnLongClick(View v) {
+            // Allow edit/delete only on not selected items
+            if (foodItem.isSelected()) {
+                return true;
+            }
+            PopupMenu popupMenu = new PopupMenu(v.getContext(), v);
+            popupMenu.inflate(R.menu.popup_food_item);
+            popupMenu.setOnMenuItemClickListener(this::handleFoodItemMenuItemClick);
+            popupMenu.setForceShowIcon(true);   // Why on earth are icons not displayed by default?!
+            popupMenu.show();
             
+            return true;
+        }
+        
+        private boolean handleFoodItemMenuItemClick(MenuItem menuItem) {
+            AppCompatActivity context = (AppCompatActivity) nameView.getContext();
+            int id = menuItem.getItemId();
+            if (id == R.id.food_item_menu_edit) {
+                return handleFoodItemEditClick(context);
+            }
+            else if (id == R.id.food_item_menu_delete) {
+                return handleFoodItemDeleteClick(context);
+            }
+            else {
+                return false;
+            }
+        }
+        
+        private boolean handleFoodItemEditClick(AppCompatActivity context) {
+            // TODO: fix method stub
+			// First – get new values from dialog
+			// Second – update DB entry by id
+			// Third – see that update went successfully
+			// Fourth – update actual FoodItem object via set methods of foodItem
+			// Final – call adapter notifyChangeAtw via interface
+            Toast.makeText(context, "EDIT CLICKED!", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        
+        private boolean handleFoodItemDeleteClick(AppCompatActivity context) {
+            FragmentManager fm = context.getSupportFragmentManager();
+            
+            // Don't know what happens when you try
+            // to assign multiple listeners with the same key,
+            // but it doesn't hurt to clear just in case
+            context.getSupportFragmentManager().clearFragmentResultListener(FoodItemDeleteDialogFragment.REQUEST_KEY);
+            
+            fm.setFragmentResultListener(FoodItemDeleteDialogFragment.REQUEST_KEY,
+                                         context,
+                                         this::handleDeleteDialogFragmentResult);
+            new FoodItemDeleteDialogFragment().show(fm, null);
+            return true;
+        }
+        
+        private void handleDeleteDialogFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+            boolean delete = result.getBoolean(FoodItemDeleteDialogFragment.RESULT_KEY, false);
+            if (!delete) {
+                return;
+            }
+            
+            AppCompatActivity context = (AppCompatActivity) nameView.getContext();
+            long id = foodItem.getId();
+            boolean success = FoodItemDatabaseManager.markItemDeleted(AppDatabase.getInstance().foodItemDao(), id);
+            if (!success) {
+                String msg = context.getString(R.string.food_list_item_delete_fail);
+                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+                return;
+            }
+            adapterNotificationInterface.notifyDelete(getAdapterPosition(), this.foodItem);
+        }
+        
+        private void handleFavoriteCheckChange(CompoundButton buttonView, boolean isChecked) {
+            if (!buttonView.isPressed()) return;    // Prevent false calls
+    
             AppDatabase db = AppDatabase.getInstance();
             boolean success = FoodItemDatabaseManager.updateFavoriteCheck(db.foodItemDao(), foodItem.getId(), isChecked);
-            //Log.d("FAVORITE UPDATE SUCCESSFUL", Boolean.toString(success));
             if (success) {
                 foodItem.setFavorite(isChecked);
                 adapterNotificationInterface.notifyChangeAt(getAdapterPosition(), isExpanded);
             }
-        };
-    
-        CompoundButton.OnCheckedChangeListener selectionCheckListener = (buttonView, isChecked) -> {
+        }
+        
+        private void handleSelectionCheckChange(CompoundButton buttonView, boolean isChecked) {
             if (!buttonView.isPressed()) return;    // Prevent false calls
-            
+    
             foodItem.setSelected(isChecked);
             adapterNotificationInterface.notifyChangeAt(getAdapterPosition(), isExpanded);
-            
+    
             if (isChecked) {
                 foodSelectionManager.addItem(foodItem, getAdapterPosition());
             }
             else {
                 foodSelectionManager.removeItem(foodItem, getAdapterPosition());
             }
-            
-        };
+        }
     
         TextWatcher portionSizeInputWatcher = new TextWatcher() {
             @Override
@@ -231,7 +330,7 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
             public void afterTextChanged(Editable s) {
                 boolean isInFocus = portionInputView.hasFocus();
                 if (!isInFocus) return;     // prevent false calls
-                
+            
                 int portionSize;
                 try {
                     portionSize = Integer.parseInt(s.toString().trim());
@@ -245,12 +344,7 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
                 adapterNotificationInterface.notifyChangeAt(getAdapterPosition(), isExpanded);
             }
         };
-    
-        public String trimItemName(String name) {
-            if (name.length() < 25) return name;
         
-            return name.substring(0, 25).concat("…");
-        }
     }
     
 }

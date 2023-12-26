@@ -55,4 +55,10 @@
     <string name="food_history_add_fail">Ошибка! Продукты не были добавлены в историю выбора.</string>
     <string name="food_mode_search">Все</string>
     <string name="food_initial_selection_fail">Ошибка! Не получилось загрузить продукты, ранее выбранные для данного приёма пищи.</string>
+    <string name="food_list_item_popup_edit">Изменить</string>
+    <string name="food_list_item_popup_delete">Удалить</string>
+    <string name="food_list_item_delete_fail">Произошла ошибка. Продукт не был удалён.</string>
+    <string name="food_list_item_delete_confirm_btn_positive">Удалить</string>
+    <string name="food_list_item_delete_confirm_title">Вы уверены что хотите удалить данный продукт?</string>
+    <string name="food_list_item_delete_confirm_description">Удалённые продукты невозможно восстановить</string>
 </resources>
