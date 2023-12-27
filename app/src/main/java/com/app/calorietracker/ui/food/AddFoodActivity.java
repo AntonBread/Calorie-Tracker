@@ -75,10 +75,12 @@ public class AddFoodActivity extends AppCompatActivity {
             }
     
             // By design, selected food items don't register long clicks,
-            // thus they cannot be deleted and don't require
-            // an onDelete implementation beyond this empty method
+            // thus they cannot be deleted or edited and don't require
+            // respective implementations beyond these empty methods
             @Override
             public void onFoodItemDelete(int pos, FoodItem foodItem) {}
+            @Override
+            public void onFoodItemEdit(int pos, FoodItem oldItem, FoodItem newItem) {}
         };
         
         selectedFoodsRecyclerView = findViewById(R.id.food_selected_list);

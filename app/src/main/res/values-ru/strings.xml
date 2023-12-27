@@ -61,4 +61,7 @@
     <string name="food_list_item_delete_confirm_btn_positive">Удалить</string>
     <string name="food_list_item_delete_confirm_title">Вы уверены что хотите удалить данный продукт?</string>
     <string name="food_list_item_delete_confirm_description">Удалённые продукты невозможно восстановить</string>
+    <string name="food_new_btn_cancel">Отмена</string>
+    <string name="food_list_item_edit_btn_commit">Сохранить</string>
+    <string name="food_list_item_edit_fail">Произошла ошибка. Продукт не был изменён.</string>
 </resources>

@@ -190,6 +190,20 @@
             app:layout_constraintTop_toBottomOf="@id/food_new_check_add"
             app:layout_constraintWidth_default="percent"
             app:layout_constraintWidth_percent="0.5" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/food_new_btn_cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:backgroundTint="@color/white"
+            android:enabled="true"
+            android:text="@string/food_new_btn_cancel"
+            android:textColor="@color/text_secondary"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="@id/food_new_btn_save"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.3" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,6 +14,7 @@ import com.app.calorietracker.ui.food.list.FoodItem;
 import com.app.calorietracker.ui.food.list.SelectionHistoryCacheManager;
 import com.app.calorietracker.utils.FoodListUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -43,6 +44,7 @@ public class SearchHistoryFoodListFragment extends FoodListFragment {
         return inflater.inflate(R.layout.fragment_history_food, container, false);
     }
     
+    @Override
     void populateInitialList() {
         SelectionHistoryCacheManager selectionHistoryCacheManager =
                 ((AddFoodActivity) requireActivity()).getSelectionHistoryCacheManager();
@@ -50,9 +52,41 @@ public class SearchHistoryFoodListFragment extends FoodListFragment {
         if (ids == null || ids.size() == 0) return;
         
         try {
-            recentEntities = selectionHistoryCacheManager.getRecentFoodItemEntities();
-            if (recentEntities == null) return;
+            List<FoodItemEntity> entities = selectionHistoryCacheManager.getRecentFoodItemEntities();
+            if (entities == null) {
+                return;
+            }
+            recentEntities = entities;
             replaceFoodListFromEntities(recentEntities);
+        }
+        catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    @Override
+    void invalidateInitialEntityList() {
+        SelectionHistoryCacheManager selectionHistoryCacheManager =
+                ((AddFoodActivity) requireActivity()).getSelectionHistoryCacheManager();
+        ids = selectionHistoryCacheManager.getIDs();
+        
+        if (ids == null || ids.size() == 0) {
+            if (recentEntities != null) {
+                recentEntities.clear();
+            }
+            return;
+        }
+    
+        try {
+            List<FoodItemEntity> entities = selectionHistoryCacheManager.getRecentFoodItemEntities();
+            if (entities == null) {
+                if (recentEntities != null) {
+                    recentEntities.clear();
+                }
+            }
+            else {
+                recentEntities = entities;
+            }
         }
         catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
