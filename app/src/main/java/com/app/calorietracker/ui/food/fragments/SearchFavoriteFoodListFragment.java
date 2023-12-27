@@ -59,7 +59,7 @@ public class SearchFavoriteFoodListFragment extends FoodListFragment {
     void invalidateInitialEntityList() {
         FoodItemDao dao = AppDatabase.getInstance().foodItemDao();
         List<FoodItemEntity> entities = FoodItemDatabaseManager.getFavoriteFoodsList(dao);
-        if (entities == null) {
+        if (entities == null && favoriteEntities != null) {
             favoriteEntities.clear();
         }
         else {
