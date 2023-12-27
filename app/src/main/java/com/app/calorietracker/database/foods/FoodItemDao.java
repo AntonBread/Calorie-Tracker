@@ -16,7 +16,7 @@ public interface FoodItemDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     ListenableFuture<Long> insert(FoodItemEntity foodItemEntity);
     
-    @Update
+    @Update(onConflict = OnConflictStrategy.REPLACE)
     ListenableFuture<Integer> update(FoodItemEntity foodItemEntity);
     
     @Delete

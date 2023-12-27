@@ -55,6 +55,9 @@ public class AddNewFoodFragment extends Fragment {
         EditText fatInput = getView().findViewById(R.id.food_new_fat);
         EditText proteinInput = getView().findViewById(R.id.food_new_protein);
         
+        // Cancel button is redundant in this context
+        getView().findViewById(R.id.food_new_btn_cancel).setVisibility(View.GONE);
+        
         saveButton = getView().findViewById(R.id.food_new_btn_save);
         addCheck = getView().findViewById(R.id.food_new_check_add);
         portionSizeInput = getView().findViewById(R.id.food_new_portion_size);
@@ -141,7 +144,7 @@ public class AddNewFoodFragment extends Fragment {
     
     private FoodItemEntity createFoodItemEntity() {
         // The order of EditText views is the same as when forming inputFields list
-        String name = inputFields.get(0).getText().toString();
+        String name = inputFields.get(0).getText().toString().trim();
         int cals = Integer.parseInt(inputFields.get(1).getText().toString());
         float carbs = Float.parseFloat(inputFields.get(2).getText().toString());
         float fat = Float.parseFloat(inputFields.get(3).getText().toString());

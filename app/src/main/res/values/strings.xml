@@ -63,6 +63,9 @@
     <string name="food_list_item_delete_confirm_btn_positive">Delete</string>
     <string name="food_list_item_delete_fail">Error occurred. Item was not deleted.</string>
 
+    <string name="food_list_item_edit_btn_commit">Save</string>
+    <string name="food_list_item_edit_fail">Error occurred. Item was not changed.</string>
+
     <string name="food_search_query_hint">Search…</string>
 
     <string name="food_new_name_hint">Name…</string>
@@ -73,6 +76,7 @@
     <string name="food_new_protein_hint">Protein</string>
     <string name="food_new_check_add">Add item to current meal</string>
     <string name="food_new_btn_save">Save</string>
+    <string name="food_new_btn_cancel">Cancel</string>
     <string name="food_new_save_fail">An error occurred during saving. Item was not saved.</string>
 
     <!-- SETTINGS PAGE -->

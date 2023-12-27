@@ -41,6 +41,10 @@ public class SearchAllFoodListFragment extends FoodListFragment {
     @Override
     void populateInitialList() {}
     
+    // "All" search mode doesn't keep track of initial entities
+    @Override
+    void invalidateInitialEntityList() {}
+    
     @Override
     boolean handleSearchQuerySubmit(String query) {
         AppDatabase db = AppDatabase.getInstance();

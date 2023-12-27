@@ -83,6 +83,11 @@ public abstract class FoodListFragment extends Fragment {
             public void onFoodItemDelete(int pos, FoodItem foodItem) {
                 handleFoodListItemDelete(pos, foodItem);
             }
+            
+            @Override
+            public void onFoodItemEdit(int pos, FoodItem oldItem, FoodItem newItem) {
+                handleFoodListItemEdit(pos, oldItem, newItem);
+            }
         };
         
         recyclerView = requireView().findViewById(R.id.food_list);
@@ -141,7 +146,18 @@ public abstract class FoodListFragment extends Fragment {
     private void handleFoodListItemDelete(int pos, FoodItem foodItem) {
         foodItems.remove(foodItem);
         adapter.notifyItemRemoved(pos);
+        invalidateInitialEntityList();
     }
+    
+    private void handleFoodListItemEdit(int pos, FoodItem oldItem, FoodItem newItem) {
+        int listPos = foodItems.indexOf(oldItem);
+        foodItems.remove(oldItem);
+        foodItems.add(listPos, newItem);
+        adapter.notifyItemChanged(pos);
+        invalidateInitialEntityList();
+    }
+    
+    abstract void invalidateInitialEntityList();
     
     void scaleBottomPadding() {
         int paddingBase_dp = 340; // dp

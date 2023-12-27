@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.app.calorietracker.R;
 import com.app.calorietracker.database.AppDatabase;
+import com.app.calorietracker.database.foods.FoodItemDao;
 import com.app.calorietracker.database.foods.FoodItemDatabaseManager;
 import com.app.calorietracker.database.foods.FoodItemEntity;
 import com.app.calorietracker.ui.food.list.FoodItem;
@@ -52,6 +53,18 @@ public class SearchFavoriteFoodListFragment extends FoodListFragment {
         }
         replaceFoodListFromEntities(entities);
         favoriteEntities = entities;
+    }
+    
+    @Override
+    void invalidateInitialEntityList() {
+        FoodItemDao dao = AppDatabase.getInstance().foodItemDao();
+        List<FoodItemEntity> entities = FoodItemDatabaseManager.getFavoriteFoodsList(dao);
+        if (entities == null) {
+            favoriteEntities.clear();
+        }
+        else {
+            favoriteEntities = entities;
+        }
     }
     
     @Override

@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.transition.ChangeBounds;
 import android.transition.TransitionManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,6 +30,7 @@ import com.app.calorietracker.R;
 import com.app.calorietracker.database.AppDatabase;
 import com.app.calorietracker.database.foods.FoodItemDatabaseManager;
 import com.app.calorietracker.ui.food.fragments.dialog.FoodItemDeleteDialogFragment;
+import com.app.calorietracker.ui.food.fragments.dialog.FoodItemEditDialogFragment;
 import com.app.calorietracker.utils.ChartUtils;
 import com.github.mikephil.charting.charts.PieChart;
 
@@ -106,6 +108,11 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
             public void notifyDelete(int pos, FoodItem item) {
                 actionInterface.onFoodItemDelete(pos, item);
             }
+            
+            @Override
+            public void notifyReplaceAt(int pos, FoodItem oldItem, FoodItem newItem) {
+                actionInterface.onFoodItemEdit(pos, oldItem, newItem);
+            }
         };
     }
     
@@ -137,6 +144,7 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
         void notifyChangeAt(int pos, boolean isExpanded);
         void notifyExpandAt(int pos);
         void notifyDelete(int pos, FoodItem item);
+        void notifyReplaceAt(int pos, FoodItem oldItem, FoodItem newItem);
     }
     
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -252,23 +260,47 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
         }
         
         private boolean handleFoodItemEditClick(AppCompatActivity context) {
-            // TODO: fix method stub
-			// First – get new values from dialog
-			// Second – update DB entry by id
-			// Third – see that update went successfully
-			// Fourth – update actual FoodItem object via set methods of foodItem
-			// Final – call adapter notifyChangeAtw via interface
-            Toast.makeText(context, "EDIT CLICKED!", Toast.LENGTH_SHORT).show();
+            FragmentManager fm = context.getSupportFragmentManager();
+    
+            // Don't know what happens when you try
+            // to assign multiple listeners with the same key,
+            // but it doesn't hurt to clear just in case
+            fm.clearFragmentResultListener(FoodItemEditDialogFragment.REQUEST_KEY);
+            
+            fm.setFragmentResultListener(FoodItemEditDialogFragment.REQUEST_KEY,
+                                         context,
+                                         this::handleEditDialogFragmentResult);
+            
+            FoodItemEditDialogFragment editDialog = new FoodItemEditDialogFragment();
+            Bundle args = new Bundle();
+            args.putSerializable(FoodItemEditDialogFragment.ARGS_KEY, this.foodItem);
+            editDialog.setArguments(args);
+            editDialog.show(fm, null);
+            
             return true;
+        }
+        
+        private void handleEditDialogFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+            FoodItem foodItemNew = (FoodItem) result.get(FoodItemEditDialogFragment.RESULT_KEY);
+            if (foodItemNew == null) {
+                return;
+            }
+    
+            AppCompatActivity context = (AppCompatActivity) nameView.getContext();
+            boolean success = FoodItemDatabaseManager.updateItem(AppDatabase.getInstance().foodItemDao(), foodItemNew);
+            if (!success) {
+                String msg = context.getString(R.string.food_list_item_edit_fail);
+                Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
+                return;
+            }
+            adapterNotificationInterface.notifyReplaceAt(getAdapterPosition(), this.foodItem, foodItemNew);
         }
         
         private boolean handleFoodItemDeleteClick(AppCompatActivity context) {
             FragmentManager fm = context.getSupportFragmentManager();
             
-            // Don't know what happens when you try
-            // to assign multiple listeners with the same key,
-            // but it doesn't hurt to clear just in case
-            context.getSupportFragmentManager().clearFragmentResultListener(FoodItemDeleteDialogFragment.REQUEST_KEY);
+            // Same reason as in handleFoodItemEditClick method
+            fm.clearFragmentResultListener(FoodItemDeleteDialogFragment.REQUEST_KEY);
             
             fm.setFragmentResultListener(FoodItemDeleteDialogFragment.REQUEST_KEY,
                                          context,
@@ -288,7 +320,7 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
             boolean success = FoodItemDatabaseManager.markItemDeleted(AppDatabase.getInstance().foodItemDao(), id);
             if (!success) {
                 String msg = context.getString(R.string.food_list_item_delete_fail);
-                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
                 return;
             }
             adapterNotificationInterface.notifyDelete(getAdapterPosition(), this.foodItem);

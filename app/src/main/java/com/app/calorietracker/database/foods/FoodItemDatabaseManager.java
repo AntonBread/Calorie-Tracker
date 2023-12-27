@@ -1,6 +1,10 @@
 package com.app.calorietracker.database.foods;
 
+import android.annotation.SuppressLint;
+
 import androidx.annotation.Nullable;
+
+import com.app.calorietracker.ui.food.list.FoodItem;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -53,14 +57,37 @@ public class FoodItemDatabaseManager {
         try {
             int updRowCount = dao.markDeleted(id).get();
             // This operation must update exactly one db record
-            if (updRowCount != 1) {
-                throw new Exception();
-            }
+            checkUpdatedRowCount(updRowCount);
             return true;
         }
         catch (Exception e) {
             e.printStackTrace();
             return false;
         }
+    }
+    
+    public static boolean updateItem(FoodItemDao dao, FoodItem newItem) {
+        try {
+            FoodItemEntity entity = newItem.toEntity();
+            entity.setId(newItem.getId());
+            
+            int updRowCount = dao.update(entity).get();
+            checkUpdatedRowCount(updRowCount);
+            return true;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    private static void checkUpdatedRowCount(int updRowCount) throws Exception {
+        if (updRowCount == 1) {
+            return;
+        }
+    
+        @SuppressLint("DefaultLocale")
+        String eMsg = String.format("Wrong updated row count %d. Expected 1.", updRowCount);
+        throw new Exception(eMsg);
     }
 }
