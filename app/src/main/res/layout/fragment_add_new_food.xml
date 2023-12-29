@@ -103,6 +103,8 @@
                 style="@style/addNewFood_EditText_Nutrient"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:imeOptions="actionNext"
+                android:nextFocusForward="@id/food_new_fat"
                 android:hint="@string/food_new_carbs_hint" />
 
             <ImageView
@@ -117,6 +119,8 @@
                 style="@style/addNewFood_EditText_Nutrient"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:imeOptions="actionNext"
+                android:nextFocusForward="@id/food_new_protein"
                 android:hint="@string/food_new_fat_hint" />
 
             <ImageView

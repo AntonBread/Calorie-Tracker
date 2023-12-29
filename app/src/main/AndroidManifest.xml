@@ -16,6 +16,7 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
+            android:windowSoftInputMode="adjustPan"
             android:name=".ui.food.AddFoodActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
