@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.quiz.QuizActivity"
+    tools:ignore="RtlHardcoded">
+
+    <RadioGroup
+        android:id="@+id/quiz_gender_radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/quiz_gender_radio_male"
+            style="@style/quiz_RadioButton_gender"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/ic_male_120"
+            android:text="@string/quiz_gender_male" />
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/quiz_gender_radio_female"
+            style="@style/quiz_RadioButton_gender"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/ic_female_120"
+            android:text="@string/quiz_gender_female" />
+
+    </RadioGroup>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

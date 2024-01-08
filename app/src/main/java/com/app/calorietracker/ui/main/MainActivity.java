@@ -88,7 +88,14 @@ public class MainActivity extends AppCompatActivity {
             db = AppDatabase.getInstance();
         }
         
-        initSettings();
+        SettingsManager settingsManager = new SettingsManager(this);
+        try {
+            initSettings(settingsManager);
+        }
+        catch (ClassCastException e) {
+            settingsManager.resetBaselinePrefs();
+            initSettings(settingsManager);
+        }
         
         initDateSelector();
         
@@ -97,8 +104,7 @@ public class MainActivity extends AppCompatActivity {
         initNavbar();
     }
     
-    private void initSettings() {
-        SettingsManager settingsManager = new SettingsManager(this);
+    private void initSettings(SettingsManager settingsManager) throws ClassCastException {
         CALORIE_BASELINE = settingsManager.getCalorieBaseline();
         CARBS_BASELINE = settingsManager.getCarbsBaseline();
         FAT_BASELINE = settingsManager.getFatBaseline();

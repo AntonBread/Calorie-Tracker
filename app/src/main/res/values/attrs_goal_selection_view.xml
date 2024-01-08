@@ -1,0 +1,11 @@
+<resources>
+    <declare-styleable name="GoalSelectionView">
+        <attr name="goalName" format="string" />
+        <attr name="goalIcon" format="reference" />
+        <attr name="goal" format="enum">
+            <enum name="loss" value="0" />
+            <enum name="maintain" value="1" />
+            <enum name="gain" value="2" />
+        </attr>
+    </declare-styleable>
+</resources>

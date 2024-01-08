@@ -10,6 +10,14 @@ import androidx.preference.PreferenceManager;
 import java.util.Locale;
 
 public class SettingsManager {
+    
+    private static final int DEFAULT_CALORIES = 2500;
+    private static final float DEFAULT_CARBS = 300.0f;
+    private static final float DEFAULT_FAT = 80.0f;
+    private static final float DEFAULT_PROTEIN = 125.0f;
+    private static final int DEFAULT_WATER = 3000;
+    private static final int DEFAULT_WATER_STEP = 100;
+    
     private final SharedPreferences prefs;
     
     public SettingsManager(Context context) {
@@ -18,55 +26,55 @@ public class SettingsManager {
     
     public int getCalorieBaseline() {
         try {
-            return Integer.parseInt(prefs.getString("calories", "2500"));
+            return Integer.parseInt(prefs.getString("calories", String.valueOf(DEFAULT_CALORIES)));
         }
         catch (NumberFormatException e) {
-            return 2500;
+            return DEFAULT_CALORIES;
         }
     }
     
     public float getCarbsBaseline() {
         try {
-            return Float.parseFloat(prefs.getString("carbs", "250"));
+            return Float.parseFloat(prefs.getString("carbs", String.valueOf(DEFAULT_CARBS)));
         }
         catch (NumberFormatException e) {
-            return 250.0f;
+            return DEFAULT_CARBS;
         }
     }
     
     public float getFatBaseline() {
         try {
-            return Float.parseFloat(prefs.getString("fat", "80"));
+            return Float.parseFloat(prefs.getString("fat", String.valueOf(DEFAULT_FAT)));
         }
         catch (NumberFormatException e) {
-            return 80.0f;
+            return DEFAULT_FAT;
         }
     }
     
     public float getProteinBaseline() {
         try {
-            return Float.parseFloat(prefs.getString("protein", "175"));
+            return Float.parseFloat(prefs.getString("protein", String.valueOf(DEFAULT_PROTEIN)));
         }
         catch (NumberFormatException e) {
-            return 175.0f;
+            return DEFAULT_PROTEIN;
         }
     }
     
     public int getWaterBaseline() {
         try {
-            return Integer.parseInt(prefs.getString("water", "2000"));
+            return Integer.parseInt(prefs.getString("water", String.valueOf(DEFAULT_WATER)));
         }
         catch (NumberFormatException e) {
-            return 2000;
+            return DEFAULT_WATER;
         }
     }
     
     public int getWaterStep() {
         try {
-            return Integer.parseInt(prefs.getString("water_step", "200"));
+            return Integer.parseInt(prefs.getString("water_step", String.valueOf(DEFAULT_WATER_STEP)));
         }
         catch (NumberFormatException e) {
-            return 200;
+            return DEFAULT_WATER_STEP;
         }
     }
     
@@ -80,6 +88,22 @@ public class SettingsManager {
         
         LocaleListCompat appLocale = LocaleListCompat.create(locale);
         AppCompatDelegate.setApplicationLocales(appLocale);
+    }
+    
+    public void resetBaselinePrefs() {
+        setBaselinePrefs(DEFAULT_CALORIES, DEFAULT_CARBS, DEFAULT_FAT, DEFAULT_PROTEIN, DEFAULT_WATER);
+    }
+    
+    public void setBaselinePrefs(int calories, float carbs, float fat, float protein, int water) {
+        SharedPreferences.Editor editor = prefs.edit();
+        
+        editor.putString("calories", String.valueOf(calories));
+        editor.putString("carbs", String.valueOf(carbs));
+        editor.putString("fat", String.valueOf(fat));
+        editor.putString("protein", String.valueOf(protein));
+        editor.putString("water", String.valueOf(water));
+        
+        editor.apply();
     }
     
 }
