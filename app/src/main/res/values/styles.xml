@@ -11,7 +11,9 @@
     <style name="ProgressBarVertical">
         <item name="android:indeterminateOnly">false</item>
         <item name="android:progressDrawable">@drawable/progress_vertical_calories</item>
-        <item name="android:indeterminateProgressStyle">@android:drawable/progress_indeterminate_horizontal</item>
+        <item name="android:indeterminateProgressStyle">
+            @android:drawable/progress_indeterminate_horizontal
+        </item>
         <item name="android:minWidth">6dp</item>
     </style>
 
@@ -32,7 +34,7 @@
     <style name="ProgressBarVerticalNutrientProtein" parent="ProgressBarVerticalNutrient">
         <item name="android:progressDrawable">@drawable/progress_vertical_protein</item>
     </style>
-    
+
     <style name="Text_Main_Section_Title">
         <item name="fontFamily">@font/inter_medium</item>
         <item name="android:textSize">16sp</item>
@@ -58,7 +60,9 @@
     <style name="ProgressBarWater">
         <item name="android:indeterminateOnly">false</item>
         <item name="android:progressDrawable">@drawable/progress_water</item>
-        <item name="android:indeterminateProgressStyle">@android:drawable/progress_indeterminate_horizontal</item>
+        <item name="android:indeterminateProgressStyle">
+            @android:drawable/progress_indeterminate_horizontal
+        </item>
     </style>
 
     <style name="DatePickerDialog" parent="Theme.Material3.Light.Dialog">
@@ -72,7 +76,7 @@
     </style>
 
 
-    <style name="FoodModeButton" parent="Widget.AppCompat.Button" >
+    <style name="FoodModeButton" parent="Widget.AppCompat.Button">
         <item name="android:backgroundTint">@color/food_mode_button_tint</item>
         <item name="android:textColor">@color/food_mode_button_text</item>
     </style>
@@ -90,6 +94,42 @@
         <item name="android:layout_marginRight">8dp</item>
         <item name="android:layout_weight">0.33</item>
         <item name="android:inputType">numberDecimal</item>
+    </style>
+
+    <style name="quiz_NumberPicker" parent="Theme.CalorieTracker">
+        <item name="android:colorControlNormal">@color/orange_bright</item>
+    </style>
+
+    <style name="quiz_NumberPicker_Large" parent="quiz_NumberPicker">
+        <item name="android:textSize">32sp</item>
+    </style>
+
+    <style name="quiz_NumberPicker_Small" parent="quiz_NumberPicker">
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="quiz_RadioButton_gender">
+        <item name="android:textSize">24sp</item>
+        <item name="android:gravity">center_horizontal|bottom</item>
+        <item name="android:button">@null</item>
+        <item name="android:drawableBottom">@drawable/quiz_gender_radio_button</item>
+        <item name="android:drawablePadding">16dp</item>
+    </style>
+
+    <style name="QuizRadioSelectionView">
+        <item name="android:background">@drawable/back_quiz_custom_radio</item>
+    </style>
+
+    <style name="Text_Quiz_Result">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">40dp</item>
+        <item name="android:padding">4dp</item>
+        <item name="android:drawablePadding">12dp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">20sp</item>
+        <item name="layout_constraintRight_toRightOf">parent</item>
+        <item name="layout_constraintLeft_toLeftOf">parent</item>
     </style>
 
 </resources>

@@ -90,9 +90,61 @@
     <string name="settings_water_title">Water (ml)</string>
     <string name="settings_water_step_title">Cup size (ml)</string>
     <string name="settings_water_step_message">Amount of water added/subtracted on pressing +/- button on main page</string>
+    <string name="settings_quiz_summary">Answer a small list of questions and get personal dietary plan</string>
 
     <string name="settings_lang_en" translatable="false">English</string>
     <string name="settings_lang_ru" translatable="false">Русский</string>
 
+
+    <!-- QUIZ PAGE -->
+    <string name="quiz_btn_skip">Skip</string>
+    <string name="quiz_btn_prev">Back</string>
+    <string name="quiz_btn_next">Next</string>
+    <string name="quiz_btn_finish">Finish</string>
+    <string name="quiz_btn_confirm_result">OK</string>
+
+    <string name="quiz_title_age">Your age</string>
+    <string name="quiz_title_sex">Your sex</string>
+    <string name="quiz_title_height">Your height</string>
+    <string name="quiz_title_weight">Your weight</string>
+    <string name="quiz_title_activity">Your activity level</string>
+    <string name="quiz_title_goal">What is your goal?</string>
+    <string name="quiz_title_result">Results</string>
+
+    <string name="quiz_age_unit">yrs</string>
+
+    <string name="quiz_gender_male">Male</string>
+    <string name="quiz_gender_female">Female</string>
+
+    <string name="quiz_height_unit">cm</string>
+
+    <string name="quiz_weight_unit_kg">kg</string>
+    <string name="quiz_weight_unit_g">g</string>
+
+    <string name="quiz_activity_very_low_title">Sedentary</string>
+    <string name="quiz_activity_low_title">Light</string>
+    <string name="quiz_activity_low_description">Exercise 1–3 times a week or light physical work</string>
+    <string name="quiz_activity_medium_title">Moderate</string>
+    <string name="quiz_activity_medium_description">Exercise 4–5 times a week or moderate physical work</string>
+    <string name="quiz_activity_high_title">High</string>
+    <string name="quiz_activity_high_description">Exercise 6–7 times a week or hard physical work</string>
+    <string name="quiz_activity_very_high_title">Very high</string>
+    <string name="quiz_activity_very_high_description">Intense exercise or hard physical work every day</string>
+
+    <string name="quiz_goal_lose">Weight loss</string>
+    <string name="quiz_goal_maintain">Maintaining weight</string>
+    <string name="quiz_goal_gain">Weight gain</string>
+    <string name="settings_quiz_title">Auto-calculate</string>
+    <string name="quiz_activity_very_low_description">Little or no exercise</string>
+
+    <string name="quiz_result_title">Your daily consumption should be:</string>
+    <string name="quiz_result_calories_format">%d kcal</string>
+    <string name="quiz_result_carbs_format">%.1f g of carbs (50%%)</string>
+    <string name="quiz_result_fat_format">%.1f g of fat (30%%)</string>
+    <string name="quiz_result_protein_format">%.1f g of protein (20%%)</string>
+    <string name="quiz_result_water_format">%d mL of clean water</string>
+
+    <string name="quiz_skip_dialog_title">Are you sure you want to skip this test?</string>
+    <string name="quiz_skip_dialog_description">Your consumption norms will not be changed</string>
 
 </resources>

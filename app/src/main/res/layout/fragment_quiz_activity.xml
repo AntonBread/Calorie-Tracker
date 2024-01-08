@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.quiz.QuizActivity"
+    tools:ignore="RtlHardcoded,ContentDescription">
+
+    <com.app.calorietracker.ui.quiz.views.QuizRadioSelectionGroup
+        android:id="@+id/quiz_activity_radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.app.calorietracker.ui.quiz.views.ActivityLevelSelectionView
+            android:id="@+id/quiz_activity_level_1"
+            style="@style/QuizRadioSelectionView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:activityLevel="very_low"
+            app:levelDescription="@string/quiz_activity_very_low_description"
+            app:levelIcon="@drawable/ic_activity_level_1"
+            app:levelName="@string/quiz_activity_very_low_title" />
+
+        <com.app.calorietracker.ui.quiz.views.ActivityLevelSelectionView
+            android:id="@+id/quiz_activity_level_2"
+            style="@style/QuizRadioSelectionView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:activityLevel="low"
+            app:levelDescription="@string/quiz_activity_low_description"
+            app:levelIcon="@drawable/ic_activity_level_2"
+            app:levelName="@string/quiz_activity_low_title" />
+
+        <com.app.calorietracker.ui.quiz.views.ActivityLevelSelectionView
+            android:id="@+id/quiz_activity_level_3"
+            style="@style/QuizRadioSelectionView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:activityLevel="medium"
+            app:levelDescription="@string/quiz_activity_medium_description"
+            app:levelIcon="@drawable/ic_activity_level_3"
+            app:levelName="@string/quiz_activity_medium_title" />
+
+        <com.app.calorietracker.ui.quiz.views.ActivityLevelSelectionView
+            android:id="@+id/quiz_activity_level_4"
+            style="@style/QuizRadioSelectionView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:activityLevel="high"
+            app:levelDescription="@string/quiz_activity_high_description"
+            app:levelIcon="@drawable/ic_activity_level_4"
+            app:levelName="@string/quiz_activity_high_title" />
+
+        <com.app.calorietracker.ui.quiz.views.ActivityLevelSelectionView
+            android:id="@+id/quiz_activity_level_5"
+            style="@style/QuizRadioSelectionView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:activityLevel="very_high"
+            app:levelDescription="@string/quiz_activity_very_high_description"
+            app:levelIcon="@drawable/ic_activity_level_5"
+            app:levelName="@string/quiz_activity_very_high_title" />
+
+    </com.app.calorietracker.ui.quiz.views.QuizRadioSelectionGroup>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

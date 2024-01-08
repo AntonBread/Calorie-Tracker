@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.quiz.QuizActivity"
+    tools:ignore="RtlHardcoded,ContentDescription">
+
+    <com.app.calorietracker.ui.quiz.views.QuizRadioSelectionGroup
+        android:id="@+id/quiz_goal_radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.app.calorietracker.ui.quiz.views.GoalSelectionView
+            android:id="@+id/quiz_goal_1"
+            style="@style/QuizRadioSelectionView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:goal="loss"
+            app:goalIcon="@drawable/ic_weight_loss"
+            app:goalName="@string/quiz_goal_lose" />
+
+        <com.app.calorietracker.ui.quiz.views.GoalSelectionView
+            android:id="@+id/quiz_goal_2"
+            style="@style/QuizRadioSelectionView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:goal="maintain"
+            app:goalIcon="@drawable/ic_weight_maintain"
+            app:goalName="@string/quiz_goal_maintain" />
+
+        <com.app.calorietracker.ui.quiz.views.GoalSelectionView
+            android:id="@+id/quiz_goal_3"
+            style="@style/QuizRadioSelectionView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:goal="gain"
+            app:goalIcon="@drawable/ic_weight_gain"
+            app:goalName="@string/quiz_goal_gain" />
+
+    </com.app.calorietracker.ui.quiz.views.QuizRadioSelectionGroup>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

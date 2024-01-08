@@ -7,6 +7,14 @@
         app:allowDividerBelow="true"
         app:title="@string/settings_baselines_header">
 
+        <Preference
+            app:allowDividerAbove="true"
+            app:allowDividerBelow="true"
+            app:icon="@drawable/ic_quiz_40"
+            app:key="quiz"
+            app:summary="@string/settings_quiz_summary"
+            app:title="@string/settings_quiz_title" />
+
         <EditTextPreference
             app:allowDividerAbove="true"
             app:allowDividerBelow="true"

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.quiz.QuizActivity"
+    tools:ignore="RtlHardcoded,MissingConstraints">
+
+    <TextView
+        android:id="@+id/quiz_result_title"
+        style="@style/Text_Quiz_Result"
+        android:layout_marginTop="0dp"
+        android:text="@string/quiz_result_title"
+        android:textSize="24sp"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/quiz_result_cals"
+        style="@style/Text_Quiz_Result"
+        android:layout_marginTop="20dp"
+        android:text="@string/sample"
+        app:drawableLeftCompat="@drawable/ic_kcal_24"
+        app:layout_constraintTop_toBottomOf="@id/quiz_result_title" />
+
+    <TextView
+        android:id="@+id/quiz_result_carbs"
+        style="@style/Text_Quiz_Result"
+        android:text="@string/sample"
+        app:drawableLeftCompat="@drawable/ic_prefs_carbs_24"
+        app:layout_constraintTop_toBottomOf="@id/quiz_result_cals" />
+
+    <TextView
+        android:id="@+id/quiz_result_fat"
+        style="@style/Text_Quiz_Result"
+        android:text="@string/sample"
+        app:drawableLeftCompat="@drawable/ic_prefs_fat_24"
+        app:layout_constraintTop_toBottomOf="@id/quiz_result_carbs" />
+
+    <TextView
+        android:id="@+id/quiz_result_protein"
+        style="@style/Text_Quiz_Result"
+        android:text="@string/sample"
+        app:drawableLeftCompat="@drawable/ic_prefs_protein_24"
+        app:layout_constraintTop_toBottomOf="@id/quiz_result_fat" />
+
+    <TextView
+        android:id="@+id/quiz_result_water"
+        style="@style/Text_Quiz_Result"
+        android:text="@string/sample"
+        app:drawableLeftCompat="@drawable/ic_prefs_water_24"
+        app:layout_constraintTop_toBottomOf="@id/quiz_result_protein" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
