@@ -24,6 +24,10 @@
     <string name="main_water">Water</string>
     <string name="main_water_consumption">%d.%d0 / %d.%d0 L</string>
 
+    <string name="main_weight_btn_tooltip">Change weight</string>
+    <string name="main_weight_dialog_title">Your weight as of %s:</string>
+    <string name="main_weight_dialog_btn_positive">Apply</string>
+
 
     <!-- NAVIGATION BAR -->
     <string name="nav_main">Main</string>

@@ -12,9 +12,11 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.AppCompatImageButton;
+import androidx.fragment.app.FragmentManager;
 
 import com.app.calorietracker.R;
 import com.app.calorietracker.database.AppDatabase;
@@ -22,6 +24,7 @@ import com.app.calorietracker.database.user.UserDiaryEntity;
 import com.app.calorietracker.ui.food.AddFoodActivity;
 import com.app.calorietracker.ui.food.FoodActivityIntentVars;
 import com.app.calorietracker.ui.food.list.FoodItem;
+import com.app.calorietracker.ui.main.dialog.ChangeWeightDialogFragment;
 import com.app.calorietracker.ui.settings.SettingsActivity;
 import com.app.calorietracker.ui.settings.SettingsManager;
 import com.app.calorietracker.utils.DateFormatter;
@@ -83,8 +86,6 @@ public class MainActivity extends AppCompatActivity {
         }
         catch (NullPointerException e) {
             AppDatabase.instanceInit(getApplicationContext(), AppDatabase.MODE_STANDARD);
-        }
-        finally {
             db = AppDatabase.getInstance();
         }
         
@@ -202,6 +203,9 @@ public class MainActivity extends AppCompatActivity {
         updateSelectedDateText();
         UserDiaryEntity entity = new UserDiaryEntity();
         entity.set_date(selectedDate);
+        if (currentEntry != null) {
+            entity.setWeight_g(currentEntry.getWeight_g());
+        }
         try {
             long id = db.userDiaryDao().insert(entity).get();
         }
@@ -213,7 +217,7 @@ public class MainActivity extends AppCompatActivity {
     
     private void updateSelectedDateText() {
         TextView dateView = findViewById(R.id.main_text_date);
-        dateView.setText(DateFormatter.getDateText(selectedDate));
+        dateView.setText(DateFormatter.getDiaryDateText(selectedDate));
     }
     
     private void updateActivityDataViews() {
@@ -373,6 +377,29 @@ public class MainActivity extends AppCompatActivity {
             case SNACKS:
                 currentEntry.setOther(foods);
         }
+        updateDatabaseEntry();
+    }
+    
+    public void showChangeWeightDialog(View v) {
+        FragmentManager fm = getSupportFragmentManager();
+        fm.clearFragmentResultListener(ChangeWeightDialogFragment.REQUEST_KEY);
+        fm.setFragmentResultListener(ChangeWeightDialogFragment.REQUEST_KEY,
+                                     this,
+                                     this::handleChangeWeightDialogResult);
+        
+        Bundle args = new Bundle();
+        args.putInt(ChangeWeightDialogFragment.ARGS_WEIGHT_KEY, currentEntry.getWeight_g());
+        args.putSerializable(ChangeWeightDialogFragment.ARGS_DATE_KEY, selectedDate);
+        
+        ChangeWeightDialogFragment dialog = new ChangeWeightDialogFragment();
+        dialog.setArguments(args);
+        dialog.show(fm, null);
+    }
+    
+    private void handleChangeWeightDialogResult(@NonNull String requestKey, @NonNull Bundle result) {
+        int weight = result.getInt(ChangeWeightDialogFragment.RESULT_KEY);
+        
+        currentEntry.setWeight_g(weight);
         updateDatabaseEntry();
     }
     

@@ -10,15 +10,17 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 import com.app.calorietracker.R;
+import com.app.calorietracker.database.AppDatabase;
+import com.app.calorietracker.database.user.UserDiaryEntity;
 import com.app.calorietracker.ui.quiz.QuizData;
 import com.app.calorietracker.ui.quiz.QuizData.Sex;
 import com.app.calorietracker.ui.settings.SettingsManager;
 
-import org.w3c.dom.Text;
+import java.time.LocalDate;
+import java.util.concurrent.ExecutionException;
 
 public class ResultQuizFragment extends Fragment {
     
@@ -34,7 +36,7 @@ public class ResultQuizFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         SettingsManager settingsManager = new SettingsManager(requireContext());
-    
+        
         Bundle args = getArguments();
         assert args != null;
         QuizData quizData = (QuizData) args.get(ARGS_KEY);
@@ -50,6 +52,7 @@ public class ResultQuizFragment extends Fragment {
         float protein = calculateProteinNorm(calories);
         
         settingsManager.setBaselinePrefs(calories, carbs, fat, protein, water);
+        setUserDiaryWeight(quizData.getWeight());
         
         initTextViews(view, calories, carbs, fat, protein, water);
     }
@@ -130,6 +133,36 @@ public class ResultQuizFragment extends Fragment {
         // 1g of protein = 4 calories
         float protein = proteinCaloriesFraction / 4;
         return Math.round(protein * 10.0) / 10.0f;
+    }
+    
+    private void setUserDiaryWeight(int weight) {
+        AppDatabase db;
+        try {
+            db = AppDatabase.getInstance();
+        }
+        catch (NullPointerException e) {
+            AppDatabase.instanceInit(requireActivity().getApplicationContext(), AppDatabase.MODE_STANDARD);
+            db = AppDatabase.getInstance();
+        }
+        
+        LocalDate date = LocalDate.now();
+        
+        try {
+            UserDiaryEntity entity = db.userDiaryDao().getDiaryEntry(date).get();
+            if (entity != null) {
+                entity.setWeight_g(weight);
+                db.userDiaryDao().update(entity);
+            }
+            else {
+                entity = new UserDiaryEntity();
+                entity.set_date(date);
+                entity.setWeight_g(weight);
+                db.userDiaryDao().insert(entity);
+            }
+        }
+        catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
     }
     
 }
