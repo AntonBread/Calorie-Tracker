@@ -30,6 +30,18 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/main_btn_weight"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginRight="12dp"
+                android:onClick="showChangeWeightDialog"
+                android:src="@drawable/btn_weight_48"
+                android:tooltipText="@string/main_weight_btn_tooltip"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <!-- DATE SELECTOR -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/main_section_date"
@@ -167,10 +179,10 @@
                     <TextView
                         android:id="@+id/main_nutrients_text_carbs"
                         style="@style/Text_Main_Section_Title"
-                        android:padding="0dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawablePadding="6dp"
+                        android:padding="0dp"
                         android:text="@string/main_nutrients_carbs"
                         app:drawableLeftCompat="@drawable/text_nutrient_hint"
                         app:drawableTint="@color/nutrient_carbs" />
@@ -178,11 +190,11 @@
                     <TextView
                         android:id="@+id/main_nutrients_text_fat"
                         style="@style/Text_Main_Section_Title"
-                        android:padding="0dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:drawablePadding="6dp"
+                        android:padding="0dp"
                         android:text="@string/main_nutrients_fat"
                         app:drawableLeftCompat="@drawable/text_nutrient_hint"
                         app:drawableTint="@color/nutrient_fat" />
@@ -190,11 +202,11 @@
                     <TextView
                         android:id="@+id/main_nutrients_text_protein"
                         style="@style/Text_Main_Section_Title"
-                        android:padding="0dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:drawablePadding="6dp"
+                        android:padding="0dp"
                         android:text="@string/main_nutrients_protein"
                         app:drawableLeftCompat="@drawable/text_nutrient_hint"
                         app:drawableTint="@color/nutrient_protein" />
@@ -204,10 +216,10 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:layout_marginRight="24dp"
-                    android:paddingBottom="8dp"
+                    android:orientation="horizontal"
                     android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 

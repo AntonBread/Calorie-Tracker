@@ -13,6 +13,7 @@ public class DateFormatter {
     
     private static DateTimeFormatter dayOfWeekFmt;
     private static DateTimeFormatter monthDayFmt;
+    private static DateTimeFormatter dayMonthYearFmt;
     private static String strToday;
     private static String strYesterday;
     private static Locale locale;
@@ -29,9 +30,10 @@ public class DateFormatter {
         else {
             monthDayFmt = DateTimeFormatter.ofPattern("MMMM d", locale);
         }
+        dayMonthYearFmt = DateTimeFormatter.ofPattern("dd.MM.yy", locale);
     }
     
-    public static String getDateText(LocalDate date) {
+    public static String getDiaryDateText(LocalDate date) {
         StringBuilder text = new StringBuilder();
         text.append(getDatePrefix(date));
         text.append(getDateBody(date));
@@ -42,6 +44,10 @@ public class DateFormatter {
         
         return text.toString();
     }
+    
+     public static String getWeightDialogDateText(LocalDate date) {
+        return date.format(dayMonthYearFmt);
+     }
     
     private static String getDatePrefix(LocalDate date) {
         LocalDate today = LocalDate.now();

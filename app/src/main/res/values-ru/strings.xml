@@ -105,4 +105,7 @@
     <string name="quiz_result_title">Ваше рекомендуемое суточное потребление:</string>
     <string name="quiz_skip_dialog_title">Вы уверены что хотите пропустить этот опрос?</string>
     <string name="quiz_skip_dialog_description">Нормы потребления не будут изменены</string>
+    <string name="main_weight_btn_tooltip">Изменить вес</string>
+    <string name="main_weight_dialog_title">Ваш вес на %s:</string>
+    <string name="main_weight_dialog_btn_positive">Принять</string>
 </resources>
