@@ -108,4 +108,11 @@
     <string name="main_weight_btn_tooltip">Изменить вес</string>
     <string name="main_weight_dialog_title">Ваш вес на %s:</string>
     <string name="main_weight_dialog_btn_positive">Принять</string>
+    <string name="stats_type_weight">Вес</string>
+    <string name="stats_type_calories">Калории</string>
+    <string name="stats_time_week">Неделя</string>
+    <string name="stats_time_month">Месяц</string>
+    <string name="stats_time_month_3">3 Месяца</string>
+    <string name="stats_time_year">Год</string>
+    <string name="stats_time_all">Всё время</string>
 </resources>

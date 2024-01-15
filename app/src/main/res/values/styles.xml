@@ -131,5 +131,17 @@
         <item name="layout_constraintRight_toRightOf">parent</item>
         <item name="layout_constraintLeft_toLeftOf">parent</item>
     </style>
+    
+    <style name="StatsTimeButton">
+        <item name="android:button">@android:color/transparent</item>
+        <item name="android:textSize">14sp</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">2dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textColor">@color/stats_time_button_text</item>
+        <item name="android:backgroundTint">@color/stats_time_button_tint</item>
+        <item name="android:background">@drawable/btn_stats_time_back</item>
+    </style>
 
 </resources>

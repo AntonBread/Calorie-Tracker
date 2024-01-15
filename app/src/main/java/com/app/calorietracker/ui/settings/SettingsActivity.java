@@ -14,6 +14,7 @@ import androidx.preference.PreferenceFragmentCompat;
 import com.app.calorietracker.R;
 import com.app.calorietracker.ui.main.MainActivity;
 import com.app.calorietracker.ui.quiz.QuizActivity;
+import com.app.calorietracker.ui.stats.StatsActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Locale;
@@ -48,6 +49,7 @@ public class SettingsActivity extends AppCompatActivity {
                 return true;
             }
             else if (id == R.id.navigation_progress) {
+                startActivity(new Intent(getBaseContext(), StatsActivity.class));
                 return true;
             }
             else {

@@ -151,4 +151,15 @@
     <string name="quiz_skip_dialog_title">Are you sure you want to skip this test?</string>
     <string name="quiz_skip_dialog_description">Your consumption norms will not be changed</string>
 
+
+    <!-- STATS PAGE -->
+    <string name="stats_type_weight">Weight</string>
+    <string name="stats_type_calories">Calories</string>
+
+    <string name="stats_time_week">Week</string>
+    <string name="stats_time_month">Month</string>
+    <string name="stats_time_month_3">3 Months</string>
+    <string name="stats_time_year">Year</string>
+    <string name="stats_time_all">All time</string>
+
 </resources>
