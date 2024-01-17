@@ -90,6 +90,16 @@ public class SettingsManager {
         AppCompatDelegate.setApplicationLocales(appLocale);
     }
     
+    public int getUserHeight_cm() {
+        return prefs.getInt("height", -1);
+    }
+    
+    public void setUserHeight_cm(int height) {
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt("height", height);
+        editor.apply();
+    }
+    
     public void resetBaselinePrefs() {
         setBaselinePrefs(DEFAULT_CALORIES, DEFAULT_CARBS, DEFAULT_FAT, DEFAULT_PROTEIN, DEFAULT_WATER);
     }
