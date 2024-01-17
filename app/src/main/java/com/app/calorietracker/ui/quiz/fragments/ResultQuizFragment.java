@@ -52,6 +52,7 @@ public class ResultQuizFragment extends Fragment {
         float protein = calculateProteinNorm(calories);
         
         settingsManager.setBaselinePrefs(calories, carbs, fat, protein, water);
+        settingsManager.setUserHeight_cm(quizData.getHeight());
         setUserDiaryWeight(quizData.getWeight());
         
         initTextViews(view, calories, carbs, fat, protein, water);
