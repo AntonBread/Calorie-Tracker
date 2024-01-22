@@ -176,4 +176,7 @@
     <string name="stats_weight_value_speed_suffix_week">/week</string>
     <string name="stats_weight_value_speed_suffix_month">/month</string>
 
+    <string name="stats_calories_empty">There is no calorie consumption data for chosen interval</string>
+    <string name="stats_weight_empty">There is no weight data for chosen interval</string>
+
 </resources>

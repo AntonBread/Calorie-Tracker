@@ -49,7 +49,7 @@ public class StatsStringFormatter {
     
     @Nullable
     public String getWeightChangeSpeedString(float changeSpeed, WeightChangeSpeedInterval interval) {
-        if (changeSpeed == Float.MIN_VALUE || changeSpeed == 0 || interval == WeightChangeSpeedInterval.NONE) {
+        if (changeSpeed == Float.MIN_VALUE || interval == WeightChangeSpeedInterval.NONE) {
             return null;
         }
         String fmt = context.getString(R.string.stats_weight_value_speed_format);
