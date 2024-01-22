@@ -110,10 +110,10 @@
         <com.github.mikephil.charting.charts.BarChart
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -124,12 +124,79 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:background="@drawable/back_section_general"
+        android:paddingBottom="16dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/stats_section_chart"
         app:layout_constraintWidth_default="percent"
         app:layout_constraintWidth_percent="0.94">
 
+        <com.app.calorietracker.ui.stats.views.StatTextView
+            android:id="@+id/stats_text_weight_delta"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="12dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:statIcon="@drawable/ic_weight_delta_loss"
+            app:statTitle="@string/stats_weight_title_delta_loss" />
+
+        <com.app.calorietracker.ui.stats.views.StatTextView
+            android:id="@+id/stats_text_weight_speed"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginRight="12dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/stats_text_weight_delta"
+            app:statIcon="@drawable/ic_weight_speed"
+            app:statTitle="@string/stats_weight_title_speed" />
+
+        <com.app.calorietracker.ui.stats.views.StatTextView
+            android:id="@+id/stats_text_weight_bmi"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginRight="12dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/stats_text_weight_speed"
+            app:statIcon="@drawable/ic_weight_bmi"
+            app:statTitle="@string/stats_weight_title_bmi" />
+
+        <com.app.calorietracker.ui.stats.views.StatTextView
+            android:id="@+id/stats_text_calories_total"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="12dp"
+            android:visibility="gone"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:statIcon="@drawable/ic_kcal_28"
+            app:statTitle="@string/stats_calories_title_total" />
+
+        <com.app.calorietracker.ui.stats.views.StatTextView
+            android:id="@+id/stats_text_calories_avg"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginRight="12dp"
+            android:visibility="gone"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/stats_text_calories_total"
+            app:statIcon="@drawable/ic_kcal_28"
+            app:statTitle="@string/stats_calories_title_avg" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

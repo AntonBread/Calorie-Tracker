@@ -162,4 +162,18 @@
     <string name="stats_time_year">Year</string>
     <string name="stats_time_all">All time</string>
 
+    <string name="stats_calories_title_total">Total consumption</string>
+    <string name="stats_calories_title_avg">Average daily consumption</string>
+    <string name="stats_weight_title_delta_loss">Total weight loss</string>
+    <string name="stats_weight_title_delta_gain">Total weight gain</string>
+    <string name="stats_weight_title_delta_no">No weight change</string>
+    <string name="stats_weight_title_speed">Weight change rate</string>
+    <string name="stats_weight_title_bmi">Current Body Mass Index (BMI)</string>
+
+    <string name="stats_calories_value_format">%d kcal</string>
+    <string name="stats_weight_value_delta_format">%.1f kg</string>
+    <string name="stats_weight_value_speed_format">%.2f kg</string>
+    <string name="stats_weight_value_speed_suffix_week">/week</string>
+    <string name="stats_weight_value_speed_suffix_month">/month</string>
+
 </resources>

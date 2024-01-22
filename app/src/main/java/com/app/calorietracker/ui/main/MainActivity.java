@@ -208,6 +208,9 @@ public class MainActivity extends AppCompatActivity {
         if (currentEntry != null) {
             entity.setWeight_g(currentEntry.getWeight_g());
         }
+        else {
+            entity.setWeight_g(getPreviousDayWeight());
+        }
         try {
             long id = db.userDiaryDao().insert(entity).get();
         }
@@ -215,6 +218,16 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         updateActivityDataViews();
+    }
+    
+    private int getPreviousDayWeight() {
+        try {
+            UserDiaryEntity prevEntity = db.userDiaryDao().getDiaryEntry(selectedDate.minusDays(1)).get();
+            return (prevEntity != null) ? prevEntity.getWeight_g() : 0;
+        }
+        catch (ExecutionException | InterruptedException e) {
+            return 0;
+        }
     }
     
     private void updateSelectedDateText() {

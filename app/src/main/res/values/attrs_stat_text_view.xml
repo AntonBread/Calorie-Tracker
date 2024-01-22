@@ -1,0 +1,7 @@
+<resources>
+    <declare-styleable name="StatTextView">
+        <attr name="statTitle" format="string" />
+        <attr name="statIcon" format="reference" />
+        <attr name="statValue" format="string" />
+    </declare-styleable>
+</resources>
