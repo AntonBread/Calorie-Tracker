@@ -127,4 +127,6 @@
     <string name="stats_weight_value_speed_format">%.2f кг</string>
     <string name="stats_weight_title_delta_gain">Суммарный набор массы</string>
     <string name="stats_weight_title_delta_no">Вес не изменился</string>
+    <string name="stats_calories_empty">Для выбранного интервала отсутствуют данные потребления калорий</string>
+    <string name="stats_weight_empty">Для выбранного интервала отсутствуют данные о весе</string>
 </resources>

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,7 +23,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
 public class StatsActivity extends AppCompatActivity {
@@ -56,6 +56,8 @@ public class StatsActivity extends AppCompatActivity {
     private StatTextView caloriesTotalView;
     private StatTextView caloriesAvgView;
     
+    private TextView statsEmptyTextView;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +68,7 @@ public class StatsActivity extends AppCompatActivity {
         weightBmiView = findViewById(R.id.stats_text_weight_bmi);
         caloriesTotalView = findViewById(R.id.stats_text_calories_total);
         caloriesAvgView = findViewById(R.id.stats_text_calories_avg);
+        statsEmptyTextView = findViewById(R.id.stats_text_empty);
         
         calculator = new StatsCalculator(this);
         stringFormatter = new StatsStringFormatter(this);
@@ -141,10 +144,9 @@ public class StatsActivity extends AppCompatActivity {
         }
         if (mTimeRangeChanged) {
             dataList = fetchDiaryData();
-            if (dataList == null || dataList.size() == 0) {
-                displayDataListEmptyInfo();
-                return;
-            }
+            // MainActivity is launcher Activity and starts by inserting/getting
+            // diary entity for current date, so this list should never be null/empty
+            assert dataList != null;
             mTimeRangeChanged = false;
         }
         updateStatsChart();
@@ -173,7 +175,14 @@ public class StatsActivity extends AppCompatActivity {
                 dateStart = LocalDate.MIN;
         }
         try {
-            return AppDatabase.getInstance().userDiaryDao().getDiaryEntriesRange(dateStart, dateEnd).get();
+            List<UserDiaryEntity> list = AppDatabase.getInstance()
+                                                    .userDiaryDao()
+                                                    .getDiaryEntriesRange(dateStart, dateEnd).get();
+            
+            if (list.size() == 0) {
+                return null;
+            }
+            return list;
         }
         catch (ExecutionException | InterruptedException e) {
             return null;
@@ -211,11 +220,17 @@ public class StatsActivity extends AppCompatActivity {
             weightSpeedView.setVisibility(View.VISIBLE);
             weightBmiView.setVisibility(View.VISIBLE);
         }
+        statsEmptyTextView.setVisibility(View.GONE);
     }
     
     private void updateCaloriesTextViews() {
         int caloriesTotal = calculator.totalCalories(dataList);
         int caloriesAvg = calculator.averageCalories(dataList, caloriesTotal);
+        
+        if (caloriesTotal == 0) {
+            showStatsZeroTextView();
+            return;
+        }
         
         String caloriesTotalText = stringFormatter.getCaloriesTotalString(caloriesTotal);
         String caloriesAvgText = stringFormatter.getCaloriesAvgString(caloriesAvg);
@@ -229,6 +244,11 @@ public class StatsActivity extends AppCompatActivity {
         WeightChangeSpeedInterval interval = calculator.changeSpeedInterval();
         float changeSpeed = calculator.weightChangeSpeed(delta, interval);
         float bmi = calculator.currentBodyMassIndex(dataList);
+        
+        if (delta == Float.MIN_VALUE && bmi == Float.MIN_VALUE) {
+            showStatsZeroTextView();
+            return;
+        }
         
         updateWeightDeltaTextView(delta);
         updateWeightChangeSpeedTextView(changeSpeed, interval);
@@ -281,7 +301,21 @@ public class StatsActivity extends AppCompatActivity {
         weightBmiView.setValueText(bmiText);
     }
     
-    private void displayDataListEmptyInfo() {
-        // TODO: fix method stub
+    private void showStatsZeroTextView() {
+        caloriesTotalView.setVisibility(View.GONE);
+        caloriesAvgView.setVisibility(View.GONE);
+        weightDeltaView.setVisibility(View.GONE);
+        weightSpeedView.setVisibility(View.GONE);
+        weightBmiView.setVisibility(View.GONE);
+        
+        if (mStatType == StatType.CALORIES) {
+            statsEmptyTextView.setText(getText(R.string.stats_calories_empty));
+        }
+        else {
+            statsEmptyTextView.setText(getText(R.string.stats_weight_empty));
+        }
+        
+        statsEmptyTextView.setVisibility(View.VISIBLE);
     }
+    
 }

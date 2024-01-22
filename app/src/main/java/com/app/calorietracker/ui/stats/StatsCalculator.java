@@ -75,7 +75,7 @@ public class StatsCalculator {
     }
     
     public float weightChangeSpeed(float delta, WeightChangeSpeedInterval interval) {
-        if (weightDataList == null) {
+        if (weightDataList == null || delta == 0) {
             return Float.MIN_VALUE;
         }
         
@@ -97,7 +97,7 @@ public class StatsCalculator {
     // If all entries have zero weight then weight list is set to null
     private void trimDataListForWeight(@NonNull List<UserDiaryEntity> dataList) {
         int i = 0;
-        for ( ; i < dataList.size(); i++) {
+        for (; i < dataList.size(); i++) {
             if (dataList.get(i).getWeight_g() > 0) {
                 weightDataList = dataList.subList(i, dataList.size());
                 return;
@@ -109,7 +109,7 @@ public class StatsCalculator {
     public float currentBodyMassIndex(@NonNull List<UserDiaryEntity> dataList) {
         int height_cm = settingsManager.getUserHeight_cm();
         int currentWeight_g = dataList.get(dataList.size() - 1).getWeight_g();
-    
+        
         if (height_cm < 0 || currentWeight_g <= 0) {
             return Float.MIN_VALUE;
         }
