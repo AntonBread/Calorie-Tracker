@@ -16,9 +16,9 @@
     <string name="main_meal_cals">%d ккал</string>
     <string name="main_water">Вода</string>
     <string name="main_water_consumption">%d.%d0 / %d.%d0 Л</string>
-    <string name="nav_main">Главная</string>
+    <string name="nav_main">Дневник</string>
     <string name="nav_settings">Настройки</string>
-    <string name="nav_progress">Прогресс</string>
+    <string name="nav_progress">Статистика</string>
     <string name="food_title_breakfast">Завтрак</string>
     <string name="food_title_lunch">Обед</string>
     <string name="food_title_dinner">Ужин</string>
