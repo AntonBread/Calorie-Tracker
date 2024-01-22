@@ -115,4 +115,16 @@
     <string name="stats_time_month_3">3 Месяца</string>
     <string name="stats_time_year">Год</string>
     <string name="stats_time_all">Всё время</string>
+    <string name="stats_calories_title_total">Суммарное потребление</string>
+    <string name="stats_calories_title_avg">Среднее суточное потребление</string>
+    <string name="stats_weight_title_delta_loss">Суммарное похудение</string>
+    <string name="stats_weight_title_speed">Скорость изменения веса</string>
+    <string name="stats_weight_title_bmi">Текущий Индекс Массы Тела (ИМТ)</string>
+    <string name="stats_calories_value_format">%d ккал</string>
+    <string name="stats_weight_value_delta_format">%.1f кг</string>
+    <string name="stats_weight_value_speed_suffix_week">/неделя</string>
+    <string name="stats_weight_value_speed_suffix_month">/месяц</string>
+    <string name="stats_weight_value_speed_format">%.2f кг</string>
+    <string name="stats_weight_title_delta_gain">Суммарный набор массы</string>
+    <string name="stats_weight_title_delta_no">Вес не изменился</string>
 </resources>

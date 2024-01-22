@@ -53,6 +53,7 @@
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/ic_kcal_12.xml" value="0.3828125" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/ic_kcal_16.xml" value="0.3731481481481482" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/ic_kcal_24.xml" value="0.3828125" />
+        <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/ic_kcal_28.xml" value="0.34074074074074073" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/ic_language_24.xml" value="1.0" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/ic_lunch.xml" value="0.3731481481481482" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/ic_male_120.xml" value="0.30648148148148147" />
@@ -67,6 +68,9 @@
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/ic_protein_24.xml" value="0.3769230769230769" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/ic_quiz_40.xml" value="0.325" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/ic_search.xml" value="0.3828125" />
+        <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/ic_weight_bmi.xml" value="0.32314814814814813" />
+        <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/ic_weight_delta_gain.xml" value="0.32314814814814813" />
+        <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/ic_weight_delta_loss.xml" value="0.32314814814814813" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/ic_weight_gain.xml" value="0.27314814814814814" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/ic_weight_gain_checked.xml" value="0.27314814814814814" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/ic_weight_gain_unchecked.xml" value="0.27314814814814814" />
@@ -76,6 +80,7 @@
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/ic_weight_maintain.xml" value="0.2796296296296296" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/ic_weight_maintain_checked.xml" value="0.27314814814814814" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/ic_weight_maintain_unchecked.xml" value="0.27314814814814814" />
+        <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/ic_weight_speed.xml" value="0.32314814814814813" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/progress_vertical.xml" value="0.3828125" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/progress_vertical_calories.xml" value="0.36944444444444446" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/progress_vertical_carbs.xml" value="0.36944444444444446" />
@@ -111,9 +116,11 @@
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/layout/list_food_item.xml" value="0.9" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/layout/sample_activity_level_selection_view.xml" value="0.5" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/layout/sample_goal_selection_view.xml" value="0.17831813576494426" />
+        <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/layout/sample_stat_text_view.xml" value="0.2346014492753623" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/layout/settings_activity.xml" value="0.3319746376811594" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/layout/view_activity_level_selection.xml" value="0.546353522867738" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/layout/view_goal_selection.xml" value="0.5" />
+        <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/layout/view_stat_text.xml" value="0.67" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/menu/navbar_items.xml" value="0.36666666666666664" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/menu/popup_food_item.xml" value="0.36666666666666664" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/xml/root_preferences.xml" value="0.33" />
