@@ -3,11 +3,10 @@ package com.app.calorietracker.ui.stats;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
-import com.app.calorietracker.database.user.UserDiaryEntity;
-import com.app.calorietracker.ui.main.MealData;
 import com.app.calorietracker.ui.settings.SettingsManager;
+import com.app.calorietracker.ui.stats.data.CaloriesStatsData;
+import com.app.calorietracker.ui.stats.data.WeightStatsData;
 
 import java.util.List;
 
@@ -25,43 +24,29 @@ public class StatsCalculator {
         settingsManager = new SettingsManager(context);
     }
     
-    public int totalCalories(@NonNull List<UserDiaryEntity> dataList) {
-        int caloriesTotal = 0;
-        for (UserDiaryEntity entity : dataList) {
-            caloriesTotal += new MealData(entity.getBreakfast()).getCals();
-            caloriesTotal += new MealData(entity.getLunch()).getCals();
-            caloriesTotal += new MealData(entity.getDinner()).getCals();
-            caloriesTotal += new MealData(entity.getOther()).getCals();
+    public int totalCalories(@NonNull List<CaloriesStatsData> caloriesDataList) {
+        int total = 0;
+        for (CaloriesStatsData statsData : caloriesDataList) {
+            total += statsData.getCalories();
         }
-        return caloriesTotal;
+        return total;
     }
     
-    public int averageCalories(@NonNull List<UserDiaryEntity> dataList, int total) {
-        return total / dataList.size();
+    public int averageCalories(@NonNull List<CaloriesStatsData> caloriesDataList, int total) {
+        return total / caloriesDataList.size();
     }
     
-    @Nullable
-    private List<UserDiaryEntity> weightDataList;
-    
-    public float weightDelta(@NonNull List<UserDiaryEntity> dataList) {
-        trimDataListForWeight(dataList);
-        
-        if (weightDataList == null) {
+    public float weightDelta(@NonNull List<WeightStatsData> weightDataList) {
+        if (weightDataList.size() == 0) {
             return Float.MIN_VALUE;
         }
-        int weightStart = weightDataList.get(0).getWeight_g();
-        int weightEnd = weightDataList.get(weightDataList.size() - 1).getWeight_g();
-        // Weight gain – positive delta
-        // Weight loss – negative delta
-        float delta = weightEnd - weightStart;
-        // convert integer grams to float kgs
-        return delta / 1000;
+        
+        float start = weightDataList.get(0).getWeight();
+        float end = weightDataList.get(weightDataList.size() - 1).getWeight();
+        return end - start;
     }
     
-    public WeightChangeSpeedInterval changeSpeedInterval() {
-        if (weightDataList == null) {
-            return WeightChangeSpeedInterval.NONE;
-        }
+    public WeightChangeSpeedInterval changeSpeedInterval(@NonNull List<WeightStatsData> weightDataList) {
         int dataListSize = weightDataList.size();
         if (dataListSize <= 8) {
             return WeightChangeSpeedInterval.NONE;
@@ -74,8 +59,10 @@ public class StatsCalculator {
         }
     }
     
-    public float weightChangeSpeed(float delta, WeightChangeSpeedInterval interval) {
-        if (weightDataList == null || delta == 0) {
+    public float weightChangeSpeed(float delta,
+                                   WeightChangeSpeedInterval interval,
+                                   @NonNull List<WeightStatsData> weightDataList) {
+        if (delta == Float.MIN_VALUE || delta == 0) {
             return Float.MIN_VALUE;
         }
         
@@ -93,30 +80,19 @@ public class StatsCalculator {
         }
     }
     
-    // Removes all leading entries with zero weight if present
-    // If all entries have zero weight then weight list is set to null
-    private void trimDataListForWeight(@NonNull List<UserDiaryEntity> dataList) {
-        int i = 0;
-        for (; i < dataList.size(); i++) {
-            if (dataList.get(i).getWeight_g() > 0) {
-                weightDataList = dataList.subList(i, dataList.size());
-                return;
-            }
+    public float currentBodyMassIndex(@NonNull List<WeightStatsData> weightDataList) {
+        if (weightDataList.size() == 0) {
+            return Float.MIN_VALUE;
         }
-        weightDataList = null;
-    }
-    
-    public float currentBodyMassIndex(@NonNull List<UserDiaryEntity> dataList) {
-        int height_cm = settingsManager.getUserHeight_cm();
-        int currentWeight_g = dataList.get(dataList.size() - 1).getWeight_g();
         
-        if (height_cm < 0 || currentWeight_g <= 0) {
+        int height_cm = settingsManager.getUserHeight_cm();
+        float currentWeight = weightDataList.get(weightDataList.size() - 1).getWeight();
+        
+        if (height_cm < 0 || currentWeight <= 0) {
             return Float.MIN_VALUE;
         }
         
         float height_m = (float) height_cm / 100;
-        float currentWeight_kg = (float) currentWeight_g / 1000;
-        
-        return currentWeight_kg / height_m / height_m;
+        return currentWeight / height_m / height_m;
     }
 }
