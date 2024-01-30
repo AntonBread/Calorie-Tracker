@@ -53,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
     private int WATER_BASELINE;
     private int WATER_STEP;
     
+    private SettingsManager settingsManager;
+    
     
     // Linter keeps saying "Cannot resolve symbol 'ActivityResultContracts'"
     // but project builds and runs without a hitch
@@ -90,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
             db = AppDatabase.getInstance();
         }
         
-        SettingsManager settingsManager = new SettingsManager(this);
+        settingsManager = new SettingsManager(this);
         try {
             initSettings(settingsManager);
         }
@@ -205,12 +207,7 @@ public class MainActivity extends AppCompatActivity {
         updateSelectedDateText();
         UserDiaryEntity entity = new UserDiaryEntity();
         entity.set_date(selectedDate);
-        if (currentEntry != null) {
-            entity.setWeight_g(currentEntry.getWeight_g());
-        }
-        else {
-            entity.setWeight_g(getPreviousDayWeight());
-        }
+        entity.setWeight_g(settingsManager.getCurrentWeight_g());
         try {
             long id = db.userDiaryDao().insert(entity).get();
         }
@@ -218,16 +215,6 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         updateActivityDataViews();
-    }
-    
-    private int getPreviousDayWeight() {
-        try {
-            UserDiaryEntity prevEntity = db.userDiaryDao().getDiaryEntry(selectedDate.minusDays(1)).get();
-            return (prevEntity != null) ? prevEntity.getWeight_g() : 0;
-        }
-        catch (ExecutionException | InterruptedException e) {
-            return 0;
-        }
     }
     
     private void updateSelectedDateText() {
@@ -415,6 +402,9 @@ public class MainActivity extends AppCompatActivity {
         int weight = result.getInt(ChangeWeightDialogFragment.RESULT_KEY);
         
         currentEntry.setWeight_g(weight);
+        if (selectedDate.isEqual(LocalDate.now())) {
+            settingsManager.setCurrentWeight_g(weight);
+        }
         updateDatabaseEntry();
     }
     
