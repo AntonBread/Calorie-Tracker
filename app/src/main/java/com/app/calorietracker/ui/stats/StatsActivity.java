@@ -18,6 +18,8 @@ import com.app.calorietracker.database.user.UserDiaryEntity;
 import com.app.calorietracker.ui.main.MainActivity;
 import com.app.calorietracker.ui.settings.SettingsActivity;
 import com.app.calorietracker.ui.stats.StatsCalculator.WeightChangeSpeedInterval;
+import com.app.calorietracker.ui.stats.data.CaloriesStatsData;
+import com.app.calorietracker.ui.stats.data.WeightStatsData;
 import com.app.calorietracker.ui.stats.views.StatTextView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -46,6 +48,8 @@ public class StatsActivity extends AppCompatActivity {
     private TimeRange mTimeRange;
     
     private List<UserDiaryEntity> dataList;
+    private List<CaloriesStatsData> caloriesDataList;
+    private List<WeightStatsData> weightDataList;
     
     private StatsCalculator calculator;
     private StatsStringFormatter stringFormatter;
@@ -148,6 +152,8 @@ public class StatsActivity extends AppCompatActivity {
             // diary entity for current date, so this list should never be null/empty
             assert dataList != null;
             mTimeRangeChanged = false;
+            caloriesDataList = CaloriesStatsData.createStatsDataList(dataList);
+            weightDataList = WeightStatsData.createStatsDataList(dataList);
         }
         updateStatsChart();
         updateStatsText();
@@ -224,8 +230,8 @@ public class StatsActivity extends AppCompatActivity {
     }
     
     private void updateCaloriesTextViews() {
-        int caloriesTotal = calculator.totalCalories(dataList);
-        int caloriesAvg = calculator.averageCalories(dataList, caloriesTotal);
+        int caloriesTotal = calculator.totalCalories(caloriesDataList);
+        int caloriesAvg = calculator.averageCalories(caloriesDataList, caloriesTotal);
         
         if (caloriesTotal == 0) {
             showStatsZeroTextView();
@@ -240,10 +246,10 @@ public class StatsActivity extends AppCompatActivity {
     }
     
     private void updateWeightTextViews() {
-        float delta = calculator.weightDelta(dataList);
-        WeightChangeSpeedInterval interval = calculator.changeSpeedInterval();
-        float changeSpeed = calculator.weightChangeSpeed(delta, interval);
-        float bmi = calculator.currentBodyMassIndex(dataList);
+        float delta = calculator.weightDelta(weightDataList);
+        WeightChangeSpeedInterval interval = calculator.changeSpeedInterval(weightDataList);
+        float changeSpeed = calculator.weightChangeSpeed(delta, interval, weightDataList);
+        float bmi = calculator.currentBodyMassIndex(weightDataList);
         
         if (delta == Float.MIN_VALUE && bmi == Float.MIN_VALUE) {
             showStatsZeroTextView();
