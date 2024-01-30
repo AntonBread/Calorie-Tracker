@@ -100,6 +100,16 @@ public class SettingsManager {
         editor.apply();
     }
     
+    public int getCurrentWeight_g() {
+        return prefs.getInt("weight", 0);
+    }
+    
+    public void setCurrentWeight_g(int weight_g) {
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt("weight", weight_g);
+        editor.apply();
+    }
+    
     public void resetBaselinePrefs() {
         setBaselinePrefs(DEFAULT_CALORIES, DEFAULT_CARBS, DEFAULT_FAT, DEFAULT_PROTEIN, DEFAULT_WATER);
     }

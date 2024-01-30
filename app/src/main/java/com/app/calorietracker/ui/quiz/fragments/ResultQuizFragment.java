@@ -53,6 +53,7 @@ public class ResultQuizFragment extends Fragment {
         
         settingsManager.setBaselinePrefs(calories, carbs, fat, protein, water);
         settingsManager.setUserHeight_cm(quizData.getHeight());
+        settingsManager.setCurrentWeight_g(quizData.getWeight());
         setUserDiaryWeight(quizData.getWeight());
         
         initTextViews(view, calories, carbs, fat, protein, water);
