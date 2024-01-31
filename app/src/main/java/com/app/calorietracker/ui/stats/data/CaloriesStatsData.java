@@ -9,18 +9,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CaloriesStatsData {
+public class CaloriesStatsData extends StatsData {
     
-    private final LocalDate date;
     private final int calories;
     
     public CaloriesStatsData(LocalDate date, int calories) {
-        this.date = date;
+        super(date);
         this.calories = calories;
-    }
-    
-    public LocalDate getDate() {
-        return date;
     }
     
     public int getCalories() {
