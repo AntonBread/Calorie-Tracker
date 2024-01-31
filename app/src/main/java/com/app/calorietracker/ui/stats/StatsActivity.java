@@ -3,6 +3,7 @@ package com.app.calorietracker.ui.stats;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.app.calorietracker.R;
 import com.app.calorietracker.database.AppDatabase;
@@ -21,9 +23,13 @@ import com.app.calorietracker.ui.stats.StatsCalculator.WeightChangeSpeedInterval
 import com.app.calorietracker.ui.stats.data.CaloriesStatsData;
 import com.app.calorietracker.ui.stats.data.WeightStatsData;
 import com.app.calorietracker.ui.stats.views.StatTextView;
+import com.app.calorietracker.utils.ChartUtils;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.LineChart;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -54,6 +60,10 @@ public class StatsActivity extends AppCompatActivity {
     private StatsCalculator calculator;
     private StatsStringFormatter stringFormatter;
     
+    private ConstraintLayout chartContainer;
+    private LineChart weightChart;
+    private BarChart caloriesChart;
+    
     private StatTextView weightDeltaView;
     private StatTextView weightSpeedView;
     private StatTextView weightBmiView;
@@ -66,7 +76,10 @@ public class StatsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats);
-        
+    
+        chartContainer = findViewById(R.id.stats_section_chart);
+        weightChart = findViewById(R.id.stats_chart_weight);
+        caloriesChart = findViewById(R.id.stats_chart_calories);
         weightDeltaView = findViewById(R.id.stats_text_weight_delta);
         weightSpeedView = findViewById(R.id.stats_text_weight_speed);
         weightBmiView = findViewById(R.id.stats_text_weight_bmi);
@@ -79,6 +92,8 @@ public class StatsActivity extends AppCompatActivity {
         
         initTypeSelector();
         initTimeSelector();
+        ChartUtils.initWeightStatsChartConfig(weightChart, this);
+        ChartUtils.initCaloriesStatsChartConfig(caloriesChart, this);
         
         initNavbar();
     }
@@ -196,7 +211,17 @@ public class StatsActivity extends AppCompatActivity {
     }
     
     private void updateStatsChart() {
-        // TODO: fix method stub
+        chartContainer.setVisibility(View.VISIBLE);
+        if (mStatType == StatType.CALORIES) {
+            weightChart.setVisibility(View.GONE);
+            caloriesChart.setVisibility(View.VISIBLE);
+            ChartUtils.updateStatsChartCalories(caloriesChart, this, caloriesDataList);
+        }
+        else {
+            caloriesChart.setVisibility(View.GONE);
+            weightChart.setVisibility(View.VISIBLE);
+            ChartUtils.updateStatsChartWeight(weightChart, this, weightDataList);
+        }
     }
     
     private void updateStatsText() {
@@ -308,6 +333,7 @@ public class StatsActivity extends AppCompatActivity {
     }
     
     private void showStatsZeroTextView() {
+        chartContainer.setVisibility(View.GONE);
         caloriesTotalView.setVisibility(View.GONE);
         caloriesAvgView.setVisibility(View.GONE);
         weightDeltaView.setVisibility(View.GONE);

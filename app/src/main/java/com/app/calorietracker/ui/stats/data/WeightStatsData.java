@@ -9,18 +9,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WeightStatsData {
+public class WeightStatsData extends StatsData {
     
-    private final LocalDate date;
     private final float weight;
     
     public WeightStatsData(LocalDate date, float weight) {
-        this.date = date;
+        super(date);
         this.weight = weight;
-    }
-    
-    public LocalDate getDate() {
-        return date;
     }
     
     public float getWeight() {
