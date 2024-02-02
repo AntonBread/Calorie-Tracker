@@ -25,6 +25,7 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ChartUtils {
@@ -72,9 +73,11 @@ public class ChartUtils {
         chart.invalidate();
     }
     
+    static final int STATS_LIST_MAX_SIZE = 10;
+    
     public static void updateStatsChartCalories(BarChart chart, Context context, List<CaloriesStatsData> dataList) {
-        if (dataList.size() > 10) {
-            dataList = reduceCaloriesStatsList(dataList);
+        if (dataList.size() > STATS_LIST_MAX_SIZE) {
+            dataList = reduceStatsList(dataList);
         }
         
         ArrayList<BarEntry> entries = new ArrayList<>();
@@ -91,8 +94,8 @@ public class ChartUtils {
     }
     
     public static void updateStatsChartWeight(LineChart chart, Context context, List<WeightStatsData> dataList) {
-        if (dataList.size() > 10) {
-            dataList = reduceWeightStatsList(dataList);
+        if (dataList.size() > STATS_LIST_MAX_SIZE) {
+            dataList = reduceStatsList(dataList);
         }
         
         ArrayList<Entry> entries = new ArrayList<>();
@@ -113,6 +116,8 @@ public class ChartUtils {
     
     public static void initWeightStatsChartConfig(LineChart chart, Context context) {
         initCommonStatsChartConfig(chart, context);
+        
+        chart.setMaxVisibleValueCount(STATS_LIST_MAX_SIZE + 1);
     }
     
     public static void initCaloriesStatsChartConfig(BarChart chart, Context context) {
@@ -154,14 +159,26 @@ public class ChartUtils {
         chart.setMaxVisibleValueCount(10);
     }
     
-    private static List<CaloriesStatsData> reduceCaloriesStatsList(List<CaloriesStatsData> original) {
-        // TODO: fix method stub
-        return original;
-    }
-    
-    private static List<WeightStatsData> reduceWeightStatsList(List<WeightStatsData> original) {
-        // TODO: fix method stub
-        return original;
+    @SuppressWarnings("unchecked")
+    private static <T extends StatsData> List<T> reduceStatsList(List<T> original) {
+        StatsData[] reducedArr = new StatsData[STATS_LIST_MAX_SIZE];
+        // First and last elements must remain unchanged
+        reducedArr[0] = original.get(0);
+        reducedArr[STATS_LIST_MAX_SIZE - 1] = original.get(STATS_LIST_MAX_SIZE - 1);
+        
+        int origSize = original.size();
+        int step = (origSize - 2) / (STATS_LIST_MAX_SIZE - 2);
+        
+        int iOrig = 1;
+        int iReduced = 1;
+        for (; iOrig < origSize; iOrig += step) {
+            if (iReduced >= STATS_LIST_MAX_SIZE - 1) {
+                break;
+            }
+            reducedArr[iReduced++] = original.get(iOrig);
+        }
+        
+        return (List<T>) Arrays.asList(reducedArr.clone());
     }
     
     private static ValueFormatter createXAxisFormatter(List<StatsData> dataList) {
