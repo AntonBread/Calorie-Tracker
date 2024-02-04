@@ -181,7 +181,7 @@ public class StatsActivity extends AppCompatActivity {
         switch (mTimeRange) {
             case WEEK:
             default:
-                dateStart = dateEnd.minusWeeks(1);
+                dateStart = dateEnd.minusDays(7 - 1);
                 break;
             case MONTH:
                 dateStart = dateEnd.minusMonths(1);
