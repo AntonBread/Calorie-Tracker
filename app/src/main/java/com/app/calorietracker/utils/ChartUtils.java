@@ -1,9 +1,13 @@
 package com.app.calorietracker.utils;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.Color;
 
 import com.app.calorietracker.R;
+import com.app.calorietracker.ui.settings.SettingsManager;
+import com.app.calorietracker.ui.stats.StatsActivity;
+import com.app.calorietracker.ui.stats.StatsActivity.TimeRange;
 import com.app.calorietracker.ui.stats.data.CaloriesStatsData;
 import com.app.calorietracker.ui.stats.data.StatsData;
 import com.app.calorietracker.ui.stats.data.WeightStatsData;
@@ -23,10 +27,18 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.renderer.XAxisRenderer;
+import com.github.mikephil.charting.utils.MPPointF;
+import com.github.mikephil.charting.utils.Transformer;
+import com.github.mikephil.charting.utils.Utils;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 public class ChartUtils {
     
@@ -73,15 +85,19 @@ public class ChartUtils {
         chart.invalidate();
     }
     
-    static final int STATS_LIST_MAX_SIZE = 10;
+    static final int STATS_LIST_MAX_SIZE = 9;
     
-    public static void updateStatsChartCalories(BarChart chart, Context context, List<CaloriesStatsData> dataList) {
+    public static void updateStatsChartCalories(BarChart chart, StatsActivity context,
+                                                List<CaloriesStatsData> dataList) {
         if (dataList.size() > STATS_LIST_MAX_SIZE) {
             dataList = reduceStatsList(dataList);
         }
         
+        updateStatsChartXAxisLabelFormat(chart, context, dataList);
+        updateStatsChartXAxisLabelCount(chart, dataList);
+        
         ArrayList<BarEntry> entries = new ArrayList<>();
-        int i = 1;
+        int i = 0;
         for (CaloriesStatsData data : dataList) {
             entries.add(new BarEntry(i++, data.getCalories()));
         }
@@ -93,15 +109,24 @@ public class ChartUtils {
         chart.invalidate();
     }
     
-    public static void updateStatsChartWeight(LineChart chart, Context context, List<WeightStatsData> dataList) {
+    public static void updateStatsChartWeight(LineChart chart, StatsActivity context,
+                                              List<WeightStatsData> dataList) {
         if (dataList.size() > STATS_LIST_MAX_SIZE) {
             dataList = reduceStatsList(dataList);
         }
         
+        updateStatsChartXAxisLabelFormat(chart, context, dataList);
+        updateStatsChartXAxisLabelCount(chart, dataList);
+        
         ArrayList<Entry> entries = new ArrayList<>();
-        int i = 1;
+        int i = 0;
+        float maxWeight = 0f;
         for (WeightStatsData data : dataList) {
-            entries.add(new Entry(i++, data.getWeight()));
+            float weight = data.getWeight();
+            if (weight > maxWeight) {
+                maxWeight = weight;
+            }
+            entries.add(new Entry(i++, weight));
         }
         
         LineDataSet lineDataSet = new LineDataSet(entries, "weight");
@@ -111,13 +136,47 @@ public class ChartUtils {
         lineDataSet.setValueTextSize(14);
         lineDataSet.setCircleRadius(8);
         chart.setData(new LineData(lineDataSet));
+        // Sometimes Y axis maximum is not auto-calculated correctly,
+        // have to set it manually on chart update
+        chart.getAxisLeft().setAxisMaximum(maxWeight * 1.15f);
         chart.invalidate();
+    }
+    
+    private static void updateStatsChartXAxisLabelFormat(BarLineChartBase<?> chart,
+                                                         StatsActivity context,
+                                                         List<? extends StatsData> dataList) {
+        Locale locale = new SettingsManager(context).getLocale();
+        TimeRange timeRange = context.getTimeRange();
+        ValueFormatter vf = createXAxisFormatter(dataList, context.getTimeRange(), locale);
+        
+        XAxis xAxis = chart.getXAxis();
+        xAxis.setValueFormatter(vf);
+        
+        switch (timeRange) {
+            case WEEK:
+                xAxis.setTextSize(13f);
+                break;
+            case MONTH:
+            case MONTH_3:
+                xAxis.setTextSize(11f);
+                break;
+            case YEAR:
+            case ALL:
+            default:
+                xAxis.setTextSize(10f);
+        }
+    }
+    
+    private static void updateStatsChartXAxisLabelCount(BarLineChartBase<?> chart,
+                                                        List<? extends StatsData> dataList) {
+        int labelCount = dataList.size() + 2;
+        chart.getXAxis().setLabelCount(labelCount, true);
     }
     
     public static void initWeightStatsChartConfig(LineChart chart, Context context) {
         initCommonStatsChartConfig(chart, context);
         
-        chart.setMaxVisibleValueCount(STATS_LIST_MAX_SIZE + 1);
+        chart.setMaxVisibleValueCount(STATS_LIST_MAX_SIZE + 2);
     }
     
     public static void initCaloriesStatsChartConfig(BarChart chart, Context context) {
@@ -136,7 +195,6 @@ public class ChartUtils {
         
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
-        xAxis.setTextSize(13f);
         xAxis.setAvoidFirstLastClipping(true);
         xAxis.setTextColor(clrGrayDark);
         xAxis.setDrawAxisLine(false);
@@ -155,8 +213,10 @@ public class ChartUtils {
         chart.setHighlightPerTapEnabled(false);
         chart.setHighlightPerDragEnabled(false);
         chart.setScaleEnabled(false);
-        chart.setExtraBottomOffset(12f);
+        chart.setExtraBottomOffset(20f);
         chart.setMaxVisibleValueCount(10);
+        chart.setXAxisRenderer(new MultiLineXAxisRenderer(chart.getViewPortHandler(), chart.getXAxis(),
+                                                          chart.getTransformer(YAxis.AxisDependency.LEFT)));
     }
     
     @SuppressWarnings("unchecked")
@@ -181,8 +241,67 @@ public class ChartUtils {
         return (List<T>) Arrays.asList(reducedArr.clone());
     }
     
-    private static ValueFormatter createXAxisFormatter(List<StatsData> dataList) {
-        // TODO: fix method stub
-        return null;
+    private static ValueFormatter createXAxisFormatter(List<? extends StatsData> dataList,
+                                                       TimeRange timeRange,
+                                                       Locale locale) {
+        ArrayList<String> days = new ArrayList<>(STATS_LIST_MAX_SIZE);
+        DateTimeFormatter fmtTop;
+        DateTimeFormatter fmtBot;
+        
+        switch (timeRange) {
+            case WEEK:
+            default:
+                fmtTop = DateTimeFormatter.ofPattern("E", locale);
+                fmtBot = DateTimeFormatter.ofPattern("d", locale);
+                break;
+            case MONTH:
+            case MONTH_3:
+                fmtTop = DateTimeFormatter.ofPattern("d", locale);
+                fmtBot = DateTimeFormatter.ofPattern("MMM", locale);
+                break;
+            case YEAR:
+            case ALL:
+                fmtTop = DateTimeFormatter.ofPattern("dd.MM", locale);
+                fmtBot = DateTimeFormatter.ofPattern("y", locale);
+        }
+        
+        for (StatsData data : dataList) {
+            LocalDate date = data.getDate();
+            
+            String day = date.format(fmtTop) + "\n" + date.format(fmtBot);
+            days.add(day);
+        }
+        
+        return new ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value) {
+                try {
+                    return days.get((int) value);
+                }
+                // Exception is thrown for xAxis space values
+                catch (Exception e) {
+                    return "";
+                }
+            }
+        };
+    }
+    
+    // MPChart doesn't support multi-line labels
+    // Copied this piece from here: https://stackoverflow.com/questions/32509174/in-mpandroidchart-library-how-to-wrap-x-axis-labels-to-two-lines-when-long
+    static class MultiLineXAxisRenderer extends XAxisRenderer {
+        public MultiLineXAxisRenderer(ViewPortHandler viewPortHandler, XAxis xAxis, Transformer trans) {
+            super(viewPortHandler, xAxis, trans);
+        }
+        
+        @Override
+        protected void drawLabel(Canvas c, String formattedLabel, float x, float y,
+                                 MPPointF anchor, float angleDegrees) {
+            String[] line = formattedLabel.split("\n");
+            Utils.drawXAxisValue(c, line[0], x, y, mAxisLabelPaint, anchor, angleDegrees);
+            for (int i = 1; i < line.length; i++) { // we've already processed 1st line
+                Utils.drawXAxisValue(c, line[i], x, y + mAxisLabelPaint.getTextSize() * i,
+                                     mAxisLabelPaint, anchor, angleDegrees);
+            }
+        }
     }
 }

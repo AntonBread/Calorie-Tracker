@@ -3,7 +3,6 @@ package com.app.calorietracker.ui.stats;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -29,7 +28,6 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -40,7 +38,7 @@ public class StatsActivity extends AppCompatActivity {
         CALORIES
     }
     
-    private enum TimeRange {
+    public enum TimeRange {
         WEEK,
         MONTH,
         MONTH_3,
@@ -53,7 +51,6 @@ public class StatsActivity extends AppCompatActivity {
     private StatType mStatType;
     private TimeRange mTimeRange;
     
-    private List<UserDiaryEntity> dataList;
     private List<CaloriesStatsData> caloriesDataList;
     private List<WeightStatsData> weightDataList;
     
@@ -72,11 +69,15 @@ public class StatsActivity extends AppCompatActivity {
     
     private TextView statsEmptyTextView;
     
+    public TimeRange getTimeRange() {
+        return mTimeRange;
+    }
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats);
-    
+        
         chartContainer = findViewById(R.id.stats_section_chart);
         weightChart = findViewById(R.id.stats_chart_weight);
         caloriesChart = findViewById(R.id.stats_chart_calories);
@@ -162,7 +163,7 @@ public class StatsActivity extends AppCompatActivity {
             return;
         }
         if (mTimeRangeChanged) {
-            dataList = fetchDiaryData();
+            List<UserDiaryEntity> dataList = fetchDiaryData();
             // MainActivity is launcher Activity and starts by inserting/getting
             // diary entity for current date, so this list should never be null/empty
             assert dataList != null;
