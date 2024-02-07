@@ -164,12 +164,12 @@ public class ChartUtils {
         StatsData[] reducedArr = new StatsData[STATS_LIST_MAX_SIZE];
         // First and last elements must remain unchanged
         reducedArr[0] = original.get(0);
-        reducedArr[STATS_LIST_MAX_SIZE - 1] = original.get(STATS_LIST_MAX_SIZE - 1);
+        reducedArr[STATS_LIST_MAX_SIZE - 1] = original.get(original.size() - 1);
         
         int origSize = original.size();
-        int step = (origSize - 2) / (STATS_LIST_MAX_SIZE - 2);
+        int step = (origSize - 2) / (STATS_LIST_MAX_SIZE - 2); // -2 because of xAxis space
         
-        int iOrig = 1;
+        int iOrig = step;
         int iReduced = 1;
         for (; iOrig < origSize; iOrig += step) {
             if (iReduced >= STATS_LIST_MAX_SIZE - 1) {
