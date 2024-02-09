@@ -179,4 +179,7 @@
     <string name="stats_calories_empty">There is no calorie consumption data for chosen interval</string>
     <string name="stats_weight_empty">There is no weight data for chosen interval</string>
 
+    <string name="stats_calories_chart_unit">kcal</string>
+    <string name="stats_weight_chart_unit">kg</string>
+
 </resources>
