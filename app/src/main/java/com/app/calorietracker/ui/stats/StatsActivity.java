@@ -33,7 +33,7 @@ import java.util.concurrent.ExecutionException;
 
 public class StatsActivity extends AppCompatActivity {
     
-    private enum StatType {
+    public enum StatType {
         WEIGHT,
         CALORIES
     }

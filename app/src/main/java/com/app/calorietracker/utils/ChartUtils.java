@@ -8,6 +8,7 @@ import com.app.calorietracker.R;
 import com.app.calorietracker.ui.settings.SettingsManager;
 import com.app.calorietracker.ui.stats.StatsActivity;
 import com.app.calorietracker.ui.stats.StatsActivity.TimeRange;
+import com.app.calorietracker.ui.stats.StatsActivity.StatType;
 import com.app.calorietracker.ui.stats.data.CaloriesStatsData;
 import com.app.calorietracker.ui.stats.data.StatsData;
 import com.app.calorietracker.ui.stats.data.WeightStatsData;
@@ -28,6 +29,7 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.renderer.XAxisRenderer;
+import com.github.mikephil.charting.renderer.YAxisRenderer;
 import com.github.mikephil.charting.utils.MPPointF;
 import com.github.mikephil.charting.utils.Transformer;
 import com.github.mikephil.charting.utils.Utils;
@@ -173,16 +175,51 @@ public class ChartUtils {
         chart.getXAxis().setLabelCount(labelCount, true);
     }
     
+    static class YAxisLabelFormatter extends ValueFormatter {
+        final StatType statType;
+        final Context context;
+        
+        public YAxisLabelFormatter(StatType statType, Context context) {
+            this.statType = statType;
+            this.context = context;
+        }
+        
+        @Override
+        public String getFormattedValue(float value) {
+            if (value == 0f) {
+                return "";
+            }
+            
+            String label = String.valueOf((int) value);
+            label += "\n";
+            String unit;
+            switch (statType) {
+                case WEIGHT:
+                    unit = context.getString(R.string.stats_weight_chart_unit);
+                    break;
+                case CALORIES:
+                    unit = context.getString(R.string.stats_calories_chart_unit);
+                    break;
+                default:
+                    unit = "";
+            }
+            label += unit;
+            return label;
+        }
+    }
+    
     public static void initWeightStatsChartConfig(LineChart chart, Context context) {
         initCommonStatsChartConfig(chart, context);
         
         chart.setMaxVisibleValueCount(STATS_LIST_MAX_SIZE + 2);
+        chart.getAxisLeft().setValueFormatter(new YAxisLabelFormatter(StatType.WEIGHT, context));
     }
     
     public static void initCaloriesStatsChartConfig(BarChart chart, Context context) {
         initCommonStatsChartConfig(chart, context);
         
         chart.setHighlightFullBarEnabled(false);
+        chart.getAxisLeft().setValueFormatter(new YAxisLabelFormatter(StatType.CALORIES, context));
     }
     
     private static void initCommonStatsChartConfig(BarLineChartBase<?> chart, Context context) {
@@ -204,9 +241,10 @@ public class ChartUtils {
         leftAxis.setDrawAxisLine(false);
         leftAxis.setGridColor(clrGrayDark);
         leftAxis.setTextSize(13f);
-        leftAxis.setMinWidth(24f);
         leftAxis.setTextColor(clrGrayDark);
         leftAxis.setAxisMinimum(0f);
+        leftAxis.setMinWidth(24f);
+        leftAxis.setMaxWidth(36f);
         
         chart.getLegend().setEnabled(false);
         chart.getDescription().setEnabled(false);
@@ -217,6 +255,8 @@ public class ChartUtils {
         chart.setMaxVisibleValueCount(10);
         chart.setXAxisRenderer(new MultiLineXAxisRenderer(chart.getViewPortHandler(), chart.getXAxis(),
                                                           chart.getTransformer(YAxis.AxisDependency.LEFT)));
+        chart.setRendererLeftYAxis(new MultiLineYAxisRenderer(chart.getViewPortHandler(), chart.getAxisLeft(),
+                                                              chart.getTransformer(YAxis.AxisDependency.LEFT)));
     }
     
     @SuppressWarnings("unchecked")
@@ -301,6 +341,33 @@ public class ChartUtils {
             for (int i = 1; i < line.length; i++) { // we've already processed 1st line
                 Utils.drawXAxisValue(c, line[i], x, y + mAxisLabelPaint.getTextSize() * i,
                                      mAxisLabelPaint, anchor, angleDegrees);
+            }
+        }
+    }
+    
+    static class MultiLineYAxisRenderer extends YAxisRenderer {
+        public MultiLineYAxisRenderer(ViewPortHandler viewPortHandler, YAxis yAxis, Transformer trans) {
+            super(viewPortHandler, yAxis, trans);
+        }
+        
+        @Override
+        protected void drawYLabels(Canvas c, float fixedPosition, float[] positions, float offset) {
+            final int from = mYAxis.isDrawBottomYLabelEntryEnabled() ? 0 : 1;
+            final int to = mYAxis.isDrawTopYLabelEntryEnabled()
+                    ? mYAxis.mEntryCount
+                    : (mYAxis.mEntryCount - 1);
+            
+            // draw
+            for (int i = from; i < to; i++) {
+                
+                String formattedLabel = mYAxis.getFormattedLabel(i);
+                String[] line = formattedLabel.split("\n");
+                
+                c.drawText(line[0], fixedPosition, positions[i * 2 + 1] + offset, mAxisLabelPaint);
+                for (int j = 1; j < line.length; j++) {
+                    float y = positions[i * 2 + 1] + offset + mAxisLabelPaint.getTextSize() * j;
+                    c.drawText(line[j], fixedPosition, y, mAxisLabelPaint);
+                }
             }
         }
     }
