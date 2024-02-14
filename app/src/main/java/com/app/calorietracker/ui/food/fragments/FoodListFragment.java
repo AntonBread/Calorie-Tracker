@@ -3,6 +3,7 @@ package com.app.calorietracker.ui.food.fragments;
 import android.os.Bundle;
 import android.widget.SearchView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,7 +32,7 @@ public abstract class FoodListFragment extends Fragment {
         public boolean onQueryTextSubmit(String s) {
             return handleSearchQuerySubmit(s);
         }
-    
+        
         @Override
         public boolean onQueryTextChange(String s) {
             return handleSearchQueryChange(s);
@@ -78,7 +79,7 @@ public abstract class FoodListFragment extends Fragment {
             public void scrollOnViewHolderExpand(int pos) {
                 handleFoodListItemExpand(pos);
             }
-    
+            
             @Override
             public void onFoodItemDelete(int pos, FoodItem foodItem) {
                 handleFoodListItemDelete(pos, foodItem);
@@ -98,7 +99,7 @@ public abstract class FoodListFragment extends Fragment {
         scaleBottomPadding();
     }
     
-    void replaceFoodListFromEntities(List<FoodItemEntity> entities) {
+    void replaceFoodListFromEntities(@NonNull List<FoodItemEntity> entities) {
         clearList();
         for (FoodItemEntity entity : entities) {
             // Do not add already selected items
@@ -106,7 +107,7 @@ public abstract class FoodListFragment extends Fragment {
             if (foodSelectionManager.isSelected(item)) {
                 continue;
             }
-        
+            
             foodItems.add(new FoodItem(entity));
             adapter.notifyItemInserted(foodItems.size() - 1);
         }
@@ -164,7 +165,7 @@ public abstract class FoodListFragment extends Fragment {
         int selectionListMaxHeight_dp = 240; // dp
         int selectionCount = foodSelectionManager.getSelectionCount();
         float scale = getResources().getDisplayMetrics().density;
-    
+        
         int selectionListMaxHeight_px = (int) (selectionListMaxHeight_dp * scale + 0.5f);
         int foodItemViewHeight_px = calculateFoodItemViewHeight(scale);
         // If foodItem view couldn't be measured
@@ -204,7 +205,7 @@ public abstract class FoodListFragment extends Fragment {
     
     private int calculateFoodItemViewHeight(float scale) {
         int foodItemViewHeight_px = getFoodItemViewHeight();
-        if (foodItemViewHeight_px == - 1) {
+        if (foodItemViewHeight_px == -1) {
             return -1;
         }
         

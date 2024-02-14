@@ -1,7 +1,6 @@
 package com.app.calorietracker.ui.food.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +11,9 @@ import com.app.calorietracker.database.foods.FoodItemDao;
 import com.app.calorietracker.database.foods.FoodItemDatabaseManager;
 import com.app.calorietracker.database.foods.FoodItemEntity;
 import com.app.calorietracker.ui.food.list.FoodItem;
-import com.app.calorietracker.ui.food.list.FoodSelectionManager;
 import com.app.calorietracker.utils.FoodListUtils;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class SearchFavoriteFoodListFragment extends FoodListFragment {
     
@@ -41,7 +37,7 @@ public class SearchFavoriteFoodListFragment extends FoodListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favorite_food, container, false);
+        return inflater.inflate(R.layout.fragment_search_food, container, false);
     }
     
     @Override
