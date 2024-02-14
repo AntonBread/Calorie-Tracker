@@ -135,8 +135,21 @@ public class ChartUtils {
         lineDataSet.setColor(context.getColor(R.color.orange_bright));
         lineDataSet.setCircleColor(context.getColor(R.color.orange_bright));
         lineDataSet.setDrawCircleHole(false);
-        lineDataSet.setValueTextSize(14);
+        lineDataSet.setValueTextSize(13);
         lineDataSet.setCircleRadius(8);
+        lineDataSet.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value) {
+                // Has no decimal part
+                if (value == (int) value) {
+                    return String.format(Locale.US, "%d", (int) value);
+                }
+                // Has decimal part
+                else {
+                    return String.format(Locale.US, "%.1f", value);
+                }
+            }
+        });
         chart.setData(new LineData(lineDataSet));
         // Sometimes Y axis maximum is not auto-calculated correctly,
         // have to set it manually on chart update
