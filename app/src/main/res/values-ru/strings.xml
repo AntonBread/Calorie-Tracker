@@ -131,4 +131,10 @@
     <string name="stats_weight_empty">Для выбранного интервала отсутствуют данные о весе</string>
     <string name="stats_calories_chart_unit">ккал</string>
     <string name="stats_weight_chart_unit">кг</string>
+    <string name="food_empty_all_initial">Список продуктов будет отображён здесь</string>
+    <string name="food_empty_all_result">По вашему запросу продуктов не найдено</string>
+    <string name="food_empty_history_initial">У вас отсутствует история недавно выбранных продуктов</string>
+    <string name="food_empty_favorite_initial">У вас нет избранных продуктов</string>
+    <string name="food_empty_history_result">По вашему запросу недавних продуктов не найдено</string>
+    <string name="food_empty_favorite_result">По вашему запросу избранных продуктов не найдено</string>
 </resources>

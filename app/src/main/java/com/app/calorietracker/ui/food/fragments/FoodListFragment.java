@@ -1,7 +1,9 @@
 package com.app.calorietracker.ui.food.fragments;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -25,6 +27,7 @@ public abstract class FoodListFragment extends Fragment {
     FoodItemAdapter adapter;
     SearchView searchView;
     RecyclerView recyclerView;
+    TextView emptyMessageView;
     FoodSelectionManager foodSelectionManager;
     
     SearchView.OnQueryTextListener searchQueryListener = new SearchView.OnQueryTextListener() {
@@ -41,14 +44,19 @@ public abstract class FoodListFragment extends Fragment {
     
     abstract void populateInitialList();
     
+    abstract void invalidateInitialEntityList();
+    
     abstract boolean handleSearchQuerySubmit(String query);
     
     abstract boolean handleSearchQueryChange(String query);
     
-    // Adding foods to list requires custom implementation to avoid
-    // situations like adding non-favorite food to favorite list
-    // or adding wrong food to history list
-    public abstract void addFoodItem(FoodItem item);
+    public void addFoodItem(FoodItem item) {
+        emptyMessageView.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
+        scaleBottomPadding();
+        foodItems.add(0, item);
+        adapter.notifyItemInserted(0);
+    }
     
     public void removeFoodItem(FoodItem item, int position) {
         foodItems.remove(item);
@@ -73,6 +81,8 @@ public abstract class FoodListFragment extends Fragment {
         
         searchView = requireView().findViewById(R.id.food_search_query);
         searchView.setOnQueryTextListener(searchQueryListener);
+        
+        emptyMessageView = requireView().findViewById(R.id.food_empty_message);
         
         FoodListAction foodListActionInterface = new FoodListAction() {
             @Override
@@ -100,6 +110,8 @@ public abstract class FoodListFragment extends Fragment {
     }
     
     void replaceFoodListFromEntities(@NonNull List<FoodItemEntity> entities) {
+        emptyMessageView.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
         clearList();
         for (FoodItemEntity entity : entities) {
             // Do not add already selected items
@@ -112,6 +124,12 @@ public abstract class FoodListFragment extends Fragment {
             adapter.notifyItemInserted(foodItems.size() - 1);
         }
         scaleBottomPadding();
+    }
+    
+    void showListEmptyMessage(@NonNull String message) {
+        emptyMessageView.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+        emptyMessageView.setText(message);
     }
     
     private void clearList() {
@@ -157,8 +175,6 @@ public abstract class FoodListFragment extends Fragment {
         adapter.notifyItemChanged(pos);
         invalidateInitialEntityList();
     }
-    
-    abstract void invalidateInitialEntityList();
     
     void scaleBottomPadding() {
         int paddingBase_dp = 340; // dp

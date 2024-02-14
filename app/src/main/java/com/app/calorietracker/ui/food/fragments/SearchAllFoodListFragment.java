@@ -38,7 +38,9 @@ public class SearchAllFoodListFragment extends FoodListFragment {
     
     // Initial list is empty in "All" search mode
     @Override
-    void populateInitialList() {}
+    void populateInitialList() {
+        showListEmptyMessage(getString(R.string.food_empty_all_initial));
+    }
     
     // "All" search mode doesn't keep track of initial entities
     @Override
@@ -49,6 +51,7 @@ public class SearchAllFoodListFragment extends FoodListFragment {
         AppDatabase db = AppDatabase.getInstance();
         List<FoodItemEntity> entities = FoodItemDatabaseManager.getListFromSearchQuery(db.foodItemDao(), query);
         if (entities == null) {
+            showListEmptyMessage(getString(R.string.food_empty_all_result));
             return true;
         }
         replaceFoodListFromEntities(entities);
@@ -58,13 +61,6 @@ public class SearchAllFoodListFragment extends FoodListFragment {
     @Override
     boolean handleSearchQueryChange(String query) {
         return true;
-    }
-    
-    @Override
-    public void addFoodItem(FoodItem item) {
-        scaleBottomPadding();
-        foodItems.add(0, item);
-        adapter.notifyItemInserted(0);
     }
     
 }

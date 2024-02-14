@@ -83,6 +83,13 @@
     <string name="food_new_btn_cancel">Cancel</string>
     <string name="food_new_save_fail">An error occurred during saving. Item was not saved.</string>
 
+    <string name="food_empty_all_initial">Food items list will be displayed here</string>
+    <string name="food_empty_all_result">No items have been found</string>
+    <string name="food_empty_history_initial">You have no history of recently chosen foods</string>
+    <string name="food_empty_history_result">No items have been found among recently chosen</string>
+    <string name="food_empty_favorite_initial">You have no favorite foods</string>
+    <string name="food_empty_favorite_result">No items have been found among your favorite</string>
+
     <!-- SETTINGS PAGE -->
     <string name="settings_baselines_header">Baseline daily intakes</string>
     <string name="settings_language_header">Language</string>

@@ -46,11 +46,15 @@ public class SearchHistoryFoodListFragment extends FoodListFragment {
         SelectionHistoryCacheManager selectionHistoryCacheManager =
                 ((AddFoodActivity) requireActivity()).getSelectionHistoryCacheManager();
         ids = selectionHistoryCacheManager.getIDs();
-        if (ids == null || ids.size() == 0) return;
+        if (ids == null || ids.size() == 0) {
+            showListEmptyMessage(getString(R.string.food_empty_history_initial));
+            return;
+        }
         
         try {
             List<FoodItemEntity> entities = selectionHistoryCacheManager.getRecentFoodItemEntities();
             if (entities == null) {
+                showListEmptyMessage(getString(R.string.food_empty_history_initial));
                 return;
             }
             recentEntities = entities;
@@ -93,7 +97,8 @@ public class SearchHistoryFoodListFragment extends FoodListFragment {
     @Override
     boolean handleSearchQuerySubmit(String query) {
         List<FoodItemEntity> nameFilteredEntities = FoodListUtils.filterByName(recentEntities, query);
-        if (nameFilteredEntities == null) {
+        if (nameFilteredEntities == null || nameFilteredEntities.size() == 0) {
+            showListEmptyMessage(getString(R.string.food_empty_history_result));
             return true;
         }
         replaceFoodListFromEntities(nameFilteredEntities);
@@ -107,12 +112,10 @@ public class SearchHistoryFoodListFragment extends FoodListFragment {
     
     @Override
     public void addFoodItem(FoodItem item) {
-        scaleBottomPadding();
         if (ids == null || ids.size() == 0 || !(ids.contains(item.getId()))) {
             return;
         }
-        foodItems.add(0, item);
-        adapter.notifyItemInserted(0);
+        super.addFoodItem(item);
     }
     
 }

@@ -45,6 +45,7 @@ public class SearchFavoriteFoodListFragment extends FoodListFragment {
         AppDatabase db = AppDatabase.getInstance();
         List<FoodItemEntity> entities = FoodItemDatabaseManager.getFavoriteFoodsList(db.foodItemDao());
         if (entities == null) {
+            showListEmptyMessage(getString(R.string.food_empty_favorite_initial));
             return;
         }
         replaceFoodListFromEntities(entities);
@@ -66,7 +67,8 @@ public class SearchFavoriteFoodListFragment extends FoodListFragment {
     @Override
     boolean handleSearchQuerySubmit(String query) {
         List<FoodItemEntity> nameFilteredEntities = FoodListUtils.filterByName(favoriteEntities, query);
-        if (nameFilteredEntities == null) {
+        if (nameFilteredEntities == null || nameFilteredEntities.size() == 0) {
+            showListEmptyMessage(getString(R.string.food_empty_favorite_result));
             return true;
         }
         replaceFoodListFromEntities(nameFilteredEntities);
@@ -80,12 +82,10 @@ public class SearchFavoriteFoodListFragment extends FoodListFragment {
     
     @Override
     public void addFoodItem(FoodItem item) {
-        scaleBottomPadding();
         if (!item.isFavorite()) {
             return;
         }
-        foodItems.add(0, item);
-        adapter.notifyItemInserted(0);
+        super.addFoodItem(item);
     }
     
 }
