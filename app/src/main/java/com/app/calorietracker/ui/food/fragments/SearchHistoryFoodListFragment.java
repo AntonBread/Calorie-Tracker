@@ -1,20 +1,17 @@
 package com.app.calorietracker.ui.food.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.app.calorietracker.R;
-import com.app.calorietracker.database.AppDatabase;
 import com.app.calorietracker.database.foods.FoodItemEntity;
 import com.app.calorietracker.ui.food.AddFoodActivity;
 import com.app.calorietracker.ui.food.list.FoodItem;
 import com.app.calorietracker.ui.food.list.SelectionHistoryCacheManager;
 import com.app.calorietracker.utils.FoodListUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -41,7 +38,7 @@ public class SearchHistoryFoodListFragment extends FoodListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_history_food, container, false);
+        return inflater.inflate(R.layout.fragment_search_food, container, false);
     }
     
     @Override
@@ -49,11 +46,15 @@ public class SearchHistoryFoodListFragment extends FoodListFragment {
         SelectionHistoryCacheManager selectionHistoryCacheManager =
                 ((AddFoodActivity) requireActivity()).getSelectionHistoryCacheManager();
         ids = selectionHistoryCacheManager.getIDs();
-        if (ids == null || ids.size() == 0) return;
+        if (ids == null || ids.size() == 0) {
+            showListEmptyMessage(getString(R.string.food_empty_history_initial));
+            return;
+        }
         
         try {
             List<FoodItemEntity> entities = selectionHistoryCacheManager.getRecentFoodItemEntities();
             if (entities == null) {
+                showListEmptyMessage(getString(R.string.food_empty_history_initial));
                 return;
             }
             recentEntities = entities;
@@ -76,7 +77,7 @@ public class SearchHistoryFoodListFragment extends FoodListFragment {
             }
             return;
         }
-    
+        
         try {
             List<FoodItemEntity> entities = selectionHistoryCacheManager.getRecentFoodItemEntities();
             if (entities == null) {
@@ -96,7 +97,8 @@ public class SearchHistoryFoodListFragment extends FoodListFragment {
     @Override
     boolean handleSearchQuerySubmit(String query) {
         List<FoodItemEntity> nameFilteredEntities = FoodListUtils.filterByName(recentEntities, query);
-        if (nameFilteredEntities == null) {
+        if (nameFilteredEntities == null || nameFilteredEntities.size() == 0) {
+            showListEmptyMessage(getString(R.string.food_empty_history_result));
             return true;
         }
         replaceFoodListFromEntities(nameFilteredEntities);
@@ -110,12 +112,10 @@ public class SearchHistoryFoodListFragment extends FoodListFragment {
     
     @Override
     public void addFoodItem(FoodItem item) {
-        scaleBottomPadding();
         if (ids == null || ids.size() == 0 || !(ids.contains(item.getId()))) {
             return;
         }
-        foodItems.add(0, item);
-        adapter.notifyItemInserted(0);
+        super.addFoodItem(item);
     }
     
 }

@@ -1,8 +1,11 @@
 package com.app.calorietracker.ui.food.fragments;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.SearchView;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,6 +27,7 @@ public abstract class FoodListFragment extends Fragment {
     FoodItemAdapter adapter;
     SearchView searchView;
     RecyclerView recyclerView;
+    TextView emptyMessageView;
     FoodSelectionManager foodSelectionManager;
     
     SearchView.OnQueryTextListener searchQueryListener = new SearchView.OnQueryTextListener() {
@@ -31,7 +35,7 @@ public abstract class FoodListFragment extends Fragment {
         public boolean onQueryTextSubmit(String s) {
             return handleSearchQuerySubmit(s);
         }
-    
+        
         @Override
         public boolean onQueryTextChange(String s) {
             return handleSearchQueryChange(s);
@@ -40,14 +44,19 @@ public abstract class FoodListFragment extends Fragment {
     
     abstract void populateInitialList();
     
+    abstract void invalidateInitialEntityList();
+    
     abstract boolean handleSearchQuerySubmit(String query);
     
     abstract boolean handleSearchQueryChange(String query);
     
-    // Adding foods to list requires custom implementation to avoid
-    // situations like adding non-favorite food to favorite list
-    // or adding wrong food to history list
-    public abstract void addFoodItem(FoodItem item);
+    public void addFoodItem(FoodItem item) {
+        emptyMessageView.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
+        scaleBottomPadding();
+        foodItems.add(0, item);
+        adapter.notifyItemInserted(0);
+    }
     
     public void removeFoodItem(FoodItem item, int position) {
         foodItems.remove(item);
@@ -73,12 +82,14 @@ public abstract class FoodListFragment extends Fragment {
         searchView = requireView().findViewById(R.id.food_search_query);
         searchView.setOnQueryTextListener(searchQueryListener);
         
+        emptyMessageView = requireView().findViewById(R.id.food_empty_message);
+        
         FoodListAction foodListActionInterface = new FoodListAction() {
             @Override
             public void scrollOnViewHolderExpand(int pos) {
                 handleFoodListItemExpand(pos);
             }
-    
+            
             @Override
             public void onFoodItemDelete(int pos, FoodItem foodItem) {
                 handleFoodListItemDelete(pos, foodItem);
@@ -98,7 +109,9 @@ public abstract class FoodListFragment extends Fragment {
         scaleBottomPadding();
     }
     
-    void replaceFoodListFromEntities(List<FoodItemEntity> entities) {
+    void replaceFoodListFromEntities(@NonNull List<FoodItemEntity> entities) {
+        emptyMessageView.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
         clearList();
         for (FoodItemEntity entity : entities) {
             // Do not add already selected items
@@ -106,11 +119,17 @@ public abstract class FoodListFragment extends Fragment {
             if (foodSelectionManager.isSelected(item)) {
                 continue;
             }
-        
+            
             foodItems.add(new FoodItem(entity));
             adapter.notifyItemInserted(foodItems.size() - 1);
         }
         scaleBottomPadding();
+    }
+    
+    void showListEmptyMessage(@NonNull String message) {
+        emptyMessageView.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+        emptyMessageView.setText(message);
     }
     
     private void clearList() {
@@ -157,14 +176,12 @@ public abstract class FoodListFragment extends Fragment {
         invalidateInitialEntityList();
     }
     
-    abstract void invalidateInitialEntityList();
-    
     void scaleBottomPadding() {
         int paddingBase_dp = 340; // dp
         int selectionListMaxHeight_dp = 240; // dp
         int selectionCount = foodSelectionManager.getSelectionCount();
         float scale = getResources().getDisplayMetrics().density;
-    
+        
         int selectionListMaxHeight_px = (int) (selectionListMaxHeight_dp * scale + 0.5f);
         int foodItemViewHeight_px = calculateFoodItemViewHeight(scale);
         // If foodItem view couldn't be measured
@@ -204,7 +221,7 @@ public abstract class FoodListFragment extends Fragment {
     
     private int calculateFoodItemViewHeight(float scale) {
         int foodItemViewHeight_px = getFoodItemViewHeight();
-        if (foodItemViewHeight_px == - 1) {
+        if (foodItemViewHeight_px == -1) {
             return -1;
         }
         
