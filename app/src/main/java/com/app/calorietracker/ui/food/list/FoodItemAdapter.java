@@ -7,7 +7,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.transition.ChangeBounds;
 import android.transition.TransitionManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -305,7 +304,13 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
             fm.setFragmentResultListener(FoodItemDeleteDialogFragment.REQUEST_KEY,
                                          context,
                                          this::handleDeleteDialogFragmentResult);
-            new FoodItemDeleteDialogFragment().show(fm, null);
+            
+            FoodItemDeleteDialogFragment deleteDialog = new FoodItemDeleteDialogFragment();
+            Bundle args = new Bundle();
+            args.putString(FoodItemDeleteDialogFragment.ARGS_KEY, this.foodItem.getName());
+            deleteDialog.setArguments(args);
+            deleteDialog.show(fm, null);
+            
             return true;
         }
         

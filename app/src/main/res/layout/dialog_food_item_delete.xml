@@ -30,7 +30,7 @@
         app:layout_constraintTop_toBottomOf="@id/food_item_dialog_delete_confirm_icon" />
 
     <TextView
-        android:id="@+id/food_item_delete_confirm_description"
+        android:id="@+id/food_item_dialog_delete_confirm_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -43,7 +43,7 @@
         app:layout_constraintTop_toBottomOf="@id/food_item_dialog_delete_confirm_title" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/dialog_delete_confirm_btn_positive"
+        android:id="@+id/food_item_dialog_delete_confirm_btn_positive"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -53,7 +53,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/food_item_delete_confirm_description"
+        app:layout_constraintTop_toBottomOf="@id/food_item_dialog_delete_confirm_description"
         app:layout_constraintWidth_default="percent"
         app:layout_constraintWidth_percent="0.75" />
 

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,6 +20,7 @@ public class FoodItemDeleteDialogFragment extends DialogFragment {
     
     public static final String REQUEST_KEY = "delete_confirmation_request";
     public static final String RESULT_KEY = "delete_confirmation_result";
+    public static final String ARGS_KEY = "delete_confirmation_args";
     
     @NonNull
     @Override
@@ -39,7 +41,11 @@ public class FoodItemDeleteDialogFragment extends DialogFragment {
         window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         window.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
         
-        Button btnPos = dialog.findViewById(R.id.dialog_delete_confirm_btn_positive);
+        String itemName = requireArguments().getString(ARGS_KEY);
+        TextView dialogTitleView = dialog.findViewById(R.id.food_item_dialog_delete_confirm_title);
+        dialogTitleView.setText(getString(R.string.food_list_item_delete_confirm_title, itemName));
+        
+        Button btnPos = dialog.findViewById(R.id.food_item_dialog_delete_confirm_btn_positive);
         btnPos.setOnClickListener(this::handlePositiveButtonClick);
     }
     
@@ -49,5 +55,5 @@ public class FoodItemDeleteDialogFragment extends DialogFragment {
         requireActivity().getSupportFragmentManager().setFragmentResult(REQUEST_KEY, result);
         dismiss();
     }
-
+    
 }
