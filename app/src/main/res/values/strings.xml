@@ -62,7 +62,7 @@
     <string name="food_list_item_popup_edit">Edit</string>
     <string name="food_list_item_popup_delete">Delete</string>
 
-    <string name="food_list_item_delete_confirm_title">Are you sure you want to delete this food item?</string>
+    <string name="food_list_item_delete_confirm_title">Are you sure you want to delete\n«%s»?</string>
     <string name="food_list_item_delete_confirm_description">Deleted items cannot be restored</string>
     <string name="food_list_item_delete_confirm_btn_positive">Delete</string>
     <string name="food_list_item_delete_fail">Error occurred. Item was not deleted.</string>
