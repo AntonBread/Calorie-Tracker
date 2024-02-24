@@ -19,10 +19,10 @@ import com.app.calorietracker.database.user.UserDiaryEntity;
 import com.app.calorietracker.ui.main.MainActivity;
 import com.app.calorietracker.ui.settings.SettingsActivity;
 import com.app.calorietracker.ui.stats.StatsCalculator.WeightChangeSpeedInterval;
+import com.app.calorietracker.ui.stats.charting.StatsChartHelper;
 import com.app.calorietracker.ui.stats.data.CaloriesStatsData;
 import com.app.calorietracker.ui.stats.data.WeightStatsData;
 import com.app.calorietracker.ui.stats.views.StatTextView;
-import com.app.calorietracker.utils.ChartUtils;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -56,6 +56,7 @@ public class StatsActivity extends AppCompatActivity {
     
     private StatsCalculator calculator;
     private StatsStringFormatter stringFormatter;
+    private StatsChartHelper chartHelper;
     
     private ConstraintLayout chartContainer;
     private LineChart weightChart;
@@ -90,11 +91,12 @@ public class StatsActivity extends AppCompatActivity {
         
         calculator = new StatsCalculator(this);
         stringFormatter = new StatsStringFormatter(this);
+        chartHelper = new StatsChartHelper(this);
         
         initTypeSelector();
         initTimeSelector();
-        ChartUtils.initWeightStatsChartConfig(weightChart, this);
-        ChartUtils.initCaloriesStatsChartConfig(caloriesChart, this);
+        chartHelper.initWeightChartConfig(weightChart);
+        chartHelper.initCaloriesChartConfig(caloriesChart);
         
         initNavbar();
     }
@@ -216,12 +218,12 @@ public class StatsActivity extends AppCompatActivity {
         if (mStatType == StatType.CALORIES) {
             weightChart.setVisibility(View.GONE);
             caloriesChart.setVisibility(View.VISIBLE);
-            ChartUtils.updateStatsChartCalories(caloriesChart, this, caloriesDataList);
+            chartHelper.updateCaloriesChart(caloriesChart, caloriesDataList);
         }
         else {
             caloriesChart.setVisibility(View.GONE);
             weightChart.setVisibility(View.VISIBLE);
-            ChartUtils.updateStatsChartWeight(weightChart, this, weightDataList);
+            chartHelper.updateWeightChart(weightChart, weightDataList);
         }
     }
     

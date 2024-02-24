@@ -30,7 +30,6 @@ import com.app.calorietracker.database.AppDatabase;
 import com.app.calorietracker.database.foods.FoodItemDatabaseManager;
 import com.app.calorietracker.ui.food.fragments.dialog.FoodItemDeleteDialogFragment;
 import com.app.calorietracker.ui.food.fragments.dialog.FoodItemEditDialogFragment;
-import com.app.calorietracker.utils.ChartUtils;
 import com.github.mikephil.charting.charts.PieChart;
 
 import java.util.List;
@@ -90,7 +89,7 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
         if (!holder.portionInputView.hasFocus()) {
             holder.portionInputView.setText(String.format(decimalFormatLocale, "%d", foodItem.getPortionSize()));
         }
-        ChartUtils.initNutrientPieChart(holder.nutrientChartView, foodItem.getCarbsPer100g(), foodItem.getFatPer100g(), foodItem.getProteinPer100g(), context);
+        NutrientChartDrawer.draw(holder.nutrientChartView, foodItem.getCarbsPer100g(), foodItem.getFatPer100g(), foodItem.getProteinPer100g(), context);
         
         holder.adapterNotificationInterface = new AdapterNotificationInterface() {
             @Override
