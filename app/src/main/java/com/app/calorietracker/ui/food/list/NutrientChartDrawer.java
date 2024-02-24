@@ -1,4 +1,4 @@
-package com.app.calorietracker.utils;
+package com.app.calorietracker.ui.food.list;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -11,9 +11,9 @@ import com.github.mikephil.charting.data.PieEntry;
 
 import java.util.ArrayList;
 
-public class ChartUtils {
+public class NutrientChartDrawer {
     
-    public static void initNutrientPieChart(PieChart chart, float carbs, float fat, float protein, Context context) {
+    public static void draw(PieChart chart, float carbs, float fat, float protein, Context context) {
         initPieChartConfig(chart);
         PieData chartData = getNutrientPieChartData(context, carbs, fat, protein);
         showPieChart(chart, chartData);
