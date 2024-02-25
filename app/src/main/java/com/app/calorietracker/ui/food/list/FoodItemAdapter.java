@@ -291,6 +291,8 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
                 Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
                 return;
             }
+            String msg = context.getString(R.string.food_list_item_edit_success, this.foodItem.getName());
+            Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
             adapterNotificationInterface.notifyReplaceAt(getAdapterPosition(), this.foodItem, foodItemNew);
         }
         
@@ -327,6 +329,8 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
                 Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
                 return;
             }
+            String msg = context.getString(R.string.food_list_item_delete_success, this.foodItem.getName());
+            Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
             adapterNotificationInterface.notifyDelete(getAdapterPosition(), this.foodItem);
         }
         

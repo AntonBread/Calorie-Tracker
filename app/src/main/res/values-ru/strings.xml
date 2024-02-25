@@ -137,4 +137,7 @@
     <string name="food_empty_favorite_initial">У вас нет избранных продуктов</string>
     <string name="food_empty_history_result">По вашему запросу недавних продуктов не найдено</string>
     <string name="food_empty_favorite_result">По вашему запросу избранных продуктов не найдено</string>
+    <string name="food_new_save_success">Продукт «%s» успешно сохранён</string>
+    <string name="food_list_item_delete_success">Продукт «%s» успешно удалён</string>
+    <string name="food_list_item_edit_success">Продукт «%s» успешно изменён</string>
 </resources>

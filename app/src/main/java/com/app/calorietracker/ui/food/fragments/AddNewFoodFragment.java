@@ -119,6 +119,8 @@ public class AddNewFoodFragment extends Fragment {
             if (addCheck.isChecked()) {
                 addFoodItemAsSelected(id);
             }
+            String msg = getString(R.string.food_new_save_success, foodItemEntity.getName());
+            Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
         }
         catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
