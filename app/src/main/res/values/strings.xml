@@ -96,6 +96,7 @@
     <!-- SETTINGS PAGE -->
     <string name="settings_baselines_header">Baseline daily intakes</string>
     <string name="settings_language_header">Language</string>
+    <string name="settings_file_header">Files</string>
 
     <string name="settings_calories_title">Calories (kcal)</string>
     <string name="settings_carbs_title">Carbs (g)</string>
@@ -108,6 +109,10 @@
 
     <string name="settings_lang_en" translatable="false">English</string>
     <string name="settings_lang_ru" translatable="false">Русский</string>
+
+    <string name="settings_file_export_db">Export application database</string>
+    <string name="settings_file_import_db">Import application database</string>
+    <string name="settings_file_export_stats">Export stats summary</string>
 
 
     <!-- QUIZ PAGE -->
