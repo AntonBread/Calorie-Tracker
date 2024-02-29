@@ -96,4 +96,32 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory
+        app:allowDividerAbove="false"
+        app:allowDividerBelow="true"
+        app:title="@string/settings_file_header">
+
+        <Preference
+            app:allowDividerAbove="true"
+            app:allowDividerBelow="true"
+            app:icon="@drawable/ic_prefs_export_stats_24"
+            app:key="export_stats"
+            app:title="@string/settings_file_export_stats" />
+
+        <Preference
+            app:allowDividerAbove="true"
+            app:allowDividerBelow="true"
+            app:icon="@drawable/ic_prefs_export_db_24"
+            app:key="export_db"
+            app:title="@string/settings_file_export_db" />
+
+        <Preference
+            app:allowDividerAbove="true"
+            app:allowDividerBelow="true"
+            app:icon="@drawable/ic_prefs_import_db_24"
+            app:key="import_db"
+            app:title="@string/settings_file_import_db" />
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

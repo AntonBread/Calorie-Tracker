@@ -63,6 +63,10 @@
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/ic_nav_main.xml" value="0.3769230769230769" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/ic_nav_progress.xml" value="0.3769230769230769" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/ic_nav_settings.xml" value="0.3769230769230769" />
+        <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/ic_prefs_export_db_24.xml" value="0.31203703703703706" />
+        <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/ic_prefs_export_stats_24.xml" value="0.31203703703703706" />
+        <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/ic_prefs_export_stats_40.xml" value="0.31203703703703706" />
+        <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/ic_prefs_import_db_24.xml" value="0.31203703703703706" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/ic_prefs_language_24.xml" value="0.325" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/ic_prefs_water_24.xml" value="0.3769230769230769" />
         <entry key="..\:/Android/AndroidStudioProjects/CalorieTracker/app/src/main/res/drawable/ic_protein_24.xml" value="0.3769230769230769" />

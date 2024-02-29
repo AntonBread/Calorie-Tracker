@@ -2,6 +2,7 @@ package com.app.calorietracker.ui.settings;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -72,6 +73,21 @@ public class SettingsActivity extends AppCompatActivity {
             if (startQuizButton != null) {
                 startQuizButton.setOnPreferenceClickListener(this::handleStartQuizClick);
             }
+            
+            Preference exportStatsButton = findPreference("export_stats");
+            if (exportStatsButton != null) {
+                exportStatsButton.setOnPreferenceClickListener(this::handleExportStatsClick);
+            }
+            
+            Preference exportDbButton = findPreference("export_db");
+            if (exportDbButton != null) {
+                exportDbButton.setOnPreferenceClickListener(this::handleExportDbClick);
+            }
+            
+            Preference importDbButton = findPreference("import_db");
+            if (importDbButton != null) {
+                importDbButton.setOnPreferenceClickListener(this::handleImportDbClick);
+            }
         }
         
         boolean handleLocaleChange(@NonNull Preference preference, Object newValue) {
@@ -84,6 +100,24 @@ public class SettingsActivity extends AppCompatActivity {
         boolean handleStartQuizClick(@NonNull Preference preference) {
             Intent intent = new Intent(requireActivity(), QuizActivity.class);
             startActivity(intent);
+            return true;
+        }
+        
+        boolean handleExportStatsClick(@NonNull Preference preference) {
+            // TODO: fix method stub
+            Toast.makeText(getContext(), "Export Stats", Toast.LENGTH_LONG).show();
+            return true;
+        }
+        
+        boolean handleExportDbClick(@NonNull Preference preference) {
+            // TODO: fix method stub
+            Toast.makeText(getContext(), "Export Database", Toast.LENGTH_LONG).show();
+            return true;
+        }
+        
+        boolean handleImportDbClick(@NonNull Preference preference) {
+            // TODO: fix method stub
+            Toast.makeText(getContext(), "Import Database", Toast.LENGTH_LONG).show();
             return true;
         }
     }
