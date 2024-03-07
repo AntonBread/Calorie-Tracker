@@ -144,4 +144,14 @@
     <string name="settings_file_export_db">Экспорт базы данных приложения</string>
     <string name="settings_file_import_db">Импорт базы данных приложения</string>
     <string name="settings_file_export_stats">Экспорт сводки статистики</string>
+    <string name="settings_file_export_stats_title">Ваша статистика использования\nCalorieTracker на %s</string>
+    <string name="settings_file_export_stats_weight_current">Масса тела: %.1f кг</string>
+    <string name="settings_file_export_stats_bmi">Индекс Массы Тела (ИМТ): %.1f</string>
+    <string name="settings_file_export_stats_weight_change_gain">С начала использования CalorieTracker,\nвы набрали: %.1f кг</string>
+    <string name="settings_file_export_stats_weight_change_loss">С начала использования CalorieTracker,\nвы похудели на: %.1f кг</string>
+    <string name="settings_file_export_stats_weight_change_none">С начала использования CalorieTracker,\nваш вес не изменился</string>
+    <string name="settings_file_export_stats_cals_total">Суммарное потребление калорий: %s ккал</string>
+    <string name="settings_file_export_stats_empty">У вас нет записанной статистики</string>
+    <string name="settings_file_export_stats_success">Документ со сводкой статистики был сохранён в папку «Скачанные файлы»</string>
+    <string name="settings_file_export_stats_fail">Во время экспорта произошла ошибка. Документ со сводкой статистики не был сохранён</string>
 </resources>
