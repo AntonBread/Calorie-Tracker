@@ -1,6 +1,8 @@
 package com.app.calorietracker.ui.settings;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.pdf.PdfDocument;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -15,6 +17,8 @@ import androidx.preference.PreferenceFragmentCompat;
 import com.app.calorietracker.R;
 import com.app.calorietracker.ui.main.MainActivity;
 import com.app.calorietracker.ui.quiz.QuizActivity;
+import com.app.calorietracker.ui.settings.fileio.stats.PDFExporter;
+import com.app.calorietracker.ui.settings.fileio.stats.StatsPDFGenerator;
 import com.app.calorietracker.ui.stats.StatsActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -104,8 +108,14 @@ public class SettingsActivity extends AppCompatActivity {
         }
         
         boolean handleExportStatsClick(@NonNull Preference preference) {
-            // TODO: fix method stub
-            Toast.makeText(getContext(), "Export Stats", Toast.LENGTH_LONG).show();
+            Context context = requireActivity();
+            PdfDocument statsPdf = StatsPDFGenerator.generate(context);
+            if (PDFExporter.export(statsPdf, context)) {
+                Toast.makeText(context, R.string.settings_file_export_stats_success, Toast.LENGTH_LONG).show();
+            }
+            else {
+                Toast.makeText(context, R.string.settings_file_export_stats_fail, Toast.LENGTH_LONG).show();
+            }
             return true;
         }
         
