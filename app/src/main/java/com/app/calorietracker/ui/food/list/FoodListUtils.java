@@ -1,4 +1,4 @@
-package com.app.calorietracker.utils;
+package com.app.calorietracker.ui.food.list;
 
 import androidx.annotation.Nullable;
 

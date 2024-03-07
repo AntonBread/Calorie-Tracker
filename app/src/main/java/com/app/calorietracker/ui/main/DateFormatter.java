@@ -1,4 +1,4 @@
-package com.app.calorietracker.utils;
+package com.app.calorietracker.ui.main;
 
 import android.content.Context;
 

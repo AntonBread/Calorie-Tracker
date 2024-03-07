@@ -121,9 +121,9 @@
     <string name="settings_file_export_stats_title">Your CalorieTracker Stats as of %s</string>
     <string name="settings_file_export_stats_weight_current">Body weight: %.1f kg</string>
     <string name="settings_file_export_stats_bmi">Body Mass Index (BMI): %.1f</string>
-    <string name="settings_file_export_stats_weight_change_gain">Since you have started using CalorieTracker,\nyou have gained: %.1f kg</string>
-    <string name="settings_file_export_stats_weight_change_loss">Since you have started using CalorieTracker,\nyou have lost: %.1f kg</string>
-    <string name="settings_file_export_stats_weight_change_none">Since you have started using CalorieTracker,\nyour weight has not changed</string>
+    <string name="settings_file_export_stats_weight_change_gain">Since you have started using CalorieTracker (%s),\nyou have gained: %.1f kg</string>
+    <string name="settings_file_export_stats_weight_change_loss">Since you have started using CalorieTracker (%s),\nyou have lost: %.1f kg</string>
+    <string name="settings_file_export_stats_weight_change_none">Since you have started using CalorieTracker (%s),\nyour weight has not changed</string>
     <string name="settings_file_export_stats_cals_total">Total calorie consumption: %s kcal</string>
     <string name="settings_file_export_stats_empty">You have no recorded stats</string>
 

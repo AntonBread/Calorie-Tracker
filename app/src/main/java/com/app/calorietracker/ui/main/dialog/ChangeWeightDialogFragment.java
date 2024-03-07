@@ -6,14 +6,13 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.NumberPicker;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.app.calorietracker.R;
-import com.app.calorietracker.utils.DateFormatter;
+import com.app.calorietracker.ui.main.DateFormatter;
 
 import java.time.LocalDate;
 
