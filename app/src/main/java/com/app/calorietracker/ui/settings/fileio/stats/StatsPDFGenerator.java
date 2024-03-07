@@ -81,7 +81,8 @@ public class StatsPDFGenerator {
         
         // Write weight delta for first and last entry
         Drawable iconWeightChange = AppCompatResources.getDrawable(context, R.drawable.ic_weight_delta_gain);
-        String textWeightChange = createWeightChangeString(context, weightDataList, statsCalculator);
+        String textWeightChange =
+                createWeightChangeString(context, weightDataList, statsCalculator, caloriesDataList.get(0).getDate());
         drawStatsLine(textWeightChange, iconWeightChange, canvas, textPaint);
         
         // Write total calories consumed
@@ -147,16 +148,17 @@ public class StatsPDFGenerator {
     }
     
     private static String createWeightChangeString(Context context, List<WeightStatsData> list,
-                                                   StatsCalculator calculator) {
+                                                   StatsCalculator calculator, LocalDate firstLaunchDate) {
+        String dateString = firstLaunchDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
         float delta = calculator.weightDelta(list);
         if (delta == 0f) {
-            return context.getString(R.string.settings_file_export_stats_weight_change_none);
+            return context.getString(R.string.settings_file_export_stats_weight_change_none, dateString);
         }
         else if (delta > 0f) {
-            return context.getString(R.string.settings_file_export_stats_weight_change_gain, delta);
+            return context.getString(R.string.settings_file_export_stats_weight_change_gain, dateString, delta);
         }
         else {
-            return context.getString(R.string.settings_file_export_stats_weight_change_loss, -delta);
+            return context.getString(R.string.settings_file_export_stats_weight_change_loss, dateString, -delta);
         }
     }
     
