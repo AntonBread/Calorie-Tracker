@@ -11,7 +11,7 @@ import com.app.calorietracker.database.foods.FoodItemDao;
 import com.app.calorietracker.database.foods.FoodItemDatabaseManager;
 import com.app.calorietracker.database.foods.FoodItemEntity;
 import com.app.calorietracker.ui.food.list.FoodItem;
-import com.app.calorietracker.utils.FoodListUtils;
+import com.app.calorietracker.ui.food.list.FoodListUtils;
 
 import java.util.List;
 

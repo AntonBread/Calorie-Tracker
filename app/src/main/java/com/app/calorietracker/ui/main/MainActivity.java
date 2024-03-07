@@ -28,7 +28,6 @@ import com.app.calorietracker.ui.main.dialog.ChangeWeightDialogFragment;
 import com.app.calorietracker.ui.settings.SettingsActivity;
 import com.app.calorietracker.ui.settings.SettingsManager;
 import com.app.calorietracker.ui.stats.StatsActivity;
-import com.app.calorietracker.utils.DateFormatter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.time.LocalDate;

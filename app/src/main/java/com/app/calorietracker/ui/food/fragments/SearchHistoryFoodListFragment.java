@@ -10,7 +10,7 @@ import com.app.calorietracker.database.foods.FoodItemEntity;
 import com.app.calorietracker.ui.food.AddFoodActivity;
 import com.app.calorietracker.ui.food.list.FoodItem;
 import com.app.calorietracker.ui.food.list.SelectionHistoryCacheManager;
-import com.app.calorietracker.utils.FoodListUtils;
+import com.app.calorietracker.ui.food.list.FoodListUtils;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
